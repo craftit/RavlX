@@ -7,9 +7,6 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //////////////////////////////////////////
-//! rcsid="$Id$"
-//! file="Ravl/SourceTools/ToMake/tomake.cc"
-//! docentry="Ravl.API.Source Tools"
 //! author="Charles Galambos"
 //! userlevel=Normal
 
@@ -48,7 +45,8 @@ StringC subdirs;
 StringC platform;
 StringC templateFile;
 DirectoryC installDir;
-DirectoryC incDir;
+DirectoryC g_incDir;
+DirectoryC g_srcDir;
 DirectoryC libDir;
 DirectoryC binDir;
 
@@ -71,12 +69,12 @@ static bool CheckPlatform(DefsMkFileC &defs)
 
 static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
 
-  cerr << "Checking '" << dir << "' \n";
+    cerr << "Checking '" << dir << "' \n";
 
-  //: We need to check that linux is supported
+    //: We need to check that linux is supported
 
-  if(CheckPlatform(defs)) {
-
+    if(!CheckPlatform(defs))
+      return true;
     subdirs += dir + " ";
     //: Set up the output Makefile and the relevant template file
     StringC outFile = dir + "/Makefile";
@@ -86,7 +84,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     //: first lets set the output directories
     makefile.SetVar("platform", platform);
     makefile.SetVar("libdir", libDir);
-    makefile.SetVar("incdir", incDir);
+    makefile.SetVar("incDir", g_incDir);
     makefile.SetVar("bindir", binDir);
 
     //: lets make the headers
@@ -136,27 +134,44 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
 
     //: Finally lets build the template file
     makefile.Build(outFile);
-  }
 
   return true;
 }
 
-static bool CopyHeaders(StringC &dir,DefsMkFileC &defs) {
+static bool CopySources(StringC &dir,DefsMkFileC &defs) {
 
   //: We need to check that linux is supported
 
-  if(CheckPlatform(defs)) {
-    StringC headers = defs["HEADERS"];
-    StringC package = defs["PACKAGE"];
+  if(!CheckPlatform(defs))
+      return true;
+
+  StringC headers = defs["HEADERS"];
+  StringC package = defs["PACKAGE"];
+  {
     StringListC str(headers);
-    for(DLIterC<StringC>It(str);It.IsElm();It.Next()) {
-      DirectoryC toDir = incDir + "/" + package;
-      if(!toDir.Exists()) toDir.Create();
+    for (DLIterC <StringC> It(str); It.IsElm(); It.Next()) {
+      DirectoryC toDir = g_incDir + "/" + package;
+      if (!toDir.Exists()) toDir.Create();
       FilenameC from = dir + "/" + It.Data();
       FilenameC to = toDir + "/" + It.Data();
       cout << "copying: " << from << " to " << toDir << endl << flush;
-      if(!from.CopyTo(to)) {
-        IssueError(__FILE__,__LINE__, "Unable to copy file");
+      if (!from.CopyTo(to) && !dryRun) {
+        IssueError(__FILE__, __LINE__, "Unable to copy file");
+      }
+    }
+  }
+
+  StringC sources = defs["SOURCES"];
+  {
+    StringListC str(sources);
+    for (DLIterC <StringC> It(str); It.IsElm(); It.Next()) {
+      DirectoryC toDir = g_srcDir + "/" + package;
+      if (!toDir.Exists()) toDir.Create();
+      FilenameC from = dir + "/" + It.Data();
+      FilenameC to = toDir + "/" + It.Data();
+      cout << "copying: " << from << " to " << toDir << endl << flush;
+      if (!from.CopyTo(to)&& !dryRun) {
+        IssueError(__FILE__, __LINE__, "Unable to copy file");
       }
     }
   }
@@ -168,7 +183,7 @@ int main(int nargs,char **argv) {
 
   OptionC option(nargs,argv);
   StringC fn = option.String("i",".","Input filename. ");
-  installDir = option.String("install", "", "absolute path of desired install directory");
+  installDir = option.String("o", "", "absolute path of desired install directory");
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
@@ -177,24 +192,26 @@ int main(int nargs,char **argv) {
   platform = option.String("platform", "linux", "What platform to make it for");
 
   verb = option.Boolean("v",false,"Verbose mode.");
-  option.Compulsory("install");
+  option.Compulsory("o");
   option.Check();
 
 
   //: First thing to do is to check install directories are there (e.t.c)
-  incDir = installDir + "/inc";
+  g_incDir = installDir + "/include";
+  g_srcDir = installDir + "/src";
   libDir = installDir + "/lib";
   binDir = installDir + "/bin";
 
-  // if(!installDir.Exists()) installDir.Create();
-  // if(!incDir.Exists()) incDir.Create();
-  // if(!libDir.Exists()) libDir.Create();
+  if(!installDir.Exists()) installDir.Create();
+  if(!g_incDir.Exists()) g_incDir.Create();
+  if(!g_srcDir.Exists()) g_srcDir.Create();
+  //if(!libDir.Exists()) libDir.Create();
   // if(!binDir.Exists()) binDir.Create();
 
   //: Next thing to do is to go through all directories and copy the
   //: header files across
   SourceCodeManagerC chkit(fn);
-  //chkit.ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool>(&CopyHeaders),all);
+  chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
 
   //: Next, we can go and build all the Makefiles in the seperate
@@ -202,7 +219,7 @@ int main(int nargs,char **argv) {
   subdirs = (StringC)"";
   if(verb)
     chkit.SetVerbose(true);
-  chkit.ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool>(&CheckDirectory),all);
+  //  chkit.ForAllDirs(CallFunc2C<StringC &,DefsMkFileC &,bool>(&CheckDirectory),all);
 
   //: Finally we need to create the basic Makefile that holds it
   //: altogether
