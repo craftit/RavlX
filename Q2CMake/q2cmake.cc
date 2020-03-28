@@ -54,6 +54,62 @@ DirectoryC binDir;
 #define PROJECT_OUT "."
 #endif
 
+void Remove(StringListC &sl,const StringC &str)
+{
+  for(DLIterC<StringC> it(sl);it;it++) {
+    if(*it == str) {
+      it.Del();
+      return ;
+    }
+  }
+}
+
+void DeDup(StringListC &sl)
+{
+  for(DLIterC<StringC> it(sl);it;it++) {
+    DLIterC<StringC> it2 = it;
+    it2++;
+    if(!it2)
+      break;
+    for(;it2;it2++) {
+      if(*it2 == *it) {
+        it2.Del();
+        it2--;
+      }
+    }
+  }
+}
+
+class LibraryInfoC
+{
+public:
+  LibraryInfoC()
+  {}
+
+  void Tidy()
+  {
+    DeDup(m_usesLibs);
+    DeDup(m_progLibs);
+    Remove(m_usesLibs,m_name);
+    Remove(m_usesLibs,"None");
+    Remove(m_progLibs,m_name);
+  }
+
+  StringC m_path;
+  StringC m_name;
+  StringListC m_headers;
+  StringListC m_sources;
+  StringListC m_testExes;
+  StringListC m_mainExes;
+  StringListC m_usesLibs;
+  StringListC m_progLibs;
+  StringListC m_examples;
+  StringListC m_exeDepends;
+  StringListC m_mustLinks;
+  HashC<StringC,StringListC> m_auxFiles;
+};
+
+RavlN::HashC<StringC,LibraryInfoC> g_libraries;
 
 static bool CheckPlatform(DefsMkFileC &defs)
 {
@@ -138,6 +194,24 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
   return true;
 }
 
+bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,const StringC &dest,StringListC &fileList)
+{
+  StringListC str(sources);
+  DirectoryC toDir = toLib + "/" + dest;
+  if (!toDir.Exists()) toDir.Create();
+  for (DLIterC <StringC> It(str); It.IsElm(); It.Next()) {
+    FilenameC from = dir + "/" + It.Data();
+    FilenameC to = toDir + "/" + It.Data();
+    StringC subPath = dest + "/" + It.Data();
+    fileList.Append(subPath);
+    cout << "copying: " << from << " to " << toDir << endl << flush;
+    if (!dryRun && !from.CopyTo(to)) {
+      IssueError(__FILE__, __LINE__, "Unable to copy file");
+    }
+  }
+  return true;
+}
+
 static bool CopySources(StringC &dir,DefsMkFileC &defs) {
 
   //: We need to check that linux is supported
@@ -145,39 +219,166 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
   if(!CheckPlatform(defs))
       return true;
 
+  StringC targetLib = defs["PLIB"];
+  if(targetLib.IsEmpty()) {
+    std::cout <<"No target library in " << dir << "\n";
+    return true;
+  }
+
+  LibraryInfoC &libInfo = g_libraries[targetLib];
+
+  DirectoryC toLib = installDir + "/src/" + targetLib;
+  if (!toLib.Exists()) toLib.Create();
+  // Need to initialise info ?
+  if(libInfo.m_name != targetLib) {
+    libInfo.m_name = targetLib;
+    libInfo.m_path = toLib;
+  }
+
   StringC headers = defs["HEADERS"];
   StringC package = defs["PACKAGE"];
   {
     StringListC str(headers);
+    DirectoryC toDir = toLib + "/include/" + package;
+    if (!toDir.Exists()) toDir.Create();
+
     for (DLIterC <StringC> It(str); It.IsElm(); It.Next()) {
-      DirectoryC toDir = g_incDir + "/" + package;
-      if (!toDir.Exists()) toDir.Create();
       FilenameC from = dir + "/" + It.Data();
-      FilenameC to = toDir + "/" + It.Data();
+      StringC subPath = "include/" + package + "/" + It.Data();
+      libInfo.m_headers.Append(subPath);
+      FilenameC to = toLib + "/" + subPath;
       cout << "copying: " << from << " to " << toDir << endl << flush;
-      if (!from.CopyTo(to) && !dryRun) {
+      if (!dryRun && !from.CopyTo(to)) {
         IssueError(__FILE__, __LINE__, "Unable to copy file");
       }
     }
   }
 
-  StringC sources = defs["SOURCES"];
+  CopyFiles(dir,toLib,defs["SOURCES"],"src",libInfo.m_sources);
+  CopyFiles(dir,toLib,defs["EXAMPLES"],"examples",libInfo.m_examples);
+  CopyFiles(dir,toLib,defs["TESTEXES"],"tests",libInfo.m_testExes);
+
   {
-    StringListC str(sources);
+    StringC auxFiles = defs["AUXFILES"];
+    StringC auxDir = defs["AUXDIR"];
+
+    StringListC str(auxFiles);
+    DirectoryC toDir = toLib + "/data/" + auxDir;
+    if (!toDir.Exists()) toDir.Create();
+
     for (DLIterC <StringC> It(str); It.IsElm(); It.Next()) {
-      DirectoryC toDir = g_srcDir + "/" + package;
-      if (!toDir.Exists()) toDir.Create();
       FilenameC from = dir + "/" + It.Data();
       FilenameC to = toDir + "/" + It.Data();
+      StringC subPath = "data/" + auxDir + "/" + It.Data();
+      libInfo.m_auxFiles[auxDir].Append(subPath);
       cout << "copying: " << from << " to " << toDir << endl << flush;
-      if (!from.CopyTo(to)&& !dryRun) {
+      if (!dryRun && !from.CopyTo(to)) {
         IssueError(__FILE__, __LINE__, "Unable to copy file");
       }
     }
+  }
+  {
+    StringListC str(defs["USESLIBS"]);
+    libInfo.m_usesLibs.MoveLast(str);
+  }
+  {
+    StringListC str(defs["PROGLIBS"]);
+    libInfo.m_progLibs.MoveLast(str);
   }
 
   return true;
 }
+
+
+class CMakeGenBodyC
+    : public TemplateComplexBodyC
+{
+public:
+  CMakeGenBodyC(const StringC &templFilename,LibraryInfoC &libInfo)
+   : TemplateComplexBodyC(templFilename),
+     m_libInfo(libInfo)
+  {
+    Init();
+  }
+
+  void Init() {
+    SetupCommand("forall",*this,&CMakeGenBodyC::ForAll);
+    SetVar("lib",m_libInfo.m_name);
+    SetVar("path",m_libInfo.m_path);
+    SetVar("useslibs",m_libInfo.m_usesLibs.Cat(" "));
+    SetVar("proglibs",m_libInfo.m_progLibs.Cat(" "));
+    SetVar("sources",m_libInfo.m_sources.Cat(" "));
+    SetVar("headers",m_libInfo.m_headers.Cat(" "));
+    SetVar("examples",m_libInfo.m_examples.Cat(" "));
+    SetVar("testexes",m_libInfo.m_testExes.Cat(" "));
+    SetVar("mainexes",m_libInfo.m_mainExes.Cat(" "));
+    SetVar("mustlinks",m_libInfo.m_mustLinks.Cat(" "));
+
+  }
+
+  bool ForAll(StringC &data);
+
+  LibraryInfoC &m_libInfo;
+};
+
+bool CMakeGenBodyC::ForAll(StringC &data)
+{
+  int templStart = data.index(':');
+  if(templStart < 1) {
+    std::cerr << "Malformed 'forall' in template. '" << data << "' ignoring \n";
+    return false;
+  }
+  StringC typedata = data.before(templStart);
+  StringListC strList;
+  if(typedata == "useslibs") {
+    strList = m_libInfo.m_usesLibs;
+  } else if(typedata == "examples") {
+    strList = m_libInfo.m_examples;
+  } else if(typedata == "testexes") {
+    strList = m_libInfo.m_testExes;
+  } else if(typedata == "mainexes") {
+    strList = m_libInfo.m_mainExes;
+  } else {
+    std::cerr << "Unknown forall group " << typedata << std::endl;
+  }
+#if 1
+  StringC subtempltxt = data.after(templStart);
+  for(DLIterC<StringC> it(strList);it;it++) {
+    vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
+    SetVar("src",*it);
+    FilenameC fn(*it);
+    SetVar("exename",fn.BaseNameComponent());
+    TextFileC subTextBuff(subtempltxt,true,true);
+    BuildSub(subTextBuff);
+    vars.DelTop(); // Restore old set.
+  }
+#endif
+
+  return true;
+}
+
+class CMakeGenC
+    : public TemplateComplexC
+{
+public:
+  CMakeGenC(const StringC &templFilename,LibraryInfoC &libInfo)
+   : TemplateComplexC(*new CMakeGenBodyC(templFilename,libInfo))
+  {}
+};
+
+
+bool MakeList(LibraryInfoC &libInfo) {
+  StringC dir = libInfo.m_name;
+  StringC outFile = installDir + "/src/" + dir + "/CMakeLists.txt";
+  cout << "Writing cmake file : " << outFile << endl;
+  CMakeGenC gen(templateFile,libInfo);
+  gen.Build(outFile);
+
+  //  makefile.SetVar("sources", sources);
+
+  return true;
+}
+
 
 int main(int nargs,char **argv) {
 
@@ -187,7 +388,7 @@ int main(int nargs,char **argv) {
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
-  templateFile = option.String("templ", PROJECT_OUT "/share/RAVL/AutoPort/Makefile.tmpl", "The template file for each directory.");
+  templateFile = option.String("templ", PROJECT_OUT "/share/RAVL/AutoPort/CMakeLists.txt.tmpl", "The template file for each directory.");
   StringC MasterMakefile = option.String("master", PROJECT_OUT "/share/RAVL/AutoPort/MasterMakefile.tmpl", "The master makefile pulling all directories together.");
   platform = option.String("platform", "linux", "What platform to make it for");
 
@@ -213,21 +414,10 @@ int main(int nargs,char **argv) {
   SourceCodeManagerC chkit(fn);
   chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
-
-  //: Next, we can go and build all the Makefiles in the seperate
-  //: directories
-  subdirs = (StringC)"";
-  if(verb)
-    chkit.SetVerbose(true);
-  //  chkit.ForAllDirs(CallFunc2C<StringC &,DefsMkFileC &,bool>(&CheckDirectory),all);
-
-  //: Finally we need to create the basic Makefile that holds it
-  //: altogether
-  //StringC masterMake = fn + "/Makefile";
-  //OStreamC ofs(masterMake);
-  //TemplateFileC mainMakefile(MasterMakefile, ofs);
-  //mainMakefile.SetVar("subdirs", subdirs);
-  //mainMakefile.Build();
+  for(HashIterC<StringC,LibraryInfoC> it(g_libraries);it;it++) {
+    it.Data().Tidy();
+    MakeList(it.Data());
+  }
 
   return 0;
 }

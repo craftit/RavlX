@@ -1,0 +1,26 @@
+
+INCLUDE_DIRECTORIES(include)
+
+$(for:' ':$useslibs:
+include_directories(../%arg%/include))
+
+ADD_LIBRARY($(lib) STATIC $(headers) $(sources))
+target_link_libraries($(lib) $(useslibs))
+
+# Mains
+$(forall:mainexes:
+add_executable($(exename) $(src) )
+target_link_libraries($(exename) $(lib) $(proglibs))
+)
+
+# Examples
+$(forall:examples:
+add_executable($(exename) $(src) )
+target_link_libraries($(exename) $(lib) $(proglibs))
+)
+
+# Tests
+$(forall:testexes:
+add_executable($(exename) $(src) )
+target_link_libraries($(exename) $(lib) $(proglibs))
+)
