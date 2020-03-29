@@ -8,6 +8,8 @@ $(ifset:mustlinks:# MustLink: $(mustlinks)
 
 INCLUDE_DIRECTORIES(include)
 
+set(HAVE_$(lib) 1)
+
 $(for:' ':$alllibs:
 include_directories(../%arg%/include))
 

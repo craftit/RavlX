@@ -123,6 +123,18 @@ public:
     m_allLibs = m_usesLibs.Copy();
     m_allLibs.MoveLast(list);
     DeDup(m_allLibs);
+    for(DLIterC<StringC> it(m_allLibs);it;it++) {
+      if(it->index(".opt") >= 0) {
+        m_optLibs.InsLast(it->before(".opt"));
+        it.Del(); // Remove it from allLibs
+      }
+    }
+    for(DLIterC<StringC> it(m_usesLibs);it;it++) {
+      if(it->index(".opt") >= 0) {
+        m_usesLibsOpt.InsLast(it->before(".opt"));
+        it.Del(); // Remove it from allLibs
+      }
+    }
   }
 
   StringC m_path;
@@ -132,8 +144,10 @@ public:
   StringListC m_testExes;
   StringListC m_mainExes;
   StringListC m_usesLibs;
+  StringListC m_usesLibsOpt;
   StringListC m_progLibs;
   StringListC m_allLibs;
+  StringListC m_optLibs;
   StringListC m_examples;
   StringListC m_exeDepends;
   StringListC m_mustLinks;
