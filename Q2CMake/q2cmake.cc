@@ -21,6 +21,7 @@
 #include "Ravl/OS/Directory.hh"
 #include "Ravl/Text/TemplateFile.hh"
 #include "Ravl/Text/TemplateComplex.hh"
+#include <cassert>
 
 #define DODEBUG	0
 #if DODEBUG
@@ -54,12 +55,20 @@ DirectoryC binDir;
 #define PROJECT_OUT "."
 #endif
 
+bool Contains(StringListC &sl,const StringC &str)
+{
+  for(DLIterC<StringC> it(sl);it;it++) {
+    if(*it == str)
+      return true;
+  }
+  return false;
+}
+
 void Remove(StringListC &sl,const StringC &str)
 {
   for(DLIterC<StringC> it(sl);it;it++) {
     if(*it == str) {
       it.Del();
-      return ;
     }
   }
 }
@@ -73,12 +82,26 @@ void DeDup(StringListC &sl)
       break;
     for(;it2;it2++) {
       if(*it2 == *it) {
+        assert(it2 != it);
         it2.Del();
-        it2--;
       }
     }
   }
 }
+
+void RemoveFrom(StringListC &sl,const StringListC &other)
+{
+  for(DLIterC<StringC> it(sl);it;it++) {
+    for(DLIterC<StringC> it2(other);it2;it2++) {
+      if(*it2 == *it) {
+        assert(it2 != it);
+        it.Del();
+        break;
+      }
+    }
+  }
+}
+
 
 class LibraryInfoC
 {
@@ -93,6 +116,13 @@ public:
     Remove(m_usesLibs,m_name);
     Remove(m_usesLibs,"None");
     Remove(m_progLibs,m_name);
+    RemoveFrom(m_examples,m_testExes);
+    RemoveFrom(m_examples,m_mainExes);
+    RemoveFrom(m_testExes,m_mainExes);
+    auto list = m_progLibs.Copy();
+    m_allLibs = m_usesLibs.Copy();
+    m_allLibs.MoveLast(list);
+    DeDup(m_allLibs);
   }
 
   StringC m_path;
@@ -103,13 +133,19 @@ public:
   StringListC m_mainExes;
   StringListC m_usesLibs;
   StringListC m_progLibs;
+  StringListC m_allLibs;
   StringListC m_examples;
   StringListC m_exeDepends;
   StringListC m_mustLinks;
+  StringListC m_requires;
+  StringListC m_supports;
+  StringListC m_eht;
   HashC<StringC,StringListC> m_auxFiles;
+  bool m_isProgram = false;
 };
 
 RavlN::HashC<StringC,LibraryInfoC> g_libraries;
+StringListC g_libOrder;
 
 static bool CheckPlatform(DefsMkFileC &defs)
 {
@@ -123,78 +159,7 @@ static bool CheckPlatform(DefsMkFileC &defs)
   return false;
 }
 
-static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
-
-    cerr << "Checking '" << dir << "' \n";
-
-    //: We need to check that linux is supported
-
-    if(!CheckPlatform(defs))
-      return true;
-    subdirs += dir + " ";
-    //: Set up the output Makefile and the relevant template file
-    StringC outFile = dir + "/Makefile";
-    cout << "Writing makefile: " << outFile << endl;
-    TemplateComplexC makefile(templateFile);
-
-    //: first lets set the output directories
-    makefile.SetVar("platform", platform);
-    makefile.SetVar("libdir", libDir);
-    makefile.SetVar("incDir", g_incDir);
-    makefile.SetVar("bindir", binDir);
-
-    //: lets make the headers
-    StringC package = defs["PACKAGE"];
-    if(package.IsEmpty()) package = (StringC)"Ravl";
-    makefile.SetVar("package", package);
-    StringC headers = defs["HEADERS"];
-    if(!headers.IsEmpty()) makefile.SetVar("headers", headers);
-
-    //: Lets see if we want to make a library
-    StringC libname = defs["PLIB"];
-    StringC sources = defs["SOURCES"];
-    sources.gsub(".cc", ".o");
-    sources.gsub(".c", ".o");
-    if(!libname.IsEmpty()) makefile.SetVar("libname", libname);
-    if(!sources.IsEmpty()) makefile.SetVar("sources", sources);
-
-    //: OK special case of MUSTLINK
-    StringC mustlink = defs["MUSTLINK"];
-    if(!mustlink.IsEmpty()) makefile.SetVar("mustlink", mustlink);
-
-    //: Lets make the example executables
-    StringC examples = defs["EXAMPLES"];
-    if(!examples.IsEmpty()) makefile.SetVar("examples", examples);
-
-    //: Lets make the main executables
-    StringC mains = defs["MAINS"];
-    if(!mains.IsEmpty()) makefile.SetVar("mains", mains);
-
-    //: Lets make the test executables
-    StringC testexes = defs["TESTEXES"];
-    if(!testexes.IsEmpty()) makefile.SetVar("testexes", testexes);
-
-    //: Lets make the nested directories
-    StringListC nestedlist = defs.Nested();
-    StringC nested = "";
-    for(DLIterC<StringC>It(nestedlist);It.IsElm();It.Next()) {
-      nested += It.Data() + " ";
-    }
-    if(!nested.IsEmpty()) makefile.SetVar("nested", nested);
-
-    //: what about the USESLIBS and PROGLIBS
-    StringC libs = defs["USESLIBS"];
-    if(!libs.IsEmpty()) libs += " ";
-    libs += defs["PROGLIBS"];
-    if(!libs.IsEmpty()) makefile.SetVar("libs", libs);
-
-    //: Finally lets build the template file
-    makefile.Build(outFile);
-
-  return true;
-}
-
-bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,const StringC &dest,StringListC &fileList)
+bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,const StringC &dest,StringListC &fileList,HSetC<StringC> &done)
 {
   StringListC str(sources);
   DirectoryC toDir = toLib + "/" + dest;
@@ -203,7 +168,10 @@ bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,co
     FilenameC from = dir + "/" + It.Data();
     FilenameC to = toDir + "/" + It.Data();
     StringC subPath = dest + "/" + It.Data();
-    fileList.Append(subPath);
+    if(!done[It.Data()]) {
+      fileList.Append(subPath);
+      done += It.Data();
+    }
     cout << "copying: " << from << " to " << toDir << endl << flush;
     if (!dryRun && !from.CopyTo(to)) {
       IssueError(__FILE__, __LINE__, "Unable to copy file");
@@ -215,25 +183,47 @@ bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,co
 static bool CopySources(StringC &dir,DefsMkFileC &defs) {
 
   //: We need to check that linux is supported
-
+#if 0
   if(!CheckPlatform(defs))
       return true;
+#endif
 
+  bool isProgram = false;
   StringC targetLib = defs["PLIB"];
   if(targetLib.IsEmpty()) {
-    std::cout <<"No target library in " << dir << "\n";
-    return true;
+    StringListC theMains = defs["MAINS"];
+    if (theMains.IsEmpty()) {
+      std::cout <<"No target in directory " << dir << "\n";
+      return true;
+    }
+    FilenameC targetProg = theMains.First();
+    targetLib = targetProg.BaseNameComponent();
+    isProgram = true;
   }
 
-  LibraryInfoC &libInfo = g_libraries[targetLib];
 
+  LibraryInfoC &libInfo = g_libraries[targetLib];
   DirectoryC toLib = installDir + "/src/" + targetLib;
   if (!toLib.Exists()) toLib.Create();
   // Need to initialise info ?
   if(libInfo.m_name != targetLib) {
+    g_libOrder.InsLast(targetLib); // Make an ordered list of libraries.
     libInfo.m_name = targetLib;
     libInfo.m_path = toLib;
+    libInfo.m_isProgram = isProgram;
+    libInfo.m_requires = StringListC(defs["REQUIRES"]," ");
+
+    libInfo.m_supports = StringListC(defs["SUPPORT_ONLY"]," ");
+    StringListC doNotSupport(defs["DONOT_SUPPORT"]," ");
+    for(DLIterC<StringC> it(doNotSupport);it;it++)
+      libInfo.m_supports.InsLast(StringC("!") + *it);
   }
+
+#if 0
+  StringC mustLink = defs["MUSTLINK"];
+  if(!mustLink.IsEmpty())
+    libInfo.m_mustLinks.InsLast(mustLink);
+#endif
 
   StringC headers = defs["HEADERS"];
   StringC package = defs["PACKAGE"];
@@ -254,9 +244,15 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
     }
   }
 
-  CopyFiles(dir,toLib,defs["SOURCES"],"src",libInfo.m_sources);
-  CopyFiles(dir,toLib,defs["EXAMPLES"],"examples",libInfo.m_examples);
-  CopyFiles(dir,toLib,defs["TESTEXES"],"tests",libInfo.m_testExes);
+  HSetC<StringC> xdone;
+  CopyFiles(dir,toLib,defs["SOURCES"],"src",libInfo.m_sources,xdone);
+  HSetC<StringC> ydone;
+  CopyFiles(dir,toLib,defs["EHT"],"doc",libInfo.m_eht,ydone);
+  HSetC<StringC> done;
+  CopyFiles(dir,toLib,defs["MAINS"],"applications",libInfo.m_mainExes,done);
+  CopyFiles(dir,toLib,defs["TESTEXES"],"tests",libInfo.m_testExes,done);
+  CopyFiles(dir,toLib,defs["EXAMPLES"],"examples",libInfo.m_examples,done);
+  CopyFiles(dir,toLib,defs["MUSTLINK"],"src",libInfo.m_mustLinks,done);
 
   {
     StringC auxFiles = defs["AUXFILES"];
@@ -290,11 +286,11 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
 }
 
 
-class CMakeGenBodyC
+class CMakeModuleGenBodyC
     : public TemplateComplexBodyC
 {
 public:
-  CMakeGenBodyC(const StringC &templFilename,LibraryInfoC &libInfo)
+  CMakeModuleGenBodyC(const StringC &templFilename,LibraryInfoC &libInfo)
    : TemplateComplexBodyC(templFilename),
      m_libInfo(libInfo)
   {
@@ -302,26 +298,41 @@ public:
   }
 
   void Init() {
-    SetupCommand("forall",*this,&CMakeGenBodyC::ForAll);
+    SetupCommand("forall",*this,&CMakeModuleGenBodyC::ForAll);
+    SetupCommand("ifany",*this,&CMakeModuleGenBodyC::IfAny);
     SetVar("lib",m_libInfo.m_name);
     SetVar("path",m_libInfo.m_path);
     SetVar("useslibs",m_libInfo.m_usesLibs.Cat(" "));
     SetVar("proglibs",m_libInfo.m_progLibs.Cat(" "));
+    SetVar("alllibs",m_libInfo.m_allLibs.Cat(" "));
     SetVar("sources",m_libInfo.m_sources.Cat(" "));
     SetVar("headers",m_libInfo.m_headers.Cat(" "));
     SetVar("examples",m_libInfo.m_examples.Cat(" "));
     SetVar("testexes",m_libInfo.m_testExes.Cat(" "));
     SetVar("mainexes",m_libInfo.m_mainExes.Cat(" "));
-    SetVar("mustlinks",m_libInfo.m_mustLinks.Cat(" "));
+    if(!m_libInfo.m_mustLinks.IsEmpty()) {
+      SetVar("mustlinks", m_libInfo.m_mustLinks.Cat(" "));
+    }
 
+    SetVar("requires",m_libInfo.m_requires.Cat(" "));
+    SetVar("supports",m_libInfo.m_supports.Cat(" "));
+    if(m_libInfo.m_isProgram) {
+      SetVar("isprogram", "1");
+    }
   }
 
-  bool ForAll(StringC &data);
+  bool ForAlli(StringC &data,bool ifAny);
+
+  bool ForAll(StringC &data)
+  { return ForAlli(data,false); }
+
+  bool IfAny(StringC &data)
+  { return ForAlli(data,true); }
 
   LibraryInfoC &m_libInfo;
 };
 
-bool CMakeGenBodyC::ForAll(StringC &data)
+bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
 {
   int templStart = data.index(':');
   if(templStart < 1) {
@@ -340,16 +351,83 @@ bool CMakeGenBodyC::ForAll(StringC &data)
     strList = m_libInfo.m_mainExes;
   } else if(typedata == "mustlinks") {
     strList = m_libInfo.m_mustLinks;
-  }else {
+  } else {
+    std::cerr << "Unknown forall group " << typedata << std::endl;
+  }
+  StringC subtempltxt = data.after(templStart);
+  if(ifAny) {
+    if(!strList.IsEmpty()) {
+      TextFileC subTextBuff(subtempltxt, true, true);
+      BuildSub(subTextBuff);
+    }
+  } else {
+    for (DLIterC <StringC> it(strList); it; it++) {
+      vars.Push(RCHashC<StringC, StringC>(vars.Top().Copy())); // Push base variables.
+      SetVar("src", *it);
+      FilenameC fn(*it);
+      SetVar("exename", fn.BaseNameComponent());
+      TextFileC subTextBuff(subtempltxt, true, true);
+      BuildSub(subTextBuff);
+      vars.DelTop(); // Restore old set.
+    }
+  }
+
+  return true;
+}
+
+class CMakeModuleGenC
+    : public TemplateComplexC
+{
+public:
+  CMakeModuleGenC(const StringC &templFilename,LibraryInfoC &libInfo)
+   : TemplateComplexC(*new CMakeModuleGenBodyC(templFilename,libInfo))
+  {}
+};
+
+
+
+class CMakeTopGenBodyC
+        : public TemplateComplexBodyC
+{
+public:
+  CMakeTopGenBodyC(const StringC &templFilename)
+    : TemplateComplexBodyC(templFilename)
+  {
+    Init();
+  }
+
+  void Init() {
+    SetVar("libs",g_libOrder.Cat(" "));
+    SetupCommand("forall",*this,&CMakeTopGenBodyC::ForAll);
+    SetupCommand("ifreq",*this,&CMakeTopGenBodyC::IfReq);
+  }
+
+  bool ForAll(StringC &data);
+  bool IfReq(StringC &data);
+
+};
+
+bool CMakeTopGenBodyC::ForAll(StringC &data)
+{
+  int templStart = data.index(':');
+  if(templStart < 1) {
+    std::cerr << "Malformed 'forall' in template. '" << data << "' ignoring \n";
+    return false;
+  }
+  StringC typedata = data.before(templStart);
+  StringListC strList;
+  if(typedata == "libs") {
+    strList = g_libOrder;
+  } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
 #if 1
   StringC subtempltxt = data.after(templStart);
   for(DLIterC<StringC> it(strList);it;it++) {
     vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
-    SetVar("src",*it);
-    FilenameC fn(*it);
-    SetVar("exename",fn.BaseNameComponent());
+    SetVar("lib",*it);
+    LibraryInfoC &li = g_libraries[*it];
+    SetVar("requires",li.m_requires.Cat(" "));
     TextFileC subTextBuff(subtempltxt,true,true);
     BuildSub(subTextBuff);
     vars.DelTop(); // Restore old set.
@@ -359,21 +437,45 @@ bool CMakeGenBodyC::ForAll(StringC &data)
   return true;
 }
 
-class CMakeGenC
-    : public TemplateComplexC
+bool CMakeTopGenBodyC::IfReq(StringC &data)
+{
+  int templStart = data.index(':');
+  if(templStart < 1) {
+    std::cerr << "Malformed 'ifreq' in template. '" << data << "' ignoring \n";
+    return false;
+  }
+  StringC typedata = data.before(templStart);
+  StringC libName = GetVar("lib");
+  LibraryInfoC &li = g_libraries[libName];
+  StringC subtempltxt = data.after(templStart);
+
+  if(Contains(li.m_requires,typedata)) {
+    //vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
+    TextFileC subTextBuff(subtempltxt,true,true);
+    BuildSub(subTextBuff);
+    //vars.DelTop(); // Restore old set.
+  }
+
+  return true;
+}
+
+class CMakeTopGenC
+        : public TemplateComplexC
 {
 public:
-  CMakeGenC(const StringC &templFilename,LibraryInfoC &libInfo)
-   : TemplateComplexC(*new CMakeGenBodyC(templFilename,libInfo))
+  CMakeTopGenC(const StringC &templFilename)
+    : TemplateComplexC(*new CMakeTopGenBodyC(templFilename))
   {}
 };
+
+
 
 
 bool MakeList(LibraryInfoC &libInfo) {
   StringC dir = libInfo.m_name;
   StringC outFile = installDir + "/src/" + dir + "/CMakeLists.txt";
   cout << "Writing cmake file : " << outFile << endl;
-  CMakeGenC gen(templateFile,libInfo);
+  CMakeModuleGenC gen(templateFile,libInfo);
   gen.Build(outFile);
 
   //  makefile.SetVar("sources", sources);
@@ -416,20 +518,15 @@ int main(int nargs,char **argv) {
   SourceCodeManagerC chkit(fn);
   chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
-  StringC libs;
-  for(HashIterC<StringC,LibraryInfoC> it(g_libraries);it;it++) {
-    it.Data().Tidy();
-    MakeList(it.Data());
-    if(!libs.IsEmpty())
-      libs += " ";
-    libs += it.Key();
+  for(DLIterC<StringC> it(g_libOrder);it;it++) {
+    LibraryInfoC &libInfo = g_libraries[*it];
+    libInfo.Tidy();
+    MakeList(libInfo);
   }
 
   {
     StringC outFile = installDir + "/CMakeLists.txt";
-    TemplateComplexC gen(MasterMakefile);
-
-    gen.SetVar("libs",libs);
+    CMakeTopGenC gen(MasterMakefile);
     gen.Build(outFile);
   }
 

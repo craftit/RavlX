@@ -6,6 +6,8 @@
 #
 # file-header-ends-here
 
+ANSIFLAG = -std=c++17
+
 DONOT_SUPPORT=VCPP
 
 DESCRIPTION = Porting to the normal make 

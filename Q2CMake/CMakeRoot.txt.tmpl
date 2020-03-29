@@ -1,11 +1,26 @@
 
 cmake_minimum_required(VERSION 3.15)
-project(RavlX)
+project(RavlTest)
 
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_INSTALL_LIBDIR "/usr/local/lib")
+set(CMAKE_INSTALL_INCLUDEDIR "/usr/local/include")
+
+set(RAVLX_VERSION 0.1)
+
+FIND_PACKAGE ( Threads REQUIRED )
+
+include (FindPkgConfig)
+
 enable_testing()
 
-$(for: :$libs:
-add_subdirectory(src/%arg%))
+$(forall:libs:
+$(ifreq:MacOSX:if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+)# $(requires)
+add_subdirectory(src/$(lib))
+$(ifreq:MacOSX:endif())
+)
+
+install(DIRECTORY include DESTINATION include)

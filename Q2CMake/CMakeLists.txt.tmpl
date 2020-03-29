@@ -1,27 +1,46 @@
 
+# Library: $(lib)
+
+# Requires: $(requires)
+# Supports: $(supports)
+$(ifset:mustlinks:# MustLink: $(mustlinks)
+)
+
 INCLUDE_DIRECTORIES(include)
 
-$(for:' ':$useslibs:
+$(for:' ':$alllibs:
 include_directories(../%arg%/include))
 
+$(ifset:!isprogram:
 ADD_LIBRARY($(lib) STATIC $(headers) $(sources))
-target_link_libraries($(lib) $(useslibs))
+target_link_libraries($(lib) PUBLIC $(useslibs))
 
-# Mains
+$(ifset:mustlinks:# MustLink:
+#target_link_options($(lib) INTERFACE $(mustlinks)))
+
+install(TARGETS $(lib) EXPORT $(lib)Config
+   ARCHIVE  DESTINATION lib
+   LIBRARY  DESTINATION lib
+   RUNTIME  DESTINATION bin)  # This is for Windows
+
+install(EXPORT $(lib)Config DESTINATION lib/cmake/$(lib))
+install(TARGETS $(lib) DESTINATION lib)
+)
+
+$(ifany:mainexes:# Mains
 $(forall:mainexes:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(lib) $(proglibs))
-)
-
-# Examples
+target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
+))
+$(ifany:examples:# Examples
 $(forall:examples:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(lib) $(proglibs))
-)
-
-# Tests
+target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
+))
+$(ifany:testexes:# Tests
 $(forall:testexes:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(lib) $(proglibs))
+target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
 add_test($(exename) $(exename))
-)
+))
+
