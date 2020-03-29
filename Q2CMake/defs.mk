@@ -25,7 +25,7 @@ USESLIBS = RavlOS RavlSourceTools
 EHT = 
 
 # Deal with template files.
-AUXFILES = Makefile.tmpl CMakeLists.txt.tmpl
+AUXFILES = CMakeLists.txt.tmpl CMakeRoot.txt.tmpl
 
 AUXDIR= share/RAVL/AutoPort
 

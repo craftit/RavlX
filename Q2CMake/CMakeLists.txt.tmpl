@@ -23,4 +23,5 @@ target_link_libraries($(exename) $(lib) $(proglibs))
 $(forall:testexes:
 add_executable($(exename) $(src) )
 target_link_libraries($(exename) $(lib) $(proglibs))
+add_test($(exename) $(exename))
 )

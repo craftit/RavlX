@@ -338,7 +338,9 @@ bool CMakeGenBodyC::ForAll(StringC &data)
     strList = m_libInfo.m_testExes;
   } else if(typedata == "mainexes") {
     strList = m_libInfo.m_mainExes;
-  } else {
+  } else if(typedata == "mustlinks") {
+    strList = m_libInfo.m_mustLinks;
+  }else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
 #if 1
@@ -389,7 +391,7 @@ int main(int nargs,char **argv) {
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
   templateFile = option.String("templ", PROJECT_OUT "/share/RAVL/AutoPort/CMakeLists.txt.tmpl", "The template file for each directory.");
-  StringC MasterMakefile = option.String("master", PROJECT_OUT "/share/RAVL/AutoPort/MasterMakefile.tmpl", "The master makefile pulling all directories together.");
+  StringC MasterMakefile = option.String("master", PROJECT_OUT "/share/RAVL/AutoPort/CMakeRoot.txt.tmpl", "The master makefile pulling all directories together.");
   platform = option.String("platform", "linux", "What platform to make it for");
 
   verb = option.Boolean("v",false,"Verbose mode.");
@@ -414,9 +416,21 @@ int main(int nargs,char **argv) {
   SourceCodeManagerC chkit(fn);
   chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
+  StringC libs;
   for(HashIterC<StringC,LibraryInfoC> it(g_libraries);it;it++) {
     it.Data().Tidy();
     MakeList(it.Data());
+    if(!libs.IsEmpty())
+      libs += " ";
+    libs += it.Key();
+  }
+
+  {
+    StringC outFile = installDir + "/CMakeLists.txt";
+    TemplateComplexC gen(MasterMakefile);
+
+    gen.SetVar("libs",libs);
+    gen.Build(outFile);
   }
 
   return 0;

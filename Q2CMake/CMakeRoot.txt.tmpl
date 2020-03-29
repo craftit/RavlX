@@ -1,0 +1,11 @@
+
+cmake_minimum_required(VERSION 3.15)
+project(RavlX)
+
+set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+set(CMAKE_CXX_STANDARD 17)
+
+enable_testing()
+
+$(for: :$libs:
+add_subdirectory(src/%arg%))
