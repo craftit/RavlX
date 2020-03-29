@@ -254,6 +254,10 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
   CopyFiles(dir,toLib,defs["EXAMPLES"],"examples",libInfo.m_examples,done);
   CopyFiles(dir,toLib,defs["MUSTLINK"],"src",libInfo.m_mustLinks,done);
 
+  StringListC dump;
+  CopyFiles(dir,toLib,defs["LOCALHEADERS"],"src",dump,done);
+
+
   {
     StringC auxFiles = defs["AUXFILES"];
     StringC auxDir = defs["AUXDIR"];
