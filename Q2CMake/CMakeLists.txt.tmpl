@@ -10,8 +10,13 @@ INCLUDE_DIRECTORIES(include)
 
 set(HAVE_$(lib) 1)
 
-$(for:' ':$alllibs:
-include_directories(../%arg%/include))
+$(forall:libs:
+include_directories(../../$(toplevel)/$(lib)/include))
+
+$(forall:optlibs:
+if(DEFINED HAVE_$(lib))
+include_directories(../../$(toplevel)/$(lib)/include)
+endif())
 
 $(ifset:!isprogram:
 ADD_LIBRARY($(lib) STATIC $(headers) $(sources))

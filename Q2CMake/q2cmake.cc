@@ -51,6 +51,8 @@ DirectoryC g_srcDir;
 DirectoryC libDir;
 DirectoryC binDir;
 
+StringC g_rootDir;
+
 #ifndef PROJECT_OUT
 #define PROJECT_OUT "."
 #endif
@@ -138,6 +140,7 @@ public:
   }
 
   StringC m_path;
+  StringC m_topLevel;
   StringC m_name;
   StringListC m_headers;
   StringListC m_sources;
@@ -215,15 +218,23 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
     isProgram = true;
   }
 
-
+  StringC topLevelDir = dir.after(g_rootDir).after(0);
+  topLevelDir = topLevelDir.before('/');
+  std::cout << "TopLevel: '" << topLevelDir << "' " << std::endl;
   LibraryInfoC &libInfo = g_libraries[targetLib];
-  DirectoryC toLib = installDir + "/src/" + targetLib;
+  DirectoryC toLib;
+  if(topLevelDir.IsEmpty() || topLevelDir == targetLib) {
+    topLevelDir = "Misc";
+  }
+  toLib = installDir + "/src/" +topLevelDir + "/" + targetLib;
+
   if (!toLib.Exists()) toLib.Create();
   // Need to initialise info ?
   if(libInfo.m_name != targetLib) {
     g_libOrder.InsLast(targetLib); // Make an ordered list of libraries.
     libInfo.m_name = targetLib;
     libInfo.m_path = toLib;
+    libInfo.m_topLevel = topLevelDir;
     libInfo.m_isProgram = isProgram;
     libInfo.m_requires = StringListC(defs["REQUIRES"]," ");
 
@@ -319,6 +330,7 @@ public:
     SetupCommand("forall",*this,&CMakeModuleGenBodyC::ForAll);
     SetupCommand("ifany",*this,&CMakeModuleGenBodyC::IfAny);
     SetVar("lib",m_libInfo.m_name);
+    SetVar("toplevel",m_libInfo.m_topLevel);
     SetVar("path",m_libInfo.m_path);
     SetVar("useslibs",m_libInfo.m_usesLibs.Cat(" "));
     SetVar("proglibs",m_libInfo.m_progLibs.Cat(" "));
@@ -369,6 +381,10 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
     strList = m_libInfo.m_mainExes;
   } else if(typedata == "mustlinks") {
     strList = m_libInfo.m_mustLinks;
+  } else if(typedata == "libs") {
+    strList = m_libInfo.m_allLibs;
+  } else if(typedata == "optlibs") {
+    strList = m_libInfo.m_optLibs;
   } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
@@ -381,6 +397,15 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
   } else {
     for (DLIterC <StringC> it(strList); it; it++) {
       vars.Push(RCHashC<StringC, StringC>(vars.Top().Copy())); // Push base variables.
+      LibraryInfoC *libInfo = g_libraries.Lookup(*it);
+      if(libInfo != 0) {
+        SetVar("path", libInfo->m_path);
+        SetVar("toplevel", libInfo->m_topLevel);
+      } else {
+        SetVar("path",m_libInfo.m_path);
+        SetVar("toplevel", m_libInfo.m_topLevel);
+      }
+      SetVar("lib", *it);
       SetVar("src", *it);
       FilenameC fn(*it);
       SetVar("exename", fn.BaseNameComponent());
@@ -445,6 +470,7 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
     vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
     SetVar("lib",*it);
     LibraryInfoC &li = g_libraries[*it];
+    SetVar("toplevel",li.m_topLevel);
     SetVar("requires",li.m_requires.Cat(" "));
     TextFileC subTextBuff(subtempltxt,true,true);
     BuildSub(subTextBuff);
@@ -491,7 +517,7 @@ public:
 
 bool MakeList(LibraryInfoC &libInfo) {
   StringC dir = libInfo.m_name;
-  StringC outFile = installDir + "/src/" + dir + "/CMakeLists.txt";
+  StringC outFile = libInfo.m_path + "/CMakeLists.txt";
   cout << "Writing cmake file : " << outFile << endl;
   CMakeModuleGenC gen(templateFile,libInfo);
   gen.Build(outFile);
@@ -505,7 +531,7 @@ bool MakeList(LibraryInfoC &libInfo) {
 int main(int nargs,char **argv) {
 
   OptionC option(nargs,argv);
-  StringC fn = option.String("i",".","Input filename. ");
+  g_rootDir = option.String("i",".","Input filename. ");
   installDir = option.String("o", "", "absolute path of desired install directory");
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
@@ -533,7 +559,7 @@ int main(int nargs,char **argv) {
 
   //: Next thing to do is to go through all directories and copy the
   //: header files across
-  SourceCodeManagerC chkit(fn);
+  SourceCodeManagerC chkit(g_rootDir);
   chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
   for(DLIterC<StringC> it(g_libOrder);it;it++) {
