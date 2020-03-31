@@ -163,6 +163,8 @@ public:
 
 RavlN::HashC<StringC,LibraryInfoC> g_libraries;
 StringListC g_libOrder;
+RavlN::HashC<StringC,StringListC> g_topLevel;
+StringListC g_topLevelOrder;
 
 static bool CheckPlatform(DefsMkFileC &defs)
 {
@@ -219,18 +221,26 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
   }
 
   StringC topLevelDir = dir.after(g_rootDir).after(0);
-  topLevelDir = topLevelDir.before('/');
-  std::cout << "TopLevel: '" << topLevelDir << "' " << std::endl;
+  int endIndex = topLevelDir.index('/');
+  if(endIndex >= 0)
+    topLevelDir = topLevelDir.before(endIndex);
+  std::cout << "TopLevel: '" << topLevelDir << "'  Root:" << dir.after(g_rootDir).after(0) << std::endl;
   LibraryInfoC &libInfo = g_libraries[targetLib];
   DirectoryC toLib;
   if(topLevelDir.IsEmpty() || topLevelDir == targetLib) {
     topLevelDir = "Misc";
   }
+
+  if(!g_topLevel.IsElm(topLevelDir)) {
+    g_topLevelOrder.InsLast(topLevelDir);
+  }
+
   toLib = installDir + "/src/" +topLevelDir + "/" + targetLib;
 
   if (!toLib.Exists()) toLib.Create();
   // Need to initialise info ?
   if(libInfo.m_name != targetLib) {
+    g_topLevel[topLevelDir].InsLast(targetLib);
     g_libOrder.InsLast(targetLib); // Make an ordered list of libraries.
     libInfo.m_name = targetLib;
     libInfo.m_path = toLib;
@@ -329,6 +339,8 @@ public:
   void Init() {
     SetupCommand("forall",*this,&CMakeModuleGenBodyC::ForAll);
     SetupCommand("ifany",*this,&CMakeModuleGenBodyC::IfAny);
+    SetupCommand("ifreq",*this,&CMakeModuleGenBodyC::IfReq);
+
     SetVar("lib",m_libInfo.m_name);
     SetVar("toplevel",m_libInfo.m_topLevel);
     SetVar("path",m_libInfo.m_path);
@@ -352,7 +364,7 @@ public:
   }
 
   bool ForAlli(StringC &data,bool ifAny);
-
+  bool IfReq(StringC &data);
   bool ForAll(StringC &data)
   { return ForAlli(data,false); }
 
@@ -361,6 +373,28 @@ public:
 
   LibraryInfoC &m_libInfo;
 };
+
+bool CMakeModuleGenBodyC::IfReq(StringC &data)
+{
+  int templStart = data.index(':');
+  if(templStart < 1) {
+    std::cerr << "Malformed 'ifreq' in template. '" << data << "' ignoring \n";
+    return false;
+  }
+  StringC typedata = data.before(templStart);
+  StringC libName = GetVar("lib");
+  LibraryInfoC &li = g_libraries[libName];
+  StringC subtempltxt = data.after(templStart);
+
+  if(Contains(li.m_requires,typedata)) {
+    //vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
+    TextFileC subTextBuff(subtempltxt,true,true);
+    BuildSub(subTextBuff);
+    //vars.DelTop(); // Restore old set.
+  }
+
+  return true;
+}
 
 bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
 {
@@ -439,6 +473,13 @@ public:
     Init();
   }
 
+  CMakeTopGenBodyC(const StringC &templFilename,const StringListC &midLibs)
+    : TemplateComplexBodyC(templFilename),
+      m_midLibs(midLibs)
+  {
+    Init();
+  }
+
   void Init() {
     SetVar("libs",g_libOrder.Cat(" "));
     SetupCommand("forall",*this,&CMakeTopGenBodyC::ForAll);
@@ -448,6 +489,7 @@ public:
   bool ForAll(StringC &data);
   bool IfReq(StringC &data);
 
+  StringListC m_midLibs;
 };
 
 bool CMakeTopGenBodyC::ForAll(StringC &data)
@@ -459,8 +501,12 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
   }
   StringC typedata = data.before(templStart);
   StringListC strList;
-  if(typedata == "libs") {
+  if(typedata == "toplevel") {
+    strList = g_topLevelOrder;
+  } else if(typedata == "libs") {
     strList = g_libOrder;
+  } else if(typedata == "midlibs") {
+    strList = m_midLibs;
   } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
@@ -510,6 +556,10 @@ public:
   CMakeTopGenC(const StringC &templFilename)
     : TemplateComplexC(*new CMakeTopGenBodyC(templFilename))
   {}
+
+  CMakeTopGenC(const StringC &templFilename,const StringListC &midList)
+    : TemplateComplexC(*new CMakeTopGenBodyC(templFilename,midList))
+  {}
 };
 
 
@@ -538,6 +588,7 @@ int main(int nargs,char **argv) {
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
   templateFile = option.String("templ", PROJECT_OUT "/share/RAVL/AutoPort/CMakeLists.txt.tmpl", "The template file for each directory.");
   StringC MasterMakefile = option.String("master", PROJECT_OUT "/share/RAVL/AutoPort/CMakeRoot.txt.tmpl", "The master makefile pulling all directories together.");
+  StringC midTemplate = option.String("mid", PROJECT_OUT "/share/RAVL/AutoPort/CMakeMid.txt.tmpl", "The mid level makefile pulling libraries together in a directory.");
   platform = option.String("platform", "linux", "What platform to make it for");
 
   verb = option.Boolean("v",false,"Verbose mode.");
@@ -562,12 +613,23 @@ int main(int nargs,char **argv) {
   SourceCodeManagerC chkit(g_rootDir);
   chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
+
+  // Make mid level CMake files
+  for(HashIterC<StringC,StringListC> mit(g_topLevel);mit;mit++)
+  {
+    StringC outFile = installDir + "/src/" + mit.Key() + "/CMakeLists.txt";
+    CMakeTopGenC gen(midTemplate,mit.Data());
+    gen.Build(outFile);
+  }
+
+  // Make library cmake files
   for(DLIterC<StringC> it(g_libOrder);it;it++) {
     LibraryInfoC &libInfo = g_libraries[*it];
     libInfo.Tidy();
     MakeList(libInfo);
   }
 
+  // Make top level cmake file
   {
     StringC outFile = installDir + "/CMakeLists.txt";
     CMakeTopGenC gen(MasterMakefile);

@@ -20,11 +20,7 @@ include (FindPkgConfig)
 
 enable_testing()
 
-$(forall:libs:
-$(ifreq:MacOSX:if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-)# $(requires)
-add_subdirectory(src/$(toplevel)/$(lib))
-$(ifreq:MacOSX:endif())
-)
+$(forall:toplevel:
+add_subdirectory(src/$(lib)))
 
 install(DIRECTORY include DESTINATION include)

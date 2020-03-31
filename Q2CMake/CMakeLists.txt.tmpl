@@ -3,6 +3,9 @@
 
 # Requires: $(requires)
 # Supports: $(supports)
+
+$(ifreq:MacOSX:if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin"))
+
 $(ifset:mustlinks:# MustLink: $(mustlinks)
 )
 
@@ -51,3 +54,4 @@ target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
 add_test($(exename) $(exename))
 ))
 
+$(ifreq:MacOSX:endif())
