@@ -104,6 +104,17 @@ void RemoveFrom(StringListC &sl,const StringListC &other)
   }
 }
 
+class ExtLibraryInfoC
+{
+public:
+  StringC m_name;
+  StringC m_libname;
+  StringC m_foundFlag;
+  StringC m_link;
+  StringC m_include;
+};
+
+HashC<StringC,ExtLibraryInfoC> g_extLibraries;
 
 class LibraryInfoC
 {
@@ -165,6 +176,7 @@ RavlN::HashC<StringC,LibraryInfoC> g_libraries;
 StringListC g_libOrder;
 RavlN::HashC<StringC,StringListC> g_topLevel;
 StringListC g_topLevelOrder;
+HashC<StringC,StringC> g_libmap;
 
 static bool CheckPlatform(DefsMkFileC &defs)
 {
@@ -404,6 +416,8 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
     return false;
   }
   StringC typedata = data.before(templStart);
+  StringC subtempltxt = data.after(templStart);
+
   StringListC strList;
   if(typedata == "useslibs") {
     strList = m_libInfo.m_usesLibs;
@@ -417,12 +431,40 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
     strList = m_libInfo.m_mustLinks;
   } else if(typedata == "libs") {
     strList = m_libInfo.m_allLibs;
+  } else if(typedata == "alllibs") {
+    strList = m_libInfo.m_allLibs;
   } else if(typedata == "optlibs") {
     strList = m_libInfo.m_optLibs;
+  } else if(typedata == "requires") {
+    strList = StringListC(m_libInfo.m_requires);
+    if(!ifAny) {
+      for (DLIterC <StringC> it(strList); it; it++) {
+        std::cout << "Requires: '" << *it << "' " << std::endl;
+        vars.Push(RCHashC<StringC, StringC>(vars.Top().Copy())); // Push base variables.
+        SetVar("mainlib",GetVar("lib"));
+
+        ExtLibraryInfoC *elibInfo = g_extLibraries.Lookup(*it);
+        if(elibInfo != 0) {
+          SetVar("lib", elibInfo->m_name);
+          SetVar("found", elibInfo->m_foundFlag);
+          SetVar("include", elibInfo->m_include);
+          SetVar("link", elibInfo->m_link);
+        } else {
+          SetVar("lib", *it);
+          SetVar("found", *it + "_FOUND");
+          SetVar("include", *it + "_INCLUDE_DIRS");
+          SetVar("link", *it + "_LIBRARIES");
+          std::cerr << "Unknown external lib " << *it << std::endl;
+        }
+        TextFileC subTextBuff(subtempltxt, true, true);
+        BuildSub(subTextBuff);
+        vars.DelTop(); // Restore old set.
+        return true;
+      }
+    }
   } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
-  StringC subtempltxt = data.after(templStart);
   if(ifAny) {
     if(!strList.IsEmpty()) {
       TextFileC subTextBuff(subtempltxt, true, true);
@@ -431,6 +473,7 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
   } else {
     for (DLIterC <StringC> it(strList); it; it++) {
       vars.Push(RCHashC<StringC, StringC>(vars.Top().Copy())); // Push base variables.
+      SetVar("mainlib",GetVar("lib"));
       LibraryInfoC *libInfo = g_libraries.Lookup(*it);
       if(libInfo != 0) {
         SetVar("path", libInfo->m_path);
@@ -439,6 +482,20 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
         SetVar("path",m_libInfo.m_path);
         SetVar("toplevel", m_libInfo.m_topLevel);
       }
+      {
+        StringC aName = g_libmap[*it];
+        if(aName.IsEmpty())
+          aName = *it;
+        ExtLibraryInfoC *elibInfo = g_extLibraries.Lookup(aName);
+        if(elibInfo != 0) {
+          SetVar("linklib", elibInfo->m_libname);
+          SetVar("inclib", elibInfo->m_include);
+        } else {
+          SetVar("linklib", *it);
+          SetVar("inclib", "");
+        }
+      }
+
       SetVar("lib", *it);
       SetVar("src", *it);
       FilenameC fn(*it);
@@ -484,10 +541,12 @@ public:
     SetVar("libs",g_libOrder.Cat(" "));
     SetupCommand("forall",*this,&CMakeTopGenBodyC::ForAll);
     SetupCommand("ifreq",*this,&CMakeTopGenBodyC::IfReq);
+    SetupCommand("mapreq",*this,&CMakeTopGenBodyC::MapReq);
   }
 
   bool ForAll(StringC &data);
   bool IfReq(StringC &data);
+  bool MapReq(StringC &data);
 
   StringListC m_midLibs;
 };
@@ -527,6 +586,52 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
   return true;
 }
 
+bool CMakeTopGenBodyC::MapReq(StringC &data)
+{
+  int div = data.index(':');
+  if(div < 1) {
+    std::cerr << "Malformed 'mapreq' in template. 1 '" << data << "' ignoring \n";
+    return false;
+  }
+  StringC typedata = data.before(div);
+  ExtLibraryInfoC &eli = g_extLibraries[typedata];
+  eli.m_name = typedata;
+
+  StringC subtempltxt = data.after(div);
+  div = subtempltxt.index(':');
+  if(div < 1) {
+    std::cerr << "Malformed 'mapreq' in template. 2 '" << data << "' ignoring \n";
+    return false;
+  }
+
+  eli.m_libname = subtempltxt.before(div);
+  subtempltxt = subtempltxt.after(div);
+
+  div = subtempltxt.index(':');
+  if(div < 1) {
+    std::cerr << "Malformed 'mapreq' in template. 3 '" << data << "' ignoring \n";
+    return false;
+  }
+  subtempltxt = subtempltxt.after(div);
+
+  eli.m_foundFlag = subtempltxt.before(div);
+  subtempltxt = subtempltxt.after(div);
+
+  div = subtempltxt.index(':');
+  if(div < 1) {
+    std::cerr << "Malformed 'mapreq' in template. 3 '" << data << "' ignoring \n";
+    return false;
+  }
+
+  eli.m_link = subtempltxt.before(div);
+  eli.m_include  = subtempltxt.after(div);
+
+  g_libmap[eli.m_libname] = eli.m_name;
+
+  return true;
+}
+
+
 bool CMakeTopGenBodyC::IfReq(StringC &data)
 {
   int templStart = data.index(':');
@@ -535,9 +640,10 @@ bool CMakeTopGenBodyC::IfReq(StringC &data)
     return false;
   }
   StringC typedata = data.before(templStart);
+  StringC subtempltxt = data.after(templStart);
+
   StringC libName = GetVar("lib");
   LibraryInfoC &li = g_libraries[libName];
-  StringC subtempltxt = data.after(templStart);
 
   if(Contains(li.m_requires,typedata)) {
     //vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
@@ -613,6 +719,12 @@ int main(int nargs,char **argv) {
   SourceCodeManagerC chkit(g_rootDir);
   chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CopySources),all);
 
+  // Make top level cmake file
+  {
+    StringC outFile = installDir + "/CMakeLists.txt";
+    CMakeTopGenC gen(MasterMakefile);
+    gen.Build(outFile);
+  }
 
   // Make mid level CMake files
   for(HashIterC<StringC,StringListC> mit(g_topLevel);mit;mit++)
@@ -629,12 +741,6 @@ int main(int nargs,char **argv) {
     MakeList(libInfo);
   }
 
-  // Make top level cmake file
-  {
-    StringC outFile = installDir + "/CMakeLists.txt";
-    CMakeTopGenC gen(MasterMakefile);
-    gen.Build(outFile);
-  }
 
   return 0;
 }

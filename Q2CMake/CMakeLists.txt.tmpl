@@ -4,7 +4,9 @@
 # Requires: $(requires)
 # Supports: $(supports)
 
-$(ifreq:MacOSX:if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin"))
+
+$(forall:requires:IF(DEFINED $(found))
+)
 
 $(ifset:mustlinks:# MustLink: $(mustlinks)
 )
@@ -23,7 +25,7 @@ endif())
 
 $(ifset:!isprogram:
 ADD_LIBRARY($(lib) STATIC $(headers) $(sources))
-target_link_libraries($(lib) PUBLIC $(useslibs))
+target_link_libraries($(lib) PUBLIC $(forall:useslibs:$(linklib) ))
 
 $(ifset:mustlinks:# MustLink:
 #target_link_options($(lib) INTERFACE $(mustlinks)))
@@ -40,18 +42,21 @@ install(TARGETS $(lib) DESTINATION lib)
 $(ifany:mainexes:# Mains
 $(forall:mainexes:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
 ))
 $(ifany:examples:# Examples
 $(forall:examples:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(alllibs))
 ))
 $(ifany:testexes:# Tests
 $(forall:testexes:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(ifset:!isprogram:$(lib)) $(alllibs))
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(alllibs))
 add_test($(exename) $(exename))
 ))
 
-$(ifreq:MacOSX:endif())
+
+$(forall:requires:ENDIF()
+)
+
