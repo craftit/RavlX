@@ -112,9 +112,11 @@ public:
   StringC m_foundFlag;
   StringC m_link;
   StringC m_include;
+  StringC m_library_path;
 };
 
 HashC<StringC,ExtLibraryInfoC> g_extLibraries;
+StringListC m_orderedExtLibraries;
 
 class LibraryInfoC
 {
@@ -439,7 +441,6 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
     strList = StringListC(m_libInfo.m_requires);
     if(!ifAny) {
       for (DLIterC <StringC> it(strList); it; it++) {
-        std::cout << "Requires: '" << *it << "' " << std::endl;
         vars.Push(RCHashC<StringC, StringC>(vars.Top().Copy())); // Push base variables.
         SetVar("mainlib",GetVar("lib"));
 
@@ -450,6 +451,7 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
           SetVar("include", elibInfo->m_include);
           SetVar("link", elibInfo->m_link);
         } else {
+          std::cout << "Unknown requires: '" << *it << "' " << std::endl;
           SetVar("lib", *it);
           SetVar("found", *it + "_FOUND");
           SetVar("include", *it + "_INCLUDE_DIRS");
@@ -559,6 +561,7 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
     return false;
   }
   StringC typedata = data.before(templStart);
+  StringC subtempltxt = data.after(templStart);
   StringListC strList;
   if(typedata == "toplevel") {
     strList = g_topLevelOrder;
@@ -566,11 +569,26 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
     strList = g_libOrder;
   } else if(typedata == "midlibs") {
     strList = m_midLibs;
+  } else if(typedata == "extlibs") {
+    strList = m_orderedExtLibraries;
+    for(DLIterC<StringC> it(strList);it;it++) {
+      vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
+      SetVar("lib",*it);
+      ExtLibraryInfoC &li = g_extLibraries[*it];
+      SetVar("found",li.m_foundFlag);
+      if(!li.m_include.IsEmpty())
+        SetVar("header_path",li.m_include);
+      if(!li.m_library_path.IsEmpty())
+        SetVar("library_path",li.m_library_path);
+      TextFileC subTextBuff(subtempltxt,true,true);
+      BuildSub(subTextBuff);
+      vars.DelTop(); // Restore old set.
+    }
+    return true;
   } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
 #if 1
-  StringC subtempltxt = data.after(templStart);
   for(DLIterC<StringC> it(strList);it;it++) {
     vars.Push(RCHashC<StringC,StringC>(vars.Top().Copy()) ); // Push base variables.
     SetVar("lib",*it);
@@ -589,42 +607,56 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
 bool CMakeTopGenBodyC::MapReq(StringC &data)
 {
   int div = data.index(':');
-  if(div < 1) {
+  if(div < 0) {
     std::cerr << "Malformed 'mapreq' in template. 1 '" << data << "' ignoring \n";
     return false;
   }
   StringC typedata = data.before(div);
   ExtLibraryInfoC &eli = g_extLibraries[typedata];
+  m_orderedExtLibraries.InsLast(typedata);
   eli.m_name = typedata;
 
   StringC subtempltxt = data.after(div);
-  div = subtempltxt.index(':');
-  if(div < 1) {
-    std::cerr << "Malformed 'mapreq' in template. 2 '" << data << "' ignoring \n";
-    return false;
+  {
+    div = subtempltxt.index(':');
+    if (div < 0) {
+      std::cerr << "Malformed 'mapreq' in template. 2 '" << data << "' ignoring \n";
+      return false;
+    }
+
+    eli.m_libname = subtempltxt.before(div);
+    subtempltxt = subtempltxt.after(div);
+  }
+  {
+    div = subtempltxt.index(':');
+    if (div < 0) {
+      std::cerr << "Malformed 'mapreq' in template. 3 '" << data << "' ignoring \n";
+      return false;
+    }
+    eli.m_foundFlag = subtempltxt.before(div);
+    subtempltxt = subtempltxt.after(div);
+  }
+  {
+    div = subtempltxt.index(':');
+    if (div < 0) {
+      std::cerr << "Malformed 'mapreq' in template. 4 '" << data << "' ignoring \n";
+      return false;
+    }
+
+    eli.m_link = subtempltxt.before(div);
+    subtempltxt = subtempltxt.after(div);
+  }
+  {
+    div = subtempltxt.index(':');
+    if (div < 0) {
+      std::cerr << "Malformed 'mapreq' in template. 5 '" << data << "' ignoring \n";
+      return false;
+    }
+
+    eli.m_include = subtempltxt.before(div);
+    eli.m_library_path = subtempltxt.after(div);
   }
 
-  eli.m_libname = subtempltxt.before(div);
-  subtempltxt = subtempltxt.after(div);
-
-  div = subtempltxt.index(':');
-  if(div < 1) {
-    std::cerr << "Malformed 'mapreq' in template. 3 '" << data << "' ignoring \n";
-    return false;
-  }
-  subtempltxt = subtempltxt.after(div);
-
-  eli.m_foundFlag = subtempltxt.before(div);
-  subtempltxt = subtempltxt.after(div);
-
-  div = subtempltxt.index(':');
-  if(div < 1) {
-    std::cerr << "Malformed 'mapreq' in template. 3 '" << data << "' ignoring \n";
-    return false;
-  }
-
-  eli.m_link = subtempltxt.before(div);
-  eli.m_include  = subtempltxt.after(div);
 
   g_libmap[eli.m_libname] = eli.m_name;
 
