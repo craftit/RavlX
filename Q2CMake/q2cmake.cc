@@ -490,9 +490,11 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
           aName = *it;
         ExtLibraryInfoC *elibInfo = g_extLibraries.Lookup(aName);
         if(elibInfo != 0) {
-          SetVar("linklib", elibInfo->m_libname);
+          std::cout << "Lookup " << *it << " -> " << aName << " -> " << elibInfo->m_link << std::endl;
+          SetVar("linklib", elibInfo->m_link);
           SetVar("inclib", elibInfo->m_include);
         } else {
+          std::cout << "Lookup " << *it << " -> " << aName << " -> ?"  << std::endl;
           SetVar("linklib", *it);
           SetVar("inclib", "");
         }
@@ -576,6 +578,7 @@ bool CMakeTopGenBodyC::ForAll(StringC &data)
       SetVar("lib",*it);
       ExtLibraryInfoC &li = g_extLibraries[*it];
       SetVar("found",li.m_foundFlag);
+      SetVar("link",li.m_link);
       if(!li.m_include.IsEmpty())
         SetVar("header_path",li.m_include);
       if(!li.m_library_path.IsEmpty())

@@ -47,12 +47,12 @@ target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs
 $(ifany:examples:# Examples
 $(forall:examples:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(alllibs))
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
 ))
 $(ifany:testexes:# Tests
 $(forall:testexes:
 add_executable($(exename) $(src) )
-target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(alllibs))
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
 add_test($(exename) $(exename))
 ))
 
