@@ -206,6 +206,13 @@ bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,co
       done += It.Data();
     }
     cout << "copying: " << from << " to " << toDir << endl << flush;
+    if(It.Data().index('/') >= 0) {
+      DirectoryC adir = to.PathComponent();
+      if(!adir.Exists())
+        adir.Create();
+    }
+
+
     if (!dryRun && !from.CopyTo(to)) {
       IssueError(__FILE__, __LINE__, "Unable to copy file");
     }
@@ -461,9 +468,9 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
         TextFileC subTextBuff(subtempltxt, true, true);
         BuildSub(subTextBuff);
         vars.DelTop(); // Restore old set.
-        return true;
       }
     }
+    return true;
   } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }

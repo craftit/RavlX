@@ -17,6 +17,7 @@ find_package(ZLIB QUIET)
 find_package(CURL QUIET)
 find_package(GTK2 QUIET)
 find_package(LAPACK QUIET)
+find_package(X11 QUIET)
 
 #find_package(OpenSceneGraph QUIET )
 #
@@ -45,6 +46,8 @@ pkg_check_modules(libmpeg2 QUIET libmpeg2)
 pkg_check_modules(dvdread QUIET dvdread-X)
 pkg_check_modules(libglade QUIET libglade-2.0)
 pkg_check_modules(gthread QUIET gthread-2.0)
+pkg_check_modules(gtkglext QUIET gtkglext-1.0)
+
 
 # The following packages need looking
 pkg_check_modules(libgd QUIET libgd)
@@ -57,6 +60,7 @@ set(SOCKET_FOUND 1)
 
 $(silent:
 $(mapreq:DynLink:DynLink:TRUE:dl::)
+$(mapreq:ExtImageLIBS:$(EXTIMGIO_EXTERNALS):TRUE:::)
 $(mapreq:posixThreads:posixThreads:Threads_FOUND:${CMAKE_THREAD_LIBS_INIT}::)
 $(mapreq:Zlib:zlib:ZLIB_FOUND:${ZLIB_LIBRARIES}:${ZLIB_INCLUDE_DIRS}:${ZLIB_LIBRARY_DIRS})
 $(mapreq:MacOSX::${CMAKE_SYSTEM_NAME} MATCHES "Darwin":::)
@@ -86,7 +90,7 @@ $(mapreq:libdc1394:Lib1394dc:libdc1394_FOUND:${libdc1394_LIBRARIES}:${libdc1394_
 $(mapreq:libAudioFile:AudioFile:audiofile_FOUND:${audiofile_LIBRARIES}:${audiofile_INCLUDE_DIRS}:${audiofile_LIBRARY_DIRS})
 $(mapreq:libmpeg2:LibMPEG2:libmpeg2_FOUND:${libmpeg2_LIBRARIES}:${libmpeg2_INCLUDE_DIRS}:${libmpeg2_LIBRARY_DIRS})
 $(mapreq:devVideo4Linux2::${CMAKE_SYSTEM_NAME} STREQUAL "Linux":::)
-$(mapreq:devVideo4Linux::${CMAKE_SYSTEM_NAME} STREQUAL "Linux":::)
+$(mapreq:devVideo4Linux::FALSE:::)
 $(mapreq:SGIVL::SGI:::)
 $(mapreq:dvdread:DVDRead:dvdread_FOUND:${dvdread_LIBRARIES}:${dvdread_INCLUDE_DIRS}:${dvdread_LIBRARY_DIRS})
 $(mapreq:libClipStationPro:ClipStationPro:DEFINED libClipStationPro_FOUND:${libClipStationPro_LIBRARIES}:${libClipStationPro_INCLUDE_DIRS}:${libClipStationPro_LIBRARY_DIRS})
@@ -96,7 +100,14 @@ $(mapreq:Socket:Socket:SOCKET_FOUND:${SOCKET_LIBRARIES}::)
 $(mapreq:libglade2:libglade:libglade_FOUND:${libglade_LIBRARIES}:${libglade_INCLUDE_DIRS}:${libglade_LIBRARY_DIRS})
 $(mapreq:libmkl:IntelMKL:MKL_FOUND:${MKL_LIBRARIES}:${MKL_INCLUDE_DIRS}:${MKL_LIBRARY_DIRS})
 $(mapreq:gthread:gthread:gthread_FOUND:${gthread_LIBRARIES}:${gthread_INCLUDE_DIRS}:${gthread_LIBRARY_DIRS})
+$(mapreq:gtkglext:GtkGLExt:gtkglext_FOUND:${gtkglext_LIBRARIES}:${gtkglext_INCLUDE_DIRS}:${gtkglext_LIBRARY_DIRS})
+$(mapreq:X11:x11:X11_FOUND:${X11_LIBRARIES}:${X11_INCLUDE_DIRS}:${X11_LIBRARY_DIRS})
 )
+
+IF(gtkglext_FOUND)
+add_definitions(-DRAVL_USE_GTKGLEXT=1)
+endif()
+
 $(forall:extlibs:if($(found))
 message(STATUS "$(lib) found LIBS:$(link)")
 $(ifset:header_path:if(NOT "$(header_path)" STREQUAL "")
