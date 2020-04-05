@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(RavlTest)
 
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_INSTALL_LIBDIR "/usr/local/lib")
 set(CMAKE_INSTALL_INCLUDEDIR "/usr/local/include")
@@ -59,11 +59,12 @@ find_package(MKL QUIET)
 set(SOCKET_FOUND 1)
 
 $(silent:
+$(mapreq:MacOSX::${CMAKE_SYSTEM_NAME} MATCHES "Darwin":::)
+$(mapreq:Linux::${CMAKE_SYSTEM_NAME} MATCHES "Linux":::)
 $(mapreq:DynLink:DynLink:TRUE:dl::)
 $(mapreq:ExtImageLIBS:$(EXTIMGIO_EXTERNALS):TRUE:::)
 $(mapreq:posixThreads:posixThreads:Threads_FOUND:${CMAKE_THREAD_LIBS_INIT}::)
 $(mapreq:Zlib:zlib:ZLIB_FOUND:${ZLIB_LIBRARIES}:${ZLIB_INCLUDE_DIRS}:${ZLIB_LIBRARY_DIRS})
-$(mapreq:MacOSX::${CMAKE_SYSTEM_NAME} MATCHES "Darwin":::)
 $(mapreq:libCurl:libcurl:CURL_FOUND:${CURL_LIBRARIES}:${CURL_INCLUDE_DIRS}:${CURL_LIBRARY_DIRS})
 $(mapreq:libGTK2:GTK:GTK2_FOUND:${GTK2_LIBRARIES}:${GTK2_INCLUDE_DIRS}:${GTK2_LIBRARY_DIRS})
 $(mapreq:gthread:Theads:Threads_FOUND:${CMAKE_THREAD_LIBS_INIT}::)
