@@ -52,7 +52,7 @@ DirectoryC libDir;
 DirectoryC binDir;
 
 StringC g_rootDir;
-
+bool g_genMakeFilesOnly = false;
 #ifndef PROJECT_OUT
 #define PROJECT_OUT "."
 #endif
@@ -206,15 +206,15 @@ bool CopyFiles(const StringC &dir,const StringC &toLib,const StringC &sources,co
       done += It.Data();
     }
     cout << "copying: " << from << " to " << toDir << endl << flush;
-    if(It.Data().index('/') >= 0) {
-      DirectoryC adir = to.PathComponent();
-      if(!adir.Exists())
-        adir.Create();
-    }
-
-
-    if (!dryRun && !from.CopyTo(to)) {
-      IssueError(__FILE__, __LINE__, "Unable to copy file");
+    if(!g_genMakeFilesOnly) {
+      if (It.Data().index('/') >= 0) {
+        DirectoryC adir = to.PathComponent();
+        if (!adir.Exists())
+          adir.Create();
+      }
+      if (!dryRun && !from.CopyTo(to)) {
+        IssueError(__FILE__, __LINE__, "Unable to copy file");
+      }
     }
   }
   return true;
@@ -732,6 +732,7 @@ int main(int nargs,char **argv) {
   g_rootDir = option.String("i",".","Input filename. ");
   installDir = option.String("o", "", "absolute path of desired install directory");
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
+  g_genMakeFilesOnly = option.Boolean("m",false,"Generate makefiles only, don't touch the source. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
   templateFile = option.String("templ", PROJECT_OUT "/share/RAVL/AutoPort/CMakeLists.txt.tmpl", "The template file for each directory.");

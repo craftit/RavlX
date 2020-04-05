@@ -5,8 +5,9 @@ project(RavlTest)
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 set(CMAKE_CXX_STANDARD 14)
 
-set(CMAKE_INSTALL_LIBDIR "/usr/local/lib")
-set(CMAKE_INSTALL_INCLUDEDIR "/usr/local/include")
+set(CMAKE_INSTALL_PREFIX "/opt/ReactAI")
+#set(CMAKE_INSTALL_LIBDIR "/opt/ReactAI/lib")
+#set(CMAKE_INSTALL_INCLUDEDIR "/opt/reactai/include")
 add_definitions(-DPROJECT_OUT="${CMAKE_BINARY_DIR}")
 
 set(RAVLX_VERSION 0.1)
@@ -130,4 +131,3 @@ enable_testing()
 $(forall:toplevel:add_subdirectory(src/$(lib))
 )
 
-install(DIRECTORY include DESTINATION include)

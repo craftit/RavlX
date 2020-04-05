@@ -38,17 +38,20 @@ install(TARGETS $(lib) EXPORT $(lib)Config
 
 install(EXPORT $(lib)Config DESTINATION lib/cmake/$(lib))
 install(TARGETS $(lib) DESTINATION lib)
+install(DIRECTORY include DESTINATION .)
 )
 
 $(ifany:mainexes:# Mains
 $(forall:mainexes:
 add_executable($(exename) $(src) )
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
+install(TARGETS $(exename) DESTINATION bin)
 ))
 $(ifany:examples:# Examples
 $(forall:examples:
 add_executable($(exename) $(src) )
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
+install(TARGETS $(exename) DESTINATION examples)
 ))
 $(ifany:testexes:# Tests
 $(forall:testexes:
@@ -56,6 +59,7 @@ add_executable($(exename) $(src) )
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
 add_test($(exename) $(exename))
 ))
+
 
 
 $(forall:requires:ENDIF()
