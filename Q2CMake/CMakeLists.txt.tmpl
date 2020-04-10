@@ -4,10 +4,10 @@
 # Requires: $(requires)
 # Supports: $(supports)
 
+$(ifany:supports:IF($(forall:supports:($(found)) OR )FALSE))
 
 $(forall:requires:IF($(found))
 )
-
 $(ifset:mustlinks:# MustLink: $(mustlinks)
 )
 
@@ -56,6 +56,7 @@ install(TARGETS $(exename) DESTINATION examples)
 $(ifany:testexes:# Tests
 $(forall:testexes:
 add_executable($(exename) $(src) )
+#set_target_properties($(exename) PROPERTIES EXCLUDE_FROM_ALL TRUE)
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs:$(linklib) ))
 add_test($(exename) $(exename))
 ))
@@ -64,4 +65,4 @@ add_test($(exename) $(exename))
 
 $(forall:requires:ENDIF()
 )
-
+$(ifany:supports:ENDIF())

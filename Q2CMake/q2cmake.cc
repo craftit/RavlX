@@ -469,8 +469,27 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
         BuildSub(subTextBuff);
         vars.DelTop(); // Restore old set.
       }
+      return true;
     }
-    return true;
+  } else if(typedata == "supports") {
+    strList = StringListC(m_libInfo.m_supports);
+    if(!ifAny) {
+      for (DLIterC <StringC> it(strList); it; it++) {
+        vars.Push(RCHashC<StringC, StringC>(vars.Top().Copy())); // Push base variables.
+
+        ExtLibraryInfoC *elibInfo = g_extLibraries.Lookup(*it);
+        if(elibInfo != 0) {
+          SetVar("found", elibInfo->m_foundFlag);
+        } else {
+          SetVar("found", "FALSE");
+          std::cerr << "Unknown platform " << *it << std::endl;
+        }
+        TextFileC subTextBuff(subtempltxt, true, true);
+        BuildSub(subTextBuff);
+        vars.DelTop(); // Restore old set.
+      }
+      return true;
+    }
   } else {
     std::cerr << "Unknown forall group " << typedata << std::endl;
   }
