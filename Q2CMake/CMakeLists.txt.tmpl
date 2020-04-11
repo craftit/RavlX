@@ -23,18 +23,32 @@ $(forall:optlibs:
 if(DEFINED HAVE_$(lib))
 include_directories(../../$(toplevel)/$(lib)/include)
 endif())
+$(ifset:!isprogram:$(ifset:mustlinks:
+add_library($(lib)_Body STATIC $(headers) $(sources))
+target_link_libraries($(lib)_Body PUBLIC $(forall:useslibs:$(linklib) ))
 
-$(ifset:!isprogram:
-ADD_LIBRARY($(lib) STATIC $(headers) $(sources))
+add_library($(lib) OBJECT $(forall:mustlinks:$(src) ))
+target_link_libraries($(lib) PUBLIC $(lib)_Body )
+)$(else:
+add_library($(lib) STATIC $(headers) $(sources))
 target_link_libraries($(lib) PUBLIC $(forall:useslibs:$(linklib) ))
+)
+
 target_include_directories(
     $(lib) PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     )
 
-$(ifset:mustlinks:# MustLink:
-#target_link_options($(lib) INTERFACE $(mustlinks)))
+$(ifany:mustlinks:# MustLink fixes:
+install(TARGETS $(lib)_Body EXPORT $(lib)_BodyConfig
+   ARCHIVE  DESTINATION lib
+   LIBRARY  DESTINATION lib
+   RUNTIME  DESTINATION bin)  # This is for Windows
+
+install(EXPORT $(lib)_BodyConfig DESTINATION lib/cmake/$(lib))
+install(TARGETS $(lib)_Body DESTINATION lib)
+)
 
 install(TARGETS $(lib) EXPORT $(lib)Config
    ARCHIVE  DESTINATION lib
@@ -66,7 +80,8 @@ target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) $(forall:alllibs
 add_test($(exename) $(exename))
 ))
 
-
+$(forall:auxfiles:
+file(COPY data/$(src) DESTINATION ${CMAKE_BINARY_DIR}/$(dir)))
 
 $(forall:requires:ENDIF()
 )

@@ -325,8 +325,9 @@ static bool CopySources(StringC &dir,DefsMkFileC &defs) {
     for (DLIterC <StringC> It(str); It.IsElm(); It.Next()) {
       FilenameC from = dir + "/" + It.Data();
       FilenameC to = toDir + "/" + It.Data();
+      StringC targPath = auxDir + "/" + It.Data();
+      libInfo.m_auxFiles[auxDir].Append(targPath);
       StringC subPath = "data/" + auxDir + "/" + It.Data();
-      libInfo.m_auxFiles[auxDir].Append(subPath);
       cout << "copying: " << from << " to " << toDir << endl << flush;
       if (!dryRun && !from.CopyTo(to)) {
         IssueError(__FILE__, __LINE__, "Unable to copy file");
@@ -442,6 +443,14 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
     strList = m_libInfo.m_allLibs;
   } else if(typedata == "alllibs") {
     strList = m_libInfo.m_allLibs;
+  } else if(typedata == "auxdirs") {
+    for(HashIterC<StringC,StringListC> it(m_libInfo.m_auxFiles);it;it++)
+      strList.InsLast(it.Key());
+  } else if(typedata == "auxfiles") {
+    for(HashIterC<StringC,StringListC> it(m_libInfo.m_auxFiles);it;it++) {
+      for(DLIterC<StringC> it2(it.Data());it2;it2++)
+        strList.InsLast(*it2);
+    }
   } else if(typedata == "optlibs") {
     strList = m_libInfo.m_optLibs;
   } else if(typedata == "requires") {
@@ -530,6 +539,7 @@ bool CMakeModuleGenBodyC::ForAlli(StringC &data,bool ifAny)
       SetVar("src", *it);
       FilenameC fn(*it);
       SetVar("exename", fn.BaseNameComponent());
+      SetVar("dir", fn.PathComponent());
       TextFileC subTextBuff(subtempltxt, true, true);
       BuildSub(subTextBuff);
       vars.DelTop(); // Restore old set.
