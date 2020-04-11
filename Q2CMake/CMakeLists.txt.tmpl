@@ -27,6 +27,11 @@ endif())
 $(ifset:!isprogram:
 ADD_LIBRARY($(lib) STATIC $(headers) $(sources))
 target_link_libraries($(lib) PUBLIC $(forall:useslibs:$(linklib) ))
+target_include_directories(
+    $(lib) PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
 
 $(ifset:mustlinks:# MustLink:
 #target_link_options($(lib) INTERFACE $(mustlinks)))
