@@ -11,13 +11,13 @@ $(forall:requires:IF($(found))
 $(ifset:mustlinks:# MustLink: $(mustlinks)
 )
 
-INCLUDE_DIRECTORIES(include)
-INCLUDE_DIRECTORIES(src)
+include_directories(include)
+include_directories(src)
 
 set(HAVE_$(lib) 1)
 
-$(forall:libs:
-include_directories(../../$(toplevel)/$(lib)/include))
+$(forall:libs:include_directories(../../$(toplevel)/$(lib)/include)
+)
 
 $(forall:optlibs:
 if(DEFINED HAVE_$(lib))
