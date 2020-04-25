@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+  <head>
+    <title>Docentry Comments</title>
+    <!--! author="Robert Crida" -->
+    <!--! docentry="Ravl.Documentation.docentry" -->
+  </head>
+
+<body>
+
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+
+<BLOCKQUOTE>
+<BR><BR>
+
+
+<!-- ******************* Page Summary (On LHS of Page)  ******************* -->
+
+<table align=left width=160><tr>
+<td valign=top bgcolor="black">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>DOCENTRY</B>
+  </font>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+  <font color="#23238E" size=4 face="arial,helvetica"><B>
+  docentry is a CxxDoc variable that is used to specify the position of the
+  document in the documentation tree.
+  </B></font>
+</td>
+</tr></table>
+
+
+
+
+<!-- *************************** Main Page Text  *************************** -->
+
+<P>
+A docentry variable can be set in any class declaration, .html file or .eht
+file. It specifies the location for that document to appear in the
+automatically generated and formatted documentation tree.
+</P>
+
+<P>
+The location in the tree is specified by giving a path name relative to the
+root of the tree. Each node is separated by periods (.) and the title of a
+node may contain spaces but not underline characters. The following is an
+example entry which would put an image-related class into the image processing
+subsection of images:
+</P>
+
+<PRE>
+//! docentry="QMakeProject.API.Images"
+</PRE>
+
+<P>
+It is quite legal for an object to appear in more than one location in
+the tree.  In this case, each path is provided in the same docentry
+variable, but separated by semicolons, eg:
+</P>
+
+<PRE>
+//! docentry="QMakeProject.API.Images;QMakeProject.API.Core.Arrays"
+</PRE>
+
+<P>
+You can also add docentries to .eht and .html files.  For an .eht file, the
+entry has similar syntax to a class:
+<PRE>
+! docentry="QMakeProject.Applications.viewer"
+</PRE>
+
+<P>For .html files, docentry has this form:
+</P>
+<PRE>
+&lt;!--! docentry="QMakeProject.API.GUI.Data_Display" --&gt;
+</PRE>
+<P>
+The entry should appear in the <code>&lt;head&gt;</code> part of the  file. 
+</P>
+
+<P>
+If you refer to any nodes in the tree that do not already exist, then they will
+be automatically created and appropriate menu options for subnodes will be
+added. It is therefore important to ensure that you spell all the names
+correctly, and where you are contributing in a common area, that you use one of
+the predefined nodes of the current documentation tree.
+</P>
+
+</BLOCKQUOTE>
+
+</td>
+</tr></table> 
+
+
+</TD>
+</TABLE>
+
+</body>
+</html>
+
+

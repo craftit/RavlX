@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+
+  <head>
+    <title>Adding extra documentation</title>
+    <!--! author="Bill Christmas" -->
+    <!--! docentry="Ravl.Documentation.Branches" -->
+  </head>
+
+  <body>
+    <BLOCKQUOTE>
+
+      <p>This page describes the two basic ways extra documentation can be added
+      to the automatically generated class pages. </p> 
+      
+      <h3>Adding extra documentation to the branch nodes</h3>
+      
+      <p>The "branch nodes" are those whose URL (like this page) end as:
+      <code>.../Tree/xxx.html</code>.  These are the documentation pages that 
+      exist in both
+      <a href=Ravl.Documentation.html#UserAndDev>User and Develop form</a>. You
+      may add additional information to the tree structure by:  </p><ul>
+        <li><p>Create a normal HTML file (suffix <code>.html</code>) containing
+        your additional documentation.  To the &lt;head&gt; section of the HTML
+        document add author and docentry lines: </p><code><pre>
+    &lt;!--! author="Robert Crida" --&gt;
+    &lt;!--! docentry="Ravl.Documentation.Branches" --&gt;</pre></code>
+            <p>The docentry entry determines where the page goes in the
+            documentation tree.</p></li>
+        <li>Add an <a href="Ravl.QMake.Defs.html#EHT">EHT entry</a> to the
+        <code>defs.mk</code> file.</li>
+      </ul>
+      <p>For documentation added in this way, CxxDoc will add: some standard
+      links; links to the parents of the node, and a heading that is duplicated
+      from the title in the HTML head. If an automatically-generated branch node
+      page already exists at the same URL, its contents will be merged with the
+      new documentation.</p>
+
+
+      <h3>Stand-alone pages</h3>
+
+      <p>If you have information that does not obviously fit in the class
+      documentation tree, or is not HTML, it can be included as a stand-alone
+      item. These files will be automatically copied to the html sub-directory
+      (<code>$PROECT_OUT/share/doc/$PROJECT/html</code>). Despite the name of
+      the directory, documentation added in this manner may be of any format
+      (it can be .html, .pdf, .png or .txt, etc.). Unlike documentation produced
+      using the above "EHT" option, no processing is performed on the source
+      file (even if the source is a HTML document).</p>
+      <p>To specify documentation to be included in this manner, it should be
+      included as an <a href="Ravl.QMake.Defs.html#HTML">HTML item</a> in the
+      <code>defs.mk</code> file. No links to the added documentation are
+      automatically created by the CxxDoc documentation system, however, you
+      may manually specify links from your other documentation source; just use
+      the <code>../../../html/xxx.ext</code> path (where xxx.ext is the name of
+      your extra documentation file).
+
+
+    </BLOCKQUOTE>
+  </body>
+</html>
+
+

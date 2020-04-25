@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+! docentry="Ravl.API.Graphics.GTK.Internal"
+: Internal classes.
+
+These classes are used internally for managing various aspects of the GUI system.
+
+

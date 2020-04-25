@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Thread safe signals</title>
+  </head>
+  
+  <body>
+    <h3>What are signals ? </h3>
+    
+    A Signal is essentially a list of functions to call on an
+    event. Signals currently may have 0, 1, 2 or 3 parameters which
+    will be passed to the functions in the list.  The advantage of
+    using signals over simple function pointers is that the exact form
+    of the arguments or number of functions need not be known by the
+    provider of the signal.  They are simpler to use than virtual
+    functions as no new class needs be defined.
+
+    <p>
+      A useful feature of the signal implementation is that two
+      signal structures can be connected together <b>without</b>
+      creating a reference counted dependence between them. If either
+      of the signal structures is destroyed the connection between
+      them is automatically broken.  
+    <p>
+      If you are in a situation where you only want to call 1
+      function, but still want flexibility in the exact form of that
+      function it's worth looking at the <a href="Ravl.API.Core.Calls.html">Calls and Triggers</a> 
+      in the RAVL core.
+
+    <h4>Notes on RAVL's signal implementation </h4>
+      
+    The RAVL signal system has been inspired by <a
+    href="http://libsigc.sourceforge.net/">libsigc++</a>, but written
+    to work with RAVL style reference counting.
+    
+    <p>
+      Features:
+    <ul>
+      <li> Signal objects are reference counted.
+      <li> Adding and removing connections is thread safe.
+      <li> The default implementation makes copies of the objects the
+	signal will be delivered to, enabling it to call methods of
+	reference counted objects safely.
+    </ul>
+      
+    <h3>How to use them. </h3>
+    
+    The following code fragments are from the example code for 
+    <a href="../Class/RavlN.Signal1C.html">Signal1C</a>. The complete
+    example is <a href="../../Examples/exSignal1.cc.html">here</a>.
+    <p>
+      The signal code is part of the threads library so you have to
+      add <b>RavlThreads</b> to your <a
+      href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS line</a> in
+      defs.mk.  We're going to use signals with 1 parameter so we
+      include the Signal1 header file.
+    <pre>
+#include "Ravl/Threads/Signal1.hh"
+    </pre>
+    <p>
+      Creating a signal is simple, just declare it as a variable with
+      an appropriate default value. The following code creates an
+      integer signal with a default value of 0.
+    <pre>
+Signal1C<IntT> sig(0);
+    </pre>
+
+    <h4>Calling global functions. </h4>
+    
+    Suppose we have a function `PrintNumberA' we wish to be called
+    when the signal is triggered. Note, the arguments of methods must
+    always be non-const references to a type, and the functions should
+    always return a bool. This significantly simplifies the
+    implementation as it avoids implementing code for all possible
+    combinations argument types and return types.
+    
+<pre>
+bool PrintNumberA(int &amp;i) {
+  cout << "PrintNumberA called with value " << i << "\n";
+  return true;
+}
+</pre>
+
+    This can be connected to the signal with the <b>Connect(..)</b> command.
+
+<pre>
+Connect(sig, &amp;PrintNumberA);
+</pre>
+    
+    Similarly if you wish to connect a second signal to this you again
+    call <b>Connect(...)</b>.
+    
+<pre>
+Signal1C<IntT> sig2(1);
+
+Connect(sig, sig2);
+</pre>
+
+    Finally to send a signal you use the () operator on the signal
+    itself. If you omit a parameter the default value you initialise it
+    with will be used instead. Calling the following:
+
+<pre>
+sig2(3); // Send the signal with a value of 3.
+</pre>
+
+    Prints the message
+<pre>
+PrintNumberA called with value 3
+</pre>
+
+    The arguments of the function do <b>not</b> have to match the
+    signal you are calling. If the function takes more parameters than
+    you are using you can supply the values when you call connect. To connect
+    the following function `PrintNumber2':
+    
+<pre>
+bool PrintNumber2(int &amp;i,RealT &v2) {
+  cout << "PrintNumber2 called with value " << i << " v2=" << v2 << "\n";
+  return true;
+}
+</pre>
+    
+    you supply the extra parameter at the end of the connect command, like this:
+
+<pre>
+Connect(sig, &amp;PrintNumber2,0,0.1);
+</pre>
+    
+    Note: you have to supply values for all arguments of the function
+    even where they are provided by the signal. When the signal is triggered
+    it will call `PrintNumber2' with the the first parameter from the signal
+    and the second set to a real value of 0.1.
+    
+    <h4>Calling class methods. </h4>
+    
+    Calling class methods is a little more complicated. You have to
+    tell the system which instance of the class to call the method on. 
+    
+    Suppose you had the following class:
+    
+<pre>
+class MyClassC {
+public:
+   bool Print(int &amp;i) {
+     cout << "Value=" << i << "\n";
+   }
+};
+</pre>    
+    
+    There are two ways to connect to a method you can either connect
+    to a copy of the object (essential for reference counted objects.)
+    or to a reference to it.  If you use a reference it is the programmers
+    responsibility to ensure the object is valid when a signal is called.
+    <p>
+      To connect with a copy you would call <b>Connect</b> as follows:
+
+<pre>
+MyClassC xyz;
+
+Connect(sig,xyz,&amp;MyClassC::Print);
+</pre>
+    <p>
+      To connect with a reference you would use:
+<pre>
+MyClassC xyz;
+
+ConnectRef(sig,xyz,&amp;MyClassC::Print);
+</pre>
+    
+    Note: There are some potential race conditions in multi-threaded
+    applications if you use the reference method of connecting to
+    classes.  It is possible that the class processing a signal is
+    destroyed before the call is complete with unpredictable results.
+    This is guaranteed not to happen with the reference counted calls,
+    the signal mechanism ensures a reference is kept to the object
+    until all calls are complete.
+    
+  </body>
+</html>

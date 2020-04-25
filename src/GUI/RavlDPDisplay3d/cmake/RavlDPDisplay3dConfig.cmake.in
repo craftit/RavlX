@@ -1,0 +1,12 @@
+if(NOT RavlDPDisplay3d_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlIO RavlGUI RavlImageIO RavlGUI3D Ravl3DIO Ravl3D RavlImage RavlCore RavlMath RavlThreads RavlOS  RavlDPDisplay3d_Body)
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlDPDisplay3dConfig.cmake")
+endif()

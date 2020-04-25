@@ -1,0 +1,60 @@
+! author="Charles Galambos"
+! docentry="Ravl.API.Images.Feature Points"
+: XML File Format for FeatureSets
+
+The ImagePointFeatureSetC class can save itself to an XML file format, containing a single ImagePointFeatureSetC. Future plans include a FeatureSequenceC class which will be able to save multiple ImagePointFeatureSetCs into a single file, but that's for the future. The XML format is only meant to be a saved version of a ImagePointFeatureSetC. If you need to manipulate a FeatureSet, load it into a ImagePointFeatureSetC and manipulate it there.
+
+For now, the file consists of the following:
+
+<H2>Header</H2>
+
+This is simply a standard Ravl XML header, as follows:
+<PRE>
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;?RAVL  class="RavlImage::ImagePointFeatureSetC" ?&gt;
+</PRE>
+
+<H2>FeatureSet Tag</H2>
+The <B>FeatureSet</B> tag represents the ImagePointFeatureSetC, and has two attributes. 
+<DL>
+<DT><B>size</B></DT>
+<DD>The number of <B>Feature</B> tags contained within. This is not really important, and is just used as a sanity check on the data file. If the expected and actual numbers do not match, a warning will be generated.</DD>
+<DT><B>image</B></DT>
+<DD>The optional <B>image</B> attribute contains an image filename which this <B>FeatureSet</B> is for. This is not always present, most notably in the <I>default-featureset.xml</I> file.</DD>
+</DL>
+<PRE>
+&lt;FeatureSet size="122" &gt;
+...child tags...
+&lt;/FeatureSet&gt;
+</PRE>
+
+<H3>Feature Tags</H3>
+The <B>Feature</B> tag represents the ImagePointFeatureC class, which itself represents a 2d point in an image, and is a child tag of the <B>FeatureSet</B> tag. A single <B>FeatureSet</B> can contain any number of <B>Feature</B>s. It's attributes are:
+<DL>
+<DT><B>row</B></DT>
+<DD>The row coordinate of the feature point</DD>
+<DT><B>col</B></DT>
+<DD>The column coordinate of the feature point</DD>
+<DT><B>id</B></DT>
+<DD>An integer id number, unique in this <B>FeatureSet</B>. Features contained in different <B>FeatureSet</B>s are considered equivalent if they have the same id.</DD>
+<DT><B>desc</B></DT>
+<DD>A textual description of the point. This does not have to be unique, but probably should be, as it is intended to give a human-readable description of where the point should be positioned.</DD>
+</DL>
+<PRE>
+&lt;Feature col="103.000000" desc="Left Eyebrow-4" row="157.000000" id="102" /&gt;
+</PRE>
+
+<H3>Line Tags</H3>
+A <B>FeatureSet</B> can also contain any number of <B>Line</B> tags. A <B>Line</B> represents a line to be drawn between two <B>Feature</B>s, mainly to provide a visual cue for the layout of <B>Feature</B>s.
+<DL>
+<DT><B>from</B></DT>
+<DD>The id of the <B>Feature</B> at the start of the line</DD>
+<DT><B>to</B></DT>
+<DD>The id of the <B>Feature</B> at the end of the line</DD>
+</DL>
+<PRE>
+&lt;Line to="45" from="57" /&gt;
+</PRE>
+
+
+

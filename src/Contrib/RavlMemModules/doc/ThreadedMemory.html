@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework" -->
+    <!--! children="Modules Header;Application Module;Module Manager;Main Program;Example;Internals" -->
+    <title>A framework for developing coarse-grained multi-threaded applications</title>
+  </head>
+
+  <body>
+    <h2>Introduction</h2>
+
+    <p>These classes provide a framework for creating a coarse-grained
+    multi-threaded modular application, designed with video / multimedia
+    processing applications in mind. </p>
+
+    <p> The set of modules are connected as an acyclic graph, to create a
+    data-flow system, in which each module can read a synchronised stream of
+    time-coded data from one or more previous modules and also creates
+    time-coded data for any number of other modules.  Because the module graph
+    is currently required to be acyclic, it is restricted to applications in
+    which the data flow is unidirectional, i.e. there is no feedback. See <a
+    href="../../../Images/ModuleGraph.pdf">here</a> for an illustration of the
+    graph for a tennis analysis application.</p>
+
+
+    <p> Each module provides: </p>
+    <ul>
+      <li>storage for the processing results, in XML or image form</li>
+      <li>access to the storage of other modules</li>
+    </ul>
+
+    <p>Some other features of the system:  </p>
+    <ul>
+      <li>The user's application specifies a target module (or modules), which
+      the system then starts.  The system then automatically assembles itself,
+      by recursively finding which modules are required to provide input and
+      then starting them.</li>
+      <li>Each module runs as a separate thread.</li>
+      <li>Each module can write diagnostic information to its own window.</li>
+      <li>Each module can also display its current contents in a dynamic dvi
+      display.</li>
+      <li>The module data is mainly stored as a series of XML elements, tagged
+      with timecode information.  For efficiency reasons, any image data is
+      stored as a separate binary file, referenced by the XML. </li>
+      <li>Each module keeps track of what other modules are reading from it,
+      and can optionally "forget" information that is no longer needed.</li>
+      <li>The memory created by a session can be saved, and can then be used
+      by a subsequent session.  This avoids the need to recompute modules
+      early in the data processing network when diagnosing problems in later
+      modules. </li>
+</ul>
+
+    <h2>Components of the system</h2>
+
+
+    <h3>The module manager</h3>
+
+    <p>The module manager acts as a container for the modules.  This class <a
+    href="../Class/MemModulesC.html"><code>MemModulesC</code></a> has just one
+    global instantiation as <code>ModuleManager</code>.  It handles global
+    operations such as launching the target modules and waiting for the
+    ensemble of modules to terminate.</p>
+
+    <h3>The modules</h3>
+
+    <p>The module base class is <a
+    href="../Class/MemModuleC.html"><code>MemModuleC</code></a>.  This base
+    class handles common operations such as launching that module, interfacing
+    to the memory for the module output data, and reporting on the module
+    status.  <code>MemModuleC</code> is a large RAVL object.  The
+    corresponding abstract body base class, <a
+    href="../Class/MemModuleBodyC.html"><code>MemModuleBodyC</code></a>, has a
+    pure virtual member function <code>MemModuleBodyC::Run()</code> that each
+    module must overload with a member function that implements that module's
+    functionality. </p>
+
+    <p>Each application module is itself a unique pair of handle and body
+    classes that inherit <code>MemModuleC</code> and
+    <code>MemModuleBodyC</code> respectively.  These classes are generated via
+    a macro apart from the overloading of <code>MemModuleBodyC::Run()</code>.
+    </p>
+
+    <h2><a name="MODULE">Creating a new application</a></h2>
+
+    <p>To implement an application, the following application-specific code is
+    needed: </p>
+
+    <ul>
+      <li>a <a href=
+      "Ravl.API.OS.Multithreading_Framework.Modules_Header.html">header
+      file</a> that declares the modules;</li>
+
+      <li>a set of <a href=
+      "Ravl.API.OS.Multithreading_Framework.Application_Module.html"> module
+      member functions</a> derived from <code>MemModuleBodyC::Run()</code>
+      that do the required processing, one per module;</li>
+
+      <li>a <a href=
+      "Ravl.API.OS.Multithreading_Framework.Main_Program.html#SETUP">code
+      fragment</a> that instantiates the modules and runs the system.</li>
+
+    </ul>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Wed Jan 25 09:46:14 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Mon Mar 16 12:17:50 GMT 2009
+<!-- hhmts end -->
+  </body>
+</html>
+

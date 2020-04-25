@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Sequence IO</title>
+  </head>
+  
+  <body>    
+    <p>
+      Sequences or streams (not to be confused with c++ streams) of
+      objects are accessed in RAVL with two classes <a
+      href="../Class/RavlN.DPIPortC.html">DPIPortC&lt;&gt; </a> and <a
+      href="../Class/RavlN.DPOPortC.html">DPOPortC&lt;&gt;
+      </a>. DPIPortC allows sequences of objects to be read in to a
+      program and DPOPortC is used for writing them out.  You can
+      initialise streams with the <a
+      href="../Class/RavlN.OpenISequenceObDPIPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">OpenISequence</a>
+      and <a
+      href="../Class/RavlN.OpenOSequenceObDPOPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">OpenOSequence</a>
+      respectively.  (See the <a href="Ravl.API.Core.Data_Processing.html">data flow programming</a> library for more details.)</p>
+    <p>
+      A typical example of where this kind of IO is used is the processing of video
+      sequences <a href="Ravl.API.Images.Video.html">Ravl.API.Images.Video</a>.</p>
+    <p>
+      Following is a example of how to use these classes for reading
+      and writing a sequence of integers.</p>
+    <p>
+      Before you can do anything you need to include the following header:</p>
+    <pre>
+      #include "Ravl/DP/SequenceIO.hh"
+    </pre>
+    
+    You also have to include the appropriate library for handling the
+    sequences you wish to use. e.g. For video IO you needs to add
+    <b>RavlVideoIO</b> to your <a
+    href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS line in the
+    defs.mk.</a>
+    
+    <h3> Reading a sequence </h3>
+    
+    <pre>
+    DPIPortC&lt;int&gt; in;
+    if(!OpenISequence(in,"myfile.abs")) {
+      // Failed to open input file.
+      // Report an error...
+    }
+    int value;
+    while(in.Get(value)) {
+      // Process your data...
+    }
+    </pre>
+    
+    <h3> Writting a sequence </h3>
+    <pre>
+    DPOPortC&lt;int&gt; out;
+    if(!OpenOSequence(out,"myfile.abs")) {
+      // Failed to open output file.
+      // Report an error..
+    }
+    for(int i = 0;i < 10;i++)
+       out.Put(i); // Write some data.
+    </pre>
+    <h2> Numbered files </h2> 
+
+    It is possible to open a series of numbered files as a
+    sequence. This can be done in several ways, by opening the first
+    file in the sequence, by open with a filename containing %d in
+    place of the number or if the number is before the extension by
+    omitting the number entirely. See the sub-section <a
+    href="Ravl.API.OS.Sequence.Numbered_Files.html"> Numbered files</a>
+    for more details.
+    
+    <h2> Type conversion </h2> 
+    <p>
+      The same system of type conversion is used for streams as for
+      the loading and saving of single objects.  For more details on
+      how this works and how to implement type converters see <a
+      href="Ravl.API.Core.IO.html">Ravl.API.Core.IO</a>.</p>
+    
+    <h2> Seekable streams </h2> 
+    <p>
+      Often you want both information about where in the stream you
+      are, and control over the position from which your going to read
+      or write data. This can be done with seekable streams <a
+      href="../Class/RavlN.DPISPortC.html">DPISPortC&lt;&gt; </a> and
+      <a href="../Class/RavlN.DPOSPortC.html">DPOSPortC&lt;&gt;
+      </a>. They can be used and initalised in the same way as
+      DPIPortC and DPOPortC seen previously with <a
+      href="../Class/RavlN.OpenISequenceObDPISPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">OpenISequence</a>
+      and <a
+      href="../Class/RavlN.OpenOSequenceObDPOSPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">OpenOSequence</a>.</p>
+    <p>
+      These classes have an additional set of member functions which
+      allow control of the position in the stream. A description of
+      these functions can be found in <a
+      href="../Class/RavlN.DPSeekCtrlC.html">DPSeekCtrlC</a>.  Note: not
+      all streams support all these methods, if a sequence doesn't
+      support a method your using it will report a failure. It is
+      possible to open any sequence in RAVL as a seekable stream,
+      though the seek controls will have no effect.
+    </p>
+
+    <h2>Hints on writing your own sequence I/O</h2>
+
+    <p>
+      Typically this will onsist of at least 2 sets of files, something along the lines of <code>xxFormat.hh/cc</code> and<code> xxxIOxx.hh/cc</code>.</p>
+
+    <h3><code>xxFormat.hh/cc</code>:</h3>
+
+    <ul>
+      <li>handle/body classes that inherit FileFormatBodyC and FileFormatC respectively
+      </li>
+      <li>contains stuff to provide info about the automatic selection of file handler appropriate to the file type - <code>ProbeLoad/ProbeSave</code> etc.
+      </li>
+    </ul>
+    <h3><code>xxxIOxx.hh/cc</code>:</h3>
+
+    <ul>
+      <li>to do with actually reading / writing the files</li>
+      <li>Maybe base class that includes anything common to reading and
+        writing (no required inheritance)</li>
+      <li>Derived handle/body classes that inherit the base class and also
+        <code>DPI/O[S]PortBodyC</code> and <code>DPI/O[S]PortC</code> -
+        <code>Get / Put</code> etc.</li>
+    </ul>
+  </body>
+</html>

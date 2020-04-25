@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>File format identification and handling</title>
+  </head>
+  <body>
+    Normally you don't use these classes directly, but via the Load
+    and Save functions described in <a href="./Ravl.API.Core.IO.html"> Ravl.API.Core.IO</a> <p>
+
+      <P>
+Suppose we wish to load some data from a file.  The first question the
+program must ask is `What format is this data in ?'  There are two
+ways to approach this. The first is to fix or specify explicitly the
+format the file is in so the program knows what to expect. Second,
+we can attempt to identify the file automatically.
+
+<P>
+Having to prepare large data sets for a program can be a headache as
+for instance, there are dozens of ways of storing an image. Finding a
+program to convert them between two particular formats can be time
+consuming and difficult.  While it is impossible to write input and
+output routines for every conceivable format data may be presented in,
+the user's life is made much easier if there are number of formats to
+choose from.
+
+<P>
+Unfortunately identifying files is not always simple, and in some cases
+it is actually impossible.  It is however possible to make very good
+guesses, and provide the user is given the option of specifying the
+format manually, it is a vast improvement over doing so for all
+operations.
+
+<P>
+There are several clues that can be used to identify a file: the extension
+on the filename often gives a good indication, or failing that the first
+few bytes of the file sometimes contain a unique signature.   Despite
+this there is no single fool-proof method, so we have opted for the most
+flexible approach, i.e. a method or function call which tells us if
+a set of Input/Output (IO) routines can handle a particular file.
+
+<P>
+In order to keep the implementation of new file formats tractable,
+each format the system recognises is represented by its own class. The
+class is derived from an abstract representation of the file format,
+called `FileFormatBaseC'.  Each format then provides a method
+for identifying, reading and writing a file of that format.  All the
+formats known to the system are kept in list, which is used for
+handling any IO required for the program.
+
+
+  </body>
+</html>

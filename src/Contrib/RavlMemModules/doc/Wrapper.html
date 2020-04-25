@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Application Module" -->
+    <title>Implementing the module processing</title>
+  </head>
+
+  <body>
+ 
+    <p>Each module's processing unit is a unique member function for the
+    corresponding class derived from <a href=
+    "../Class/MemModuleBodyC.html#RunObvoidCb">
+    <code>MemModuleBodyC::Run()</code></a>.  We call this the "wrapper" for
+    the module code.  It should consist of a loop that reads time-coded data
+    items from other modules (or some source data) and generates some
+    time-coded output data.</p>
+
+
+
+    <p>The following code fragments give an idea of the form of the wrapper;
+    in this example the inner loop gets synchronised data from two other
+    modules, and the outer loop gets data from a third module at a coarser
+    time scale.  The module name is "MyModule".</p>
+    <pre>
+  #include "Ravl/Threads/MemModule.hh"
+  #include "App/ModulesList.hh"  // module declarations are here
+</pre>
+
+    <p>All module wrappers must have exactly this declaration, to provide
+    communications with other modules:</p>
+    <pre>
+  bool MyModuleBodyC::Run() {
+</pre>
+
+    <p>Options specific to this module are extracted from an <a
+    href="../Class/MemModulesC.html#SetOptionsFileObconst_FilenameC_RefCb">options
+    file</a>, and can be processed in the usual way via the inherited
+    <code>Options()</code> method:</p>
+    <pre>
+  IntT param = Options().Int("p", 3, "a parameter");
+  .....
+</pre>
+
+    <p>Declare access to modules that provide data to this one:</p>
+    <pre>
+  //get access to module "shotClass"
+  MemIterC shotsIter = Memory.GetAccess("shotClass");
+  //get joint access to modules "frame" and "homography"
+  MemIterNC frameIter = Memory.GetJointAccess("frame homography");
+</pre>
+    <p>Note that each access only needs initialising once; hence they are
+      <i>all</i> done before the main loop. </p>
+
+    <p>Then the main processing loop(s):</p>
+
+    <pre>
+  // outer loop getting data from module "shotClass"
+  for(shotsIter.MoveToFirst(false); !shotsIter.Eof(); shotsIter.Next()) {
+
+    // inner loop getting synchronised data from modules "frame" and "homography"
+    for(frameIter.SetBounds(shotsIter-&gt;Duration());
+        frameIter.Next();
+       ){
+      ....
+      ImageC&lt;ByteRGBValueC&gt; frameImg(frameIter["frame"].GetImage("frame"));
+      ....
+      // do some processing
+      ....
+    }
+
+    // Output some data to memory:
+    // set up memory item with start and end times
+    MemItemC newItem(shotItem.Duration());
+    // add some attributes to the item
+    newItem.SetAttr("accHomogs", accHomogs);
+    newItem.SetAttr("mosaicOK", !isBadImage);
+    // add an image to the item
+    newItem.SetImage("mosaic", mosaic.GetMosaic());
+    // store the item in the memory
+    Memory.Add(newItem);
+  }
+  return true;
+}
+</pre>
+</p>
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Feb  3 16:27:53 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Wed Feb 24 14:59:58 GMT 2010
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,66 @@
+%!
+
+/box{
+newpath moveto
+0 20 rlineto
+20 0 rlineto
+0 -20 rlineto
+closepath
+0 setgray
+fill
+} def
+
+/openbox{
+exch
+5 add
+exch
+5 add
+newpath moveto
+0 10 rlineto
+10 0 rlineto
+0 -10 rlineto
+closepath
+1 setgray
+fill
+} def
+
+/openopenbox{
+/by exch def 		%/bx 10 def unifies the two
+/bx exch def 		%so 10 /bx exch def swaps order then unifies 
+bx by box
+bx by openbox
+} def
+
+
+0 setlinecap
+0 setlinejoin
+10 setmiterlimit
+0.01 setlinewidth
+0 setgray
+
+%.0 786.24 translate
+25.0 690 translate
+
+1.0 1.0 scale
+%2.83465 -2.83465 scale 		%72 div 2.5
+%0 -277.368 translate
+
+2.844 -2.855 scale 		%fudge it
+
+/sx 30 def
+/sy 30 def
+/sy1 sy def
+4{
+/sx1 sx def
+4{
+sx1 sy1 box
+sx1 40 add /sx1 exch def 
+}repeat
+sy1 40 add /sy1 exch def
+}repeat
+
+120 sx add     sy      openbox
+ 80 sx add  40 sy add  openbox
+
+
+showpage

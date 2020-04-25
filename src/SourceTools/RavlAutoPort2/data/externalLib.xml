@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?RAVL  class="RavlN::ExtLibTableC" ?>
+
+<extlibs>
+<extlib name="LibPNG">
+<includepath>c:\WindowsSources\GTK\include</includepath>
+<libpath>c:\WindowsSources\GTK\lib</libpath>
+<lib>libpng.lib</lib>
+<lib>zdll.lib</lib>
+</extlib>
+
+<extlib name="LibJPEG">
+<includepath>c:\WindowsSources\jpeg-6b-4\include</includepath>
+<libpath>c:\WindowsSources\jpeg-6b-4\lib</libpath>
+<lib>jpeg.lib</lib>
+</extlib>
+
+<extlib name="LibTIFF">
+<includepath>c:\WindowsSources\tiff-3.8.2-1\include</includepath>
+<libpath>c:\WindowsSources\tiff-3.8.2-1\lib</libpath>
+<lib>libtiff.lib</lib>
+</extlib>
+
+<!--
+<extlib name="LibJasper">
+<includepath>c:\WindowsSources\GTKWIN32\include</includepath>
+<libpath>c:\WindowsSources\GTKWIN32\lib</libpath>
+<lib>libjasper.lib</lib>
+</extlib>
+-->
+
+<extlib name="zlib">
+<includepath>c:\WindowsSources\GTK\include</includepath>
+<libpath>c:\WindowsSources\GTK\lib</libpath>
+<lib>zdll.lib</lib>
+</extlib>
+
+<extlib name="GTK">
+<includepath>c:\WindowsSources\GTK\include\</includepath>
+<includepath>c:\WindowsSources\GTK\include\atk-1.0</includepath>
+<includepath>c:\WindowsSources\GTK\include\cairo</includepath>
+<includepath>c:\WindowsSources\GTK\include\fontconfig</includepath>
+<includepath>c:\WindowsSources\GTK\include\freetype2</includepath>
+<includepath>c:\WindowsSources\GTK\include\gail-1.0</includepath>
+<includepath>c:\WindowsSources\GTK\include\gdk-pixbuf-2.0</includepath>
+<includepath>c:\WindowsSources\GTK\include\glib-2.0</includepath>
+<includepath>c:\WindowsSources\GTK\include\gtk-2.0</includepath>
+<includepath>c:\WindowsSources\GTK\include\libpng14</includepath>
+<includepath>c:\WindowsSources\GTK\include\pango-1.0</includepath>
+<includepath>c:\WindowsSources\GTK\lib\gtk-2.0\include</includepath>
+<includepath>c:\WindowsSources\GTK\lib\glib-2.0\include</includepath>
+<libpath>c:\WindowsSources\GTK\lib\</libpath>
+<lib>atk-1.0.lib</lib>
+<lib>cairo.lib</lib>
+<lib>expat.lib</lib>
+<lib>fontconfig.lib</lib>
+<lib>freetype.lib</lib>
+<lib>gailutil.lib</lib>
+<lib>gdk_pixbuf-2.0.lib</lib>
+<lib>gdk-win32-2.0.lib</lib>
+<lib>gio-2.0.lib</lib>
+<lib>glib-2.0.lib</lib>
+<lib>gmodule-2.0.lib</lib>
+<lib>gobject-2.0.lib</lib>
+<lib>gthread-2.0.lib</lib>
+<lib>gtk-win32-2.0.lib</lib>
+<lib>intl.lib</lib>
+<lib>libpng.lib</lib>
+<lib>pango-1.0.lib</lib>
+<lib>pangocairo-1.0.lib</lib>
+<lib>pangoft2-1.0.lib</lib>
+<lib>pangowin32-1.0.lib</lib>
+<lib>zdll.lib</lib>
+</extlib>
+
+<extlib name="libglade">
+<includepath>c:\WindowsSources\GTK\include\libglade-2.0</includepath>
+<libpath>c:\WindowsSources\GTK\lib</libpath>
+<lib>libglade-2.0.lib</lib>
+</extlib>
+
+<extlib name="x11">
+</extlib>
+
+<extlib name="OpenGL">
+</extlib>
+
+<extlib name="RavlGeom">
+</extlib>
+
+<extlib name="system">
+<lib>Rpcrt4.lib</lib>
+</extlib>
+
+<extlib name="Math">
+</extlib>
+
+<extlib name="posixThreads">
+</extlib>
+
+<extlib name="DynLink">
+</extlib>
+
+<extlib name="Auto">
+</extlib>
+
+<extlib name="RavlNet">
+<lib>RavlNet.lib</lib>
+<lib>ws2_32.lib</lib>
+</extlib>
+
+<!--
+<extlib name="LibDirectShow">
+<includepath>C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include</includepath>
+<libpath>C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Samples\Multimedia\DirectShow\BaseClasses\Release</libpath>
+<lib>strmbase.lib</lib>
+<lib>quartz.lib</lib>
+<lib>comsuppw.lib</lib>
+</extlib>
+-->
+
+<extlib name="Python">
+<includepath>c:\WindowsSources\Python-2.6.6\include</includepath>
+<libpath>c:\WindowsSources\Python-2.6.6\libs</libpath>
+</extlib>
+
+<extlib name="SentinelSuperPro">
+<!--
+<includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include</includepath>
+<libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib</libpath>
+<lib>spromeps.lib</lib>
+<lib>wsock32.lib</lib>
+-->
+</extlib>
+
+<extlib name="uuidTheo">
+</extlib>
+
+<!--
+<extlib name="IntelMKL">
+<includepath>C:\Program Files\Intel\MKL70\include</includepath>
+<libpath>C:\Program Files\Intel\MKL70\ia32\lib</libpath>
+<lib>mkl_ia32.lib</lib>
+<lib>libguide.lib</lib>
+<lib>mkl_c.lib</lib>
+</extlib>
+-->
+
+<!--
+<extlib name="SQLite3">
+<includepath>C:\sqlite-3_5_1</includepath>
+<libpath>C:\sqlite-3_5_1\Release</libpath>
+<lib>sqlite3.lib</lib>
+</extlib>
+-->
+
+<extlib name="RLog">
+<includepath>c:\WindowsSources\rlog-1.4</includepath>
+<libpath>c:\WindowsSources\rlog-1.4\win32\Release</libpath>
+<lib>rlog.lib</lib>
+</extlib>
+
+<!--
+<extlib name="PostgreSQL">
+<includepath>C:\Program Files\PostgreSQL\8.1\include</includepath>
+<libpath>C:\Program Files\PostgreSQL\8.1\lib</libpath>
+<lib>libpq.lib</lib>
+</extlib>
+-->
+
+<extlib name="LibFFmpeg">
+<includepath>c:\WindowsSources\ffmpeg\include</includepath>
+<includepath>c:\WindowsSources\ffmpeg\include\libavcodec</includepath>
+<includepath>c:\WindowsSources\ffmpeg\include\libavdevice</includepath>
+<includepath>c:\WindowsSources\ffmpeg\include\libavformat</includepath>
+<includepath>c:\WindowsSources\ffmpeg\include\libavutil</includepath>
+<includepath>c:\WindowsSources\ffmpeg\include\libswscale</includepath>
+<libpath>c:\WindowsSources\ffmpeg\lib</libpath>
+<lib>avcodec.lib</lib>
+<lib>avdevice.lib</lib>
+<lib>avformat.lib</lib>
+<lib>avutil.lib</lib>
+<lib>swscale.lib</lib>
+</extlib>
+
+<extlib name="LibGnome">
+</extlib>
+
+<extlib name="Socket">
+</extlib>
+
+<!-- TODO(WM) Fix this in appropriate defs.mk -->
+<extlib name="RavlMath3D">
+</extlib>
+
+<!-- TODO(WM) Fix this in appropriate defs.mk -->
+<extlib name="RavlImageEdges">
+</extlib>
+
+<!-- TODO(WM) Fix this in appropriate defs.mk -->
+<extlib name="RavlRawVidIO">
+</extlib>
+
+<!-- TODO(WM) Fix this in appropriate defs.mk -->
+<extlib name="RavlImgIOJasper">
+</extlib>
+
+</extlibs>

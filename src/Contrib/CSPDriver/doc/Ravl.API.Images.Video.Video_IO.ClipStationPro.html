@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Interface to DVS ClipStationPro Cards </title>
+  </head>
+
+  <body>
+    <p>Requires library <code>CSPDriver</code></p>
+    <hr>
+    <p> This adds a new <a href="Ravl.API.Core.IO.Virtual_Files.html">virtual files</a> '@CSP' which can be used to access the grabber cards. </p>
+    
+    <p> The devices can be specified as follows :- </p> 
+    <ul> 
+      <li> <b> "@CSP" </b> - Uses the default device (card 0) </li> 
+      <li> <b> "@CSP:PCI,card:[card_no]"  </b> - Uses the device with id given by [card_no] </li> 
+    </ul> 
+
+    <h4> The following code will grab an image and display it </h4> 
+    
+    <pre> 
+#include "Ravl/Image/ImgIOCSP.hh"
+#include "Ravl/IO.hh"
+
+using namespace RavlN ; 
+using namespace RavlImageN ; 
+
+int main (void) 
+{
+ImageC<ByteRGBValueC> img ; 
+Load ("@CSP:PCI,card:0", img) ; 
+
+Save ("@X", img) ; 
+return 0 ; 
+} ; 
+</pre> 
+
+<h4> And for Sequences </h4> 
+
+<pre> 
+#include "Ravl/Image/ImgIOCSP.hh"
+#include "Ravl/DP/SequenceIO.hh"
+using namespace RavlN ; 
+using namespace RavlImageN ; 
+
+int main (void) 
+{
+
+DPIPortC<ImageC<ByteRGBValueC> > input ; 
+OpenISequence ( input, "@CSP:PCI,card:0") ; 
+
+DPOPortC<ImageC<ByteRGBValueC> > output ; 
+OpenOSequence (output, "@X:WindowName" ) ; 
+
+while (true) 
+  output.Put( input.Get() ) ; 
+return 0 ; 
+} ; 
+
+</pre> 
+<p> 
+<b> Timecodes </b> <a href="../Class/RavlN.TimeCodeC.html"> (TimeCodeC) </a> are supported through the <a href="Ravl.API.Core.Data_Processing.Attributes.html"> Attribute Mechanism </a>. See <a href="../Application/exImgIOCSP.html"> exImgIOCSP.cc  </a> for more details
+
+  </body>
+</html>

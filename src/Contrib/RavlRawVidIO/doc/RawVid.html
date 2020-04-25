@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry=Ravl.API.Images.Video.Video IO.RawVid -->
+<html>
+  <head>
+    <title>Raw video format reading and writing</title>
+  </head>
+
+  <body>
+
+    <p>Requires library <code>RavlRawVidIO</code></p>
+    <hr>
+    <p>These classes are for reading the grab files produced with the DVS capture cards. Currently the software supports the reading of RGB and YCbCr. Currently the data is stored as 8 bits on the SD system and 10 bits on the HD system.In RGB the bits are packed as R G B but in YCbCr they are packed as Cb0 Y0 Cr0 Y1 Cb1 Y2 Cr1 Y3 ....
+Because the HD system is 10 bits it is stored as 4 bytes per pixel, the first 3 bytes contain 8 bits for each of the first 3 pixel values and the 4th byte contains the remaining 2 bits for each of the first 3 bytes. The first 2 bits of the 4th byte are for the first byte and the second two bits are for the second byte and the third two bits of the 4th byte are for the 3 byte and the last two bits of the 4th byte are padding zeros.The following letters attempts to outline the format of the bytes for the 10 bit HD system.
+AAAAAAAA BBBBBBBB CCCCCCCC 00AABBCC
+</p>
+<p>
+GrabfileReaderC and GrabfileWriterC are base classes. This allows custom header classes to be derived from these classes to enable users to create their own headers for the grab file formats. Each derived file reader class has to return a unique version number which is stored in the file header. Once the class is created then the NewGrabfileReader method has to be changed to allow the version number to be used as a selection basis to return the correct file reader reference.<br>
+The current file reader is version 1 which consists of<br>
+First 4 bytes or chars contain a grab file FOURCC "Grab" which identifies the file as a grab file.<br>
+The next 4 bytes contain the version number.<br>
+The next 4 bytes contain the video buffer size.<br>
+The next 4 bytes contain the audio buffer size, which is divided by eight to get the size of each channel.<br>
+The next 4 bytes is a place holder to contain the number of frames.<br>
+The next 8 bytes is a place holder to contain the frame rate, expressed as a ratio of two 32-bit integers.<br>
+The next 1 byte contains the video mode.<br>
+The next 1 byte contains the byte format.<br>
+The next 1 byte contains the colour mode.<br>
+<br>
+That is the full header for version 1.  Note therefore that the header consists of 31 bytes.<br>
+<br>
+Each frame also has a 4 byte video buffer size and a 4 byte audio buffer size appended to the front of the frame.This is to allow for future scenario's where each frame size can be different.
+</p>  
+<hr>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+if(NOT RavlMath_Body_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlCore ccmath RavlIO RavlOSIO RavlXMLFactory  )
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlMath_BodyConfig.cmake")
+endif()

@@ -1,0 +1,12 @@
+if(NOT $(libname)_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON $(forall:useslibs:$(iflocal:$lib:$(linklib) )) $(ifset:body:$(body)))
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/$(target)Config.cmake")
+endif()

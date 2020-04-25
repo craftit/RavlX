@@ -1,0 +1,12 @@
+if(NOT RavlGnuPlot_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlPlot RavlOS RavlPatternRec RavlCore RavlMath RavlImage RavlDataSet RavlIO RavlXMLFactory RavlThreads RavlOSIO Optimisation  RavlGnuPlot_Body)
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlGnuPlotConfig.cmake")
+endif()

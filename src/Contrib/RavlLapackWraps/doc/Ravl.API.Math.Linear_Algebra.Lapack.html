@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Lapack, Fast Linear Algebra Routines</title>
+  </head>
+  <body>
+     <p>Lapack is an external fortran library which provides an efficient 
+     implementation of many linear algebra routines.  To use these routines
+     you will need to install the Lapack run-time libraries.</p>
+     
+     <p>Whilst the following functions allow you to explicity call the 
+     Lapack routines, it should be noted that if you link the RavlLapack 
+     library against any of your executables then the Lapack routine 
+     may automatically be used to compute instead of using the normal Ravl one. </p>
+     
+     <p>The exception to this is the Matrix Inverse function as the standard
+     Ravl implementation returns the determinant of the matrix, as well as the
+     inverse.  The Lapack routine does not. For now, I have not added the hook
+     which calls the Lapack routine as this could break code.</p>
+     
+     <p>The Lapack does offer increased computation performance, especially 
+     on larger matrices.  However, a <b>much</b> bigger benefit can be obtained by
+     linking your executables against the IntelMKL libraries.</p>
+    
+  </body>
+</html>

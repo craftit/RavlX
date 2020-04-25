@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Configuration files</title>
+  </head>
+
+  <body>
+    <h2> The basics </h2>
+    ConfigFileC reads configuration files in a format similar to that
+    used by make. In its simplest form a files consists of a number of
+    lines of the form '(variable) = (value)'. Comments start with '#',
+    every thing between the '#' and the new line is ignored. Variable
+    names are case sensitive and must not contain spaces or
+    punctuation other than an underscore '_'. The value is taken as
+    the first non space character after the '=' sign until the end of
+    the line. Lines may be continued with a backslash '\'.  Values may
+    be enclosed with double quotes, special characters (such as '#'
+    and '\n') will not be interpreted inside the quoted text. If you
+    wish to include quotes in your text the can be escaped with '\'
+    and backslashes with '\\'. <p>
+      
+    Typically a configuration file would contain something like the following:<p>
+
+    <hr>
+    <code>
+      # My program setup. <br>
+      Threshold = 1.2     <br>
+      MaxRegions = 4  # Typically set to 3.    <br>
+      InputFile = "windmill.cif" <br>
+    </code>
+    <hr><p>
+    
+    The 'ConfigFileC' class deals entirely with strings.  If you ask
+    for an undefined variable an empty string is given.  The code to
+    read and process this file would look something like: <p>
+    
+    <code>
+      ConfigFileC cfg("setup.conf"); <br>
+      RealT threshold = cfg["Threshold"].RealValue(); <br>
+      StringC filename = cfg["InputFile"]; <br>
+      IntT maxRegions = cfg["MaxRegions"].IntValue(); <br>
+    </code>
+      
+    <h2> Sections </h2>
+    
+    The following examples shows how to declare a section in your
+    config file. The contents of a section are exactly as before, and
+    may be defined recursively. <p>
+    
+    <hr>
+    <code>
+      Filter1 { <br>
+      &nbsp; Gamma = 1.2 <br>
+      &nbsp; Alpha = 0.4 <br>
+      }
+    </code>
+    <hr><p>
+
+    You can access sections with the 'Section(..)' method. If the section
+    exists it will return the a ConfigFileC which can then be used to
+    access the configuration information it contains. <p>
+      
+    <code>
+      ConfigFileC cfg("setup.conf"); <br>
+      ConfigFileC cfg_filt1 = cfg.Section("Filter1"); <br>
+      if(cfg_filt1.IsValid()) { // Check that section has been found. <br>
+      &nbsp; RealT gamma = cfg_filt1["Gamma"].RealValue(); <br>
+      &nbsp; RealT alpha = cfg_filt1["Alpha"].RealValue(); <br>
+      }
+    </code>
+    
+  </body>
+</html>

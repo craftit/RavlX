@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <!--! author="Charles Galambos, Bill Christmas" -->
+  <head>
+    <title>Image Input and Output</title>
+  </head>
+  <body> 
+
+    <p>RAVL includes a comprehensive mechanism for reading and writing objects
+    from and to files in a uniform and transparent fashion.  It is based
+    around two global functions: <code>Load</code> and <code>Save</code>.  In
+    particular, there is a set of routines to handle a variety of image file
+    formats, together with the ability to convert between several different
+    pixel representations.  For sequences of images, there is a <a
+    href="Ravl.API.Images.Video.html"> separate mechanism</a>.</p>
+    
+    <p> The generic load/save mechanism is described in <a
+    href="Ravl.API.Core.IO.html">Ravl.API.Core.IO</a>.  In order to invoke the
+    libraries specific to image I/O, you need to:
+    </p>
+    <ul>
+      <li> insert this header file:
+	<pre>
+#include "Ravl/IO.hh"
+	</pre></li>
+      
+      <li> add the <b><code>RavlImageIO</code></b> library in the <code>defs.mk</code>:
+	<pre>
+PROGLIBS = RavlImageIO ....
+	</pre>
+    </ul>
+    
+    <p> The generic load/save call can then be used in the <a
+    href="Ravl.API.Core.IO.html">usual way</a>.  For an example of how to
+    use the system with images see <a
+    href="../../../examples/exImgIO.cc">exImgIO.cc</a>.
+    </p>
+    <h3><a name="FORMATS">Supported formats</a></h3>  
+
+    <p>At the time of writing, these are the currently supported formats. Supported natively
+    in RAVL are:</p>
+    <ul>
+      <li><b>pgm</b> Grey scale images.</li>
+      <li><b>ppm</b> RGB colour images.</li>
+      <li><b>pbm</b> Bit image</li>
+    </ul>
+    
+    <p>If you also link the <b><code>RavlExtImgIO</code></b> library, which in turn links to various open source libraries, you get (in addition to various video formats):</p>
+    
+    <ul>
+      <li><b>jpeg</b> Lossy compressed images. Colour and grey scale. (Supports sequences stored in a single file.)</li>
+      <li><b>png</b> Lossless compressed images. Colour and grey scale.</li>
+      <li><b>tiff</b> Lossless compressed images.</li>
+    </ul>
+	
+    <p> You can also use the <code>conv</code> tool to find what file formats
+    (and file conversions) are available, with the following options:</p>
+      
+    <dl>
+      <dt><code>-lf</code> - list all known file formats</dt>
+      <dt><code>-lc</code> - list all known conversions</dt>
+      <dt><code>-lt</code> - list all known classes (?)</dt>
+    </dl>
+    <p> This command should list all the "interesting" file formats:</p>
+    <pre>conv -lf | grep -v "\&lt;stream\&gt;" | grep -v "\&lt;abs\&gt;"</pre>
+
+    <h3>Virtual files</h3>
+	
+    <p>If you want to pop up an image on the screen instead of writing
+    to a file, or if you want to read an image directly from a camera,
+    use the <a href="Ravl.API.Core.IO.Virtual_Files.html">virtual file
+    system</a>.</p>
+
+    <h3>Creating image converters</h3>
+	
+    <p>If you wish to load and save your own image type as
+    <code>ppm</code>, <code>pgm</code> or any other file format that
+    is already supported, and the particular conversion you want is
+    not currently available, it is straightforward to add one to the
+    collection (currently in
+    <code>Ravl/Image/ImageIO/ImgTypeCnv.cc)</code>.  Following is an
+    example for converting a byte image into a double image.  For more
+    information on writing converters see <a
+    href="Ravl.API.Core.IO.html">Ravl.API.Core.IO</a></p>
+
+
+	<pre>
+ImageC&lt RealT&gt DPConvImageC<ByteT>T2RealImageCT(const ImageC&lt ByteT&gt &dat)  
+{ 
+  ImageC&lt RealT&gt ret(dat.Rectangle());
+  for(Array2dIter2C&lt RealT,ByteT&gt it(ret,dat);it;it++) 
+    it.Data1() = (RealT) it.Data2();
+  return ret;
+}
+
+DP_REGISTER_CONVERSION(ImageC<ByteT>T2RealImageCT, 1);
+    </pre>
+
+    <p>The argument in the function call indicates (as a ratio of the
+	number of bytes in the respective pixels) the amount of
+	information lost in the conversion.  In this example, no
+	information is lost, so the ratio is 1.  For double to char
+	conversion, the ratio would be 8.</p>
+
+</body>
+</html>

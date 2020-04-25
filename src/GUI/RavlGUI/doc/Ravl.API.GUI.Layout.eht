@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+! docentry="Ravl.API.Graphics.GTK.Layout"
+
+: Application layout widgets.
+
+<p>These widgets arrange the layout of other widgets within the GUI window.</p>
+

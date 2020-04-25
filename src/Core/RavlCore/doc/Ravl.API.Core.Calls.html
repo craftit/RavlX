@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Calls and Triggers</title>
+  </head>
+
+  <body>
+    <p>These functions and classes provide a flexible method for handling
+    function and method pointers, while simplifying the syntax. They have many
+    of the advantages of using <a href="Ravl.API.OS.Signals.html">Signals</a> in
+    that you don't have to know the exact form of a function pointer, but
+    without the complexity.  The rough breakdown of the following classes and
+    functions is as follows:</p>
+    <ul>
+      <li>The <code>Call...</code> classes below provide the basic mechanism
+      for setting up and triggering calls to functions and methods.</li>
+
+      <li> The <code>Trigger()</code> functions are "helper" functions to make
+      it simple to create <code>Call...</code> and <code>TriggerC</code>
+      objects.  The arguments to these functions might seem obscure, but in
+      practice they are designed so that you can substitute more or less any
+      argument type: const or no-const, by name or by reference, etc. </li>
+
+      <li> The <code>TriggerC</code> class is the parent class for all of the
+      <code>Call...</code> classes: thus it can be assigned to from any of the
+      <code>Trigger()</code> helper functions (see example below).  It is
+      useful if you don't need arguments or return values at the point of
+      invoking the call.</li>
+    </ul>
+
+
+    <h3>Using triggers </h3>
+    
+    Triggers are the simplest form of call. They allow a function
+    with an arbitrary set of parameters to be called on an event. It is
+    used for example in classes such as 
+    <a href="../Class/RavlN.TimedTriggerQueueC.html">TimedTriggerQueueC</a>
+    to call a method after a fixed delay, and in 
+    <a href="../Class/RavlN.TickerTriggerC.html">TickerTriggerC</a> which
+    calls a method repeatedly at a fixed frequency.
+    <p>
+      Creating a trigger is simple:
+<pre>
+#include "Ravl/Trigger.hh"
+
+TriggerC myTrigger;
+</pre>
+    
+    You can assign a function to it using the <b>Trigger</b> call.
+
+<pre>
+bool PrintNumber(int &amp;i) {
+  cout << "PrintNumber called with value " << i << "\n";
+  return true;
+}
+
+myTrigger = Trigger(&amp;PrintNumber,2);
+</pre>
+    
+    <p>Calling the function can be done with the () operator:</p>
+    
+<pre>
+myTrigger();
+</pre>
+
+    <p>If the function is a member function of a reference-counted class
+    (i.e. of the handle to a class), use TriggerR instead.</p>
+
+    <p>The difference in functionality of <code>Trigger</code> and
+    <code>TriggerR</code> is this:</p>
+
+    <ul>
+      <li><code>Trigger</code> will make a copy of the object or, if the
+      object is a reference-counted object, increment the reference
+      counter.</li>
+      <li><code>TriggerR</code> will pass a reference to the object.</li>
+    </ul>
+
+    <p><code>TriggerPtr</code> is used when passing a pointer (smart or otherwise) to an object.</p>
+
+
+
+    <h3>Using calls </h3>
+
+    <p> Calls are wrappers for C++ function pointers which allow you to hide
+    the difference between calling a method of a class and a normal function,
+    and to add default arguments to the call that the code calling the
+    function need not know about. </p>
+
+    <p>When you setup a callback function, you can set default arguments. This
+    is especially useful if the function or method you wish to call requires
+    more information than the callback normally provides.  In this example,
+    <code>Trigger()</code> provides the 3 arguments required for the callback
+    function; however, because the first two get over-ridden by the
+    <code>func()</code> call, only the 3rd one actually gets used, providing a
+    default value of 30 for the 3rd argument of <code>callback()</code>.</p>
+
+<pre>
+#include "Ravl/Calls.hh"
+
+bool callback(int &v1,double &v2,int &x) {
+  // Do something....
+  return true;
+}
+
+int myprog() {
+
+  // Declare callback variable.
+  CallFunc2C&lt;int,double&gt; func;  
+  
+  // Set up callback.
+  // The first 2 arguments will be over-ridden by the subsequent func().
+  // The 3rd argument provides a default 3rd argument for callback()
+  func = Trigger(&amp;callback,10,20,30);
+
+  // Some parameters...  
+  int v1 = 0;
+  double v2 = 1.2;
+  
+  // Call function.
+  func(v1,v2);
+  
+}
+</pre>
+  </body>
+</html>

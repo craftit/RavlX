@@ -1,0 +1,12 @@
+if(NOT RavlDVDRead_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlLibMPEG2 RavlIO RavlCore RavlThreads  RavlDVDRead_Body)
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlDVDReadConfig.cmake")
+endif()

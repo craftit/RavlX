@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry=Ravl.API.Images.Segmentation -->
+<html>
+  <head>
+    <title>Image Segmentation.</title>
+  </head>
+
+  <body>
+
+    <p>The classes on this page are an odd assortment of segmentation methods, written by different authors, with little attempt at a uniform approach.  Our apologies.</p>
+
+    <p>We can view image segmentation as a 2-stage process:</p><ol>
+      <li>Identify sets of pixels that are "similar".  This could be achieved by simply applying a binary threshold to a grey-level image, or it could be the result of a more sophisticated method based on one or more criteria such as brightness, colour, motion, proximity, ...</li>
+      <li>Group the pixels into connected regions, using <a href="../Class/RavlImageN.ConnectedComponentsC.html">ConnectedComponentsC</a> say, and label each region uniquely, creating a <a href="../Class/RavlImageN.SegmentationC.html">segmentation map</a>.</li>
+    </ol>
+    <p>Depending on the algorithm, some classes (e.g. <a href="../Class/RavlImageN.ChromaThresholdRGBC.html">ChromaThresholdRGBC</a>) just implement the first step, while others such as region growing (<a href="../Class/RavlImageN.RegionGrowC.html">RegionGrowC</a>, <a href="../Class/RavlImageN.RegionGrowStealC.html">RegionGrowStealC</a>) naturally perform both steps together.</p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Wed Oct 19 11:05:02 BST 2005 -->
+<!-- hhmts start -->
+Last modified: Wed Oct 19 11:14:15 BST 2005
+<!-- hhmts end -->
+  </body>
+</html>

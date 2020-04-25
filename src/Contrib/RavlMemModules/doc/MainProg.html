@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Create and launch the system</title>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Main Program" -->
+    <!--! userlevel="Normal" -->
+  </head>
+
+  <body>
+    <p> The functionality you need in the application is provided by the <a href="../Class/MemModulesC.html">MemModulesC</a> class, which instantiates a global object <code>ModuleManager</code>.  </p>
+
+
+<p> The code required to set the modules going should consist of something like the following steps:</p>
+
+    <pre>
+  #include "Ravl/Threads/MemModules.hh"
+  #include "App/ModulesList.hh"  // module declarations are here
+
+  ....
+</pre>
+
+    <p>Create the memory system:</p>
+    <pre>
+  ModuleManager.Init(memOutDir, argc, argv, verbosity);
+</pre>
+
+    <p>where <code>memOutDir</code> is the directory where all the module results are stored.</p>
+
+    <p>Set up any required memory options, e.g.:</p>
+    <pre>
+  ModuleManager.ShowLogWindows();
+
+  ....
+</pre>
+
+    <p><a name="REG">Construct all module objects required for this
+    application (see <a href="#Naming">note</a> below): </a></p>
+
+    <pre>
+  MyModule1C MyModule1("MyModule1");
+  MyModule2C MyModule2("MyModule2");
+  ....
+  ....
+</pre>
+    <p>If preferred, the construction of the module objects can be implemented
+    as an inline function in the module declaration header file which is then
+    called here.</p>
+
+    <p>If you want any precomputed memory content from previous runs, load it
+    in:</p>
+    <pre>
+  ModuleManager.Load(memInDir, startField, numberOfFields);
+</pre>
+
+    <p>Here is an example of how you pass options to the modules in addition to
+   what's in the options file.  Useful when you want to send the same option
+   to several modules.</p>
+    <pre>
+  ModuleManager.OptionsTab()["frame"] += StringC(" -i ") + param;
+</pre>
+    <p>The rest ...</p>
+    <pre>
+  // Launch the required target module(s)
+  ModuleManager.Launch("shotBoundary");
+
+  // &amp; wait for them to finish
+  ModuleManager.Wait();
+
+  ....
+</pre>
+
+    <p>Notes:</p>
+
+    <ul>
+      <li><a name = "Naming"/>
+        <p> The the class name root and the object name <i>have</i>
+        to be the same.  The string argument to the module constructor is used
+        by other modules to get access to the module output.  It does not have
+        to be the same as the object name.  Sometimes it is more meaningful
+        for the string to describe what the module creates, and the module
+        name to describe what the module does:</p>
+
+        <pre>
+  ShotDetectorC ShotDetector("ShotBoundary");
+</pre>
+      </li>
+    </ul>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Feb  3 17:19:09 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Mon Mar 16 12:10:40 GMT 2009
+<!-- hhmts end -->
+  </body>
+</html>

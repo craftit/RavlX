@@ -1,0 +1,12 @@
+if(NOT RavlTwoWayMap_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlOS RavlCore RavlIO  )
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlTwoWayMapConfig.cmake")
+endif()

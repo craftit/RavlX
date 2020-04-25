@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Examples" -->
+    <title>Example applications</title>
+  </head>
+
+  <body>
+
+    <hr/>
+
+    <p> The files in the <code>Example</code> subdirectory can be compiled and
+    run to demonstrate a simple example of a two module system.  The
+    <code>UnWarp</code> module performs geometric distortion correction to a
+    sequence of video frames, and the <code>ShotDet</code> module does shot
+    detection.  The program name is <code>Ingest</code>, and can be run from
+    the source directory without arguments.  (See <code>Ingest -help</code>
+    for options.)  For example:
+    </p>
+
+    <pre>  Ingest</pre>
+    <p>will specify that the <code>shotBoundary</code> module is to be run.
+    This module requires input from the <code>frame</code> module, which will
+    therefore be started automatically.</p>
+
+    <pre>  Ingest -T frame</pre>
+    <p>will specify that the <code>frame</code> module is to be run.  This does not require any other modules to be run.  If we then run:</p>
+
+    <pre>  Ingest -mi /tmp/vampiremem</pre>
+    <p>this will first load up any module results previously stored in the
+    default directory <code>/tmp/vampiremem</code> (in this case the
+    <code>frame</code>) results from the last run) and then specify that the
+    <code>shotBoundary</code> module is to be run.  Although
+    <code>shotBoundary</code> requires results from <code>frame</code>, these
+    results have been already loaded in from the previous run, so in this
+    instance the <code>frame</code> module does not need to be run.  Because
+    the <code>-mo</code> was not used, the new results will also be stored in
+    <code>/tmp/vampiremem</code>.</p>
+    
+    <p>This is a very basic example.  In practice, a module can read data
+    synchronously from several other modules.  Where data items from different
+    source modules have widely differing time frames, the fine-scale data loop
+    can be nested within the coarse-scale data loop. See <a
+    href="Ravl.API.OS.Multithreading_Framework.Application_Module.html">
+    here</a> for a more complex example.</p>
+
+    <hr/>
+
+    <p>The <code><a href= "../../Examples/testMemModules.cc.html">
+    testMemModules.cc</a></code> test program provides an example of how
+    several modules can communicate with each other.  This example includes an
+    illustration of how feedback might be implemented; however avoiding
+    deadlock is the responsibility of the programmer. </p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Mon Mar 16 12:12:02 GMT 2009 -->
+<!-- hhmts start -->
+Last modified: Thu Sep  6 14:43:46 BST 2012
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,21 @@
+! author="Charles Galambos"
+! docentry="Ravl.API.Graphics.GTK"
+
+: 2D GTK-based Graphical User Interface
+
+<p>Tools for building graphical user interfaces.  These tools act as
+wrappers for the 'C' <a href="http://www.gtk.org">GTK</a> library.
+The current version is not complete, additional functions will be
+added on request. </p>
+
+<p><b>N.B.</b> The usual RAVL convention for coordinate ordering is: rows,
+colums.  However many of the GUI class methods do not adhere to this.</p>
+
+<p>Newcomers to the RAVL GUI library should start with <a
+href="../../../html/tutorial.html">this tutorial</a>.  For advanced users, the
+<a href="http://developer.gnome.org/gtk/stable">GTK+ 2 tutorial</a> is also very
+helpful.</p>
+
+<p>Finally, users of the class <a href="../Class/RavlGUIN.CanvasC.html">CanvasC</a>
+who want to use the colours might find
+<a href="../../../html/canvas_colours.html">this colour grid</a> useful.</p>

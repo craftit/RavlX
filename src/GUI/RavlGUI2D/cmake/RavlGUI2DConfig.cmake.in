@@ -1,0 +1,12 @@
+if(NOT RavlGUI2D_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlGUI RavlImage RavlIO RavlMath RavlCore RavlThreads RavlImageProc RavlOS  )
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlGUI2DConfig.cmake")
+endif()

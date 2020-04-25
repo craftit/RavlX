@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?RAVL  class="RavlImage::ImagePointFeatureSetC" ?>
+<FeatureSet image="/vol/vssp/vampire/people/jean-yves/appmodel/turntable/000_1_2_090.ppm" size="128" database="vampire@toad" suspect="0" >
+ <Feature col="316.667000" desc="Left Outer Eye-6" typeid="73" row="315.000000" visible="1" id="151241" />
+ <Feature col="326.667000" desc="Left Outer Eye-5" typeid="72" row="311.667000" visible="1" id="151240" />
+ <Feature col="304.667000" desc="Left Inner Eye-0" typeid="75" row="304.667000" visible="1" id="151243" />
+ <Feature col="305.667000" desc="Left Outer Eye-7" typeid="74" row="313.333000" visible="1" id="151242" />
+ <Feature col="314.667000" desc="Left Inner Eye-2" typeid="77" row="314.000000" visible="1" id="151245" />
+ <Feature col="308.333000" desc="Left Inner Eye-1" typeid="76" row="310.333000" visible="1" id="151244" />
+ <Feature col="324.000000" desc="Left Inner Eye-4" typeid="79" row="304.667000" visible="1" id="151247" />
+ <Feature col="321.333000" desc="Left Inner Eye-3" typeid="78" row="311.000000" visible="1" id="151246" />
+ <Feature col="379.333000" desc="Nose-13" typeid="65" row="324.000000" visible="1" id="151233" />
+ <Feature col="452.000000" desc="Forehead-2" typeid="128" row="270.000000" visible="1" id="151296" />
+ <Feature col="380.333000" desc="Nose-12" typeid="64" row="336.667000" visible="1" id="151232" />
+ <Feature col="296.667000" desc="Left Outer Eye-0" typeid="67" row="308.000000" visible="1" id="151235" />
+ <Feature col="380.000000" desc="Nose-14" typeid="66" row="313.333000" visible="1" id="151234" />
+ <Feature col="315.667000" desc="Left Outer Eye-2" typeid="69" row="297.000000" visible="1" id="151237" />
+ <Feature col="304.667000" desc="Left Outer Eye-1" typeid="68" row="301.000000" visible="1" id="151236" />
+ <Feature col="337.000000" desc="Left Outer Eye-4" typeid="71" row="308.000000" visible="1" id="151239" />
+ <Feature col="327.000000" desc="Left Outer Eye-3" typeid="70" row="300.667000" visible="1" id="151238" />
+ <Feature col="407.667000" desc="Right Outer Eye-6" typeid="89" row="320.000000" visible="1" id="151257" />
+ <Feature col="399.000000" desc="Right Outer Eye-5" typeid="88" row="314.667000" visible="1" id="151256" />
+ <Feature col="419.667000" desc="Right Inner Eye-0" typeid="91" row="312.000000" visible="1" id="151259" />
+ <Feature col="419.000000" desc="Right Outer Eye-7" typeid="90" row="320.667000" visible="1" id="151258" />
+ <Feature col="411.000000" desc="Right Inner Eye-2" typeid="93" row="302.333000" visible="1" id="151261" />
+ <Feature col="418.000000" desc="Right Inner Eye-1" typeid="92" row="304.667000" visible="1" id="151260" />
+ <Feature col="401.000000" desc="Right Inner Eye-4" typeid="95" row="308.333000" visible="1" id="151263" />
+ <Feature col="403.333000" desc="Right Inner Eye-3" typeid="94" row="302.667000" visible="1" id="151262" />
+ <Feature col="315.000000" desc="Left Inner Eye-6" typeid="81" row="297.667000" visible="1" id="151249" />
+ <Feature col="321.667000" desc="Left Inner Eye-5" typeid="80" row="299.000000" visible="1" id="151248" />
+ <Feature col="428.667000" desc="Right Outer Eye-0" typeid="83" row="315.667000" visible="1" id="151251" />
+ <Feature col="308.667000" desc="Left Inner Eye-7" typeid="82" row="299.000000" visible="1" id="151250" />
+ <Feature col="410.667000" desc="Right Outer Eye-2" typeid="85" row="302.000000" visible="1" id="151253" />
+ <Feature col="422.333000" desc="Right Outer Eye-1" typeid="84" row="305.667000" visible="1" id="151252" />
+ <Feature col="389.667000" desc="Right Outer Eye-4" typeid="87" row="309.333000" visible="1" id="151255" />
+ <Feature col="399.333000" desc="Right Outer Eye-3" typeid="86" row="303.000000" visible="1" id="151254" />
+ <Feature col="350.333000" desc="Left Eyebrow-6" typeid="105" row="282.000000" visible="1" id="151273" />
+ <Feature col="336.000000" desc="Left Eyebrow-5" typeid="104" row="271.667000" visible="1" id="151272" />
+ <Feature col="331.667000" desc="Left Eyebrow-8" typeid="107" row="287.000000" visible="1" id="151275" />
+ <Feature col="343.667000" desc="Left Eyebrow-7" typeid="106" row="290.000000" visible="1" id="151274" />
+ <Feature col="304.000000" desc="Left Eyebrow-10" typeid="109" row="284.667000" visible="1" id="151277" />
+ <Feature col="318.000000" desc="Left Eyebrow-9" typeid="108" row="284.333000" visible="1" id="151276" />
+ <Feature col="447.333000" desc="Right Eyebrow-0" typeid="111" row="308.667000" visible="1" id="151279" />
+ <Feature col="291.667000" desc="Left Eyebrow-11" typeid="110" row="289.000000" visible="1" id="151278" />
+ <Feature col="409.000000" desc="Right Inner Eye-6" typeid="97" row="318.667000" visible="1" id="151265" />
+ <Feature col="403.333000" desc="Right Inner Eye-5" typeid="96" row="314.667000" visible="1" id="151264" />
+ <Feature col="276.667000" desc="Left Eyebrow-0" typeid="99" row="297.333000" visible="1" id="151267" />
+ <Feature col="416.333000" desc="Right Inner Eye-7" typeid="98" row="317.333000" visible="1" id="151266" />
+ <Feature col="289.667000" desc="Left Eyebrow-2" typeid="101" row="269.667000" visible="1" id="151269" />
+ <Feature col="278.000000" desc="Left Eyebrow-1" typeid="100" row="280.333000" visible="1" id="151268" />
+ <Feature col="321.667000" desc="Left Eyebrow-4" typeid="103" row="266.667000" visible="1" id="151271" />
+ <Feature col="304.667000" desc="Left Eyebrow-3" typeid="102" row="265.000000" visible="1" id="151270" />
+ <Feature col="438.333000" desc="Right Eyebrow-10" typeid="121" row="278.000000" visible="1" id="151289" />
+ <Feature col="424.000000" desc="Right Eyebrow-9" typeid="120" row="271.000000" visible="1" id="151288" />
+ <Feature col="363.333000" desc="Mid-1" typeid="123" row="304.667000" visible="1" id="151291" />
+ <Feature col="446.667000" desc="Right Eyebrow-11" typeid="122" row="292.667000" visible="1" id="151290" />
+ <Feature col="360.333000" desc="Mid-3" typeid="125" row="361.000000" visible="1" id="151293" />
+ <Feature col="362.333000" desc="Mid-2" typeid="124" row="330.667000" visible="1" id="151292" />
+ <Feature col="365.000000" desc="Forehead-1" typeid="127" row="256.000000" visible="1" id="151295" />
+ <Feature col="274.000000" desc="Forehead-0" typeid="126" row="260.000000" visible="1" id="151294" />
+ <Feature col="429.333000" desc="Right Eyebrow-2" typeid="113" row="295.000000" visible="1" id="151281" />
+ <Feature col="438.333000" desc="Right Eyebrow-1" typeid="112" row="302.000000" visible="1" id="151280" />
+ <Feature col="406.333000" desc="Right Eyebrow-4" typeid="115" row="290.333000" visible="1" id="151283" />
+ <Feature col="418.000000" desc="Right Eyebrow-3" typeid="114" row="291.333000" visible="1" id="151282" />
+ <Feature col="381.333000" desc="Right Eyebrow-6" typeid="117" row="291.000000" visible="1" id="151285" />
+ <Feature col="393.667000" desc="Right Eyebrow-5" typeid="116" row="290.000000" visible="1" id="151284" />
+ <Feature col="407.000000" desc="Right Eyebrow-8" typeid="119" row="271.000000" visible="1" id="151287" />
+ <Feature col="389.667000" desc="Right Eyebrow-7" typeid="118" row="275.333000" visible="1" id="151286" />
+ <Feature col="282.000000" desc="Face Border-8" typeid="9" row="442.000000" visible="1" id="151177" />
+ <Feature col="275.000000" desc="Face Border-7" typeid="8" row="425.000000" visible="1" id="151176" />
+ <Feature col="304.000000" desc="Face Border-10" typeid="11" row="473.000000" visible="1" id="151179" />
+ <Feature col="292.000000" desc="Face Border-9" typeid="10" row="459.000000" visible="1" id="151178" />
+ <Feature col="335.000000" desc="Face Border-12" typeid="13" row="492.000000" visible="1" id="151181" />
+ <Feature col="320.000000" desc="Face Border-11" typeid="12" row="485.000000" visible="1" id="151180" />
+ <Feature col="367.000000" desc="Face Border-14" typeid="15" row="493.000000" visible="1" id="151183" />
+ <Feature col="350.000000" desc="Face Border-13" typeid="14" row="493.000000" visible="1" id="151182" />
+ <Feature col="259.000000" desc="Face Border-0" typeid="1" row="296.000000" visible="1" id="151169" />
+ <Feature col="262.000000" desc="Face Border-2" typeid="3" row="334.000000" visible="1" id="151171" />
+ <Feature col="260.000000" desc="Face Border-1" typeid="2" row="314.000000" visible="1" id="151170" />
+ <Feature col="267.000000" desc="Face Border-4" typeid="5" row="371.000000" visible="1" id="151173" />
+ <Feature col="265.000000" desc="Face Border-3" typeid="4" row="353.000000" visible="1" id="151172" />
+ <Feature col="270.000000" desc="Face Border-6" typeid="7" row="406.000000" visible="1" id="151175" />
+ <Feature col="269.000000" desc="Face Border-5" typeid="6" row="388.000000" visible="1" id="151174" />
+ <Feature col="453.000000" desc="Face Border-24" typeid="25" row="343.000000" visible="1" id="151193" />
+ <Feature col="448.000000" desc="Face Border-23" typeid="24" row="362.000000" visible="1" id="151192" />
+ <Feature col="459.000000" desc="Face Border-26" typeid="27" row="306.000000" visible="1" id="151195" />
+ <Feature col="457.000000" desc="Face Border-25" typeid="26" row="323.000000" visible="1" id="151194" />
+ <Feature col="334.333000" desc="Outer Lip-1" typeid="29" row="415.333000" visible="1" id="151197" />
+ <Feature col="323.667000" desc="Outer Lip-0" typeid="28" row="421.000000" visible="1" id="151196" />
+ <Feature col="359.000000" desc="Outer Lip-3" typeid="31" row="416.667000" visible="1" id="151199" />
+ <Feature col="345.667000" desc="Outer Lip-2" typeid="30" row="411.000000" visible="1" id="151198" />
+ <Feature col="397.000000" desc="Face Border-16" typeid="17" row="478.000000" visible="1" id="151185" />
+ <Feature col="382.000000" desc="Face Border-15" typeid="16" row="487.000000" visible="1" id="151184" />
+ <Feature col="420.000000" desc="Face Border-18" typeid="19" row="449.000000" visible="1" id="151187" />
+ <Feature col="408.000000" desc="Face Border-17" typeid="18" row="464.000000" visible="1" id="151186" />
+ <Feature col="436.000000" desc="Face Border-20" typeid="21" row="417.000000" visible="1" id="151189" />
+ <Feature col="429.000000" desc="Face Border-19" typeid="20" row="433.000000" visible="1" id="151188" />
+ <Feature col="444.000000" desc="Face Border-22" typeid="23" row="380.000000" visible="1" id="151191" />
+ <Feature col="441.000000" desc="Face Border-21" typeid="22" row="398.000000" visible="1" id="151190" />
+ <Feature col="336.333000" desc="Inner Lip-1" typeid="41" row="418.667000" visible="1" id="151209" />
+ <Feature col="326.667000" desc="Inner Lip-0" typeid="40" row="420.333000" visible="1" id="151208" />
+ <Feature col="356.000000" desc="Inner Lip-3" typeid="43" row="420.000000" visible="1" id="151211" />
+ <Feature col="346.333000" desc="Inner Lip-2" typeid="42" row="418.667000" visible="1" id="151210" />
+ <Feature col="376.333000" desc="Inner Lip-5" typeid="45" row="421.000000" visible="1" id="151213" />
+ <Feature col="366.000000" desc="Inner Lip-4" typeid="44" row="420.000000" visible="1" id="151212" />
+ <Feature col="376.000000" desc="Inner Lip-7" typeid="47" row="422.333000" visible="1" id="151215" />
+ <Feature col="386.000000" desc="Inner Lip-6" typeid="46" row="423.333000" visible="1" id="151214" />
+ <Feature col="381.667000" desc="Outer Lip-5" typeid="33" row="419.000000" visible="1" id="151201" />
+ <Feature col="371.333000" desc="Outer Lip-4" typeid="32" row="412.667000" visible="1" id="151200" />
+ <Feature col="381.000000" desc="Outer Lip-7" typeid="35" row="431.333000" visible="1" id="151203" />
+ <Feature col="389.667000" desc="Outer Lip-6" typeid="34" row="422.667000" visible="1" id="151202" />
+ <Feature col="356.000000" desc="Outer Lip-9" typeid="37" row="434.667000" visible="1" id="151205" />
+ <Feature col="368.667000" desc="Outer Lip-8" typeid="36" row="435.000000" visible="1" id="151204" />
+ <Feature col="331.333000" desc="Outer Lip-11" typeid="39" row="427.000000" visible="1" id="151207" />
+ <Feature col="343.333000" desc="Outer Lip-10" typeid="38" row="432.667000" visible="1" id="151206" />
+ <Feature col="331.333000" desc="Nose-5" typeid="57" row="372.333000" visible="1" id="151225" />
+ <Feature col="334.000000" desc="Nose-4" typeid="56" row="358.667000" visible="1" id="151224" />
+ <Feature col="358.333000" desc="Nose-7" typeid="59" row="388.000000" visible="1" id="151227" />
+ <Feature col="344.000000" desc="Nose-6" typeid="58" row="381.000000" visible="1" id="151226" />
+ <Feature col="386.667000" desc="Nose-9" typeid="61" row="376.000000" visible="1" id="151229" />
+ <Feature col="372.333000" desc="Nose-8" typeid="60" row="383.667000" visible="1" id="151228" />
+ <Feature col="382.333000" desc="Nose-11" typeid="63" row="350.000000" visible="1" id="151231" />
+ <Feature col="387.333000" desc="Nose-10" typeid="62" row="363.000000" visible="1" id="151230" />
+ <Feature col="356.000000" desc="Inner Lip-9" typeid="49" row="420.667000" visible="1" id="151217" />
+ <Feature col="366.667000" desc="Inner Lip-8" typeid="48" row="421.333000" visible="1" id="151216" />
+ <Feature col="336.000000" desc="Inner Lip-11" typeid="51" row="420.000000" visible="1" id="151219" />
+ <Feature col="346.000000" desc="Inner Lip-10" typeid="50" row="419.667000" visible="1" id="151218" />
+ <Feature col="345.000000" desc="Nose-1" typeid="53" row="322.667000" visible="1" id="151221" />
+ <Feature col="345.333000" desc="Nose-0" typeid="52" row="311.000000" visible="1" id="151220" />
+ <Feature col="341.000000" desc="Nose-3" typeid="55" row="347.000000" visible="1" id="151223" />
+ <Feature col="344.333000" desc="Nose-2" typeid="54" row="334.333000" visible="1" id="151222" />
+ <Line to="151190" from="151174" />
+ <Line to="151195" from="151169" />
+ <Subset size="5" name="Left Outer Eye 1" >151235 151236 151237 151238 151239 </Subset>
+ <Subset size="5" name="Left Outer Eye 2" >151239 151240 151241 151242 151235 </Subset>
+ <Subset size="5" name="Right Inner Eye 2" >151263 151264 151265 151266 151259 </Subset>
+ <Subset size="6" name="Nose R" >151229 151230 151231 151232 151233 151234 </Subset>
+ <Subset size="7" name="Inner Lip 2" >151214 151215 151216 151217 151218 151219 151208 </Subset>
+ <Subset size="5" name="Left Inner Eye 1" >151243 151244 151245 151246 151247 </Subset>
+ <Subset size="7" name="Left Eyebrow 1" >151267 151268 151269 151270 151271 151272 151273 </Subset>
+ <Subset size="5" name="Left Inner Eye 2" >151247 151248 151249 151250 151243 </Subset>
+ <Subset size="5" name="Nose M" >151225 151226 151227 151228 151229 </Subset>
+ <Subset size="7" name="Outer Lip 2" >151202 151203 151204 151205 151206 151207 151196 </Subset>
+ <Subset size="7" name="Outer Lip 1" >151196 151197 151198 151199 151200 151201 151202 </Subset>
+ <Subset size="7" name="Left Eyebrow 2" >151273 151274 151275 151276 151277 151278 151267 </Subset>
+ <Subset size="3" name="Mid" >151291 151292 151293 </Subset>
+ <Subset size="6" name="Nose L" >151220 151221 151222 151223 151224 151225 </Subset>
+ <Subset size="7" name="Inner Lip 1" >151208 151209 151210 151211 151212 151213 151214 </Subset>
+ <Subset size="7" name="Right Eyebrow 1" >151279 151280 151281 151282 151283 151284 151285 </Subset>
+ <Subset size="7" name="Right Eyebrow 2" >151285 151286 151287 151288 151289 151290 151279 </Subset>
+ <Subset size="5" name="Right Inner Eye 1" >151259 151260 151261 151262 151263 </Subset>
+ <Subset size="6" name="Face Border 1" >151169 151170 151171 151172 151173 151174 </Subset>
+ <Subset size="5" name="Right Outer Eye 1" >151251 151252 151253 151254 151255 </Subset>
+ <Subset size="9" name="Face Border 3" >151182 151183 151184 151185 151186 151187 151188 151189 151190 </Subset>
+ <Subset size="9" name="Face Border 2" >151174 151175 151176 151177 151178 151179 151180 151181 151182 </Subset>
+ <Subset size="5" name="Forehead" >151195 151296 151295 151294 151169 </Subset>
+ <Subset size="5" name="Right Outer Eye 2" >151255 151256 151257 151258 151251 </Subset>
+ <Subset size="6" name="Face Border 4" >151190 151191 151192 151193 151194 151195 </Subset>
+</FeatureSet>

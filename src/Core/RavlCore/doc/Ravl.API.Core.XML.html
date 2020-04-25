@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>XML Streams</title>
+  </head>
+  <body>
+    <p> These classes are intended to provide <b>basic</b> XML stream
+    handing. </p>
+
+    <p> There are two separate approaches: </p> 
+
+    <ul> 
+      <li>tree-based, similar to the W3C <a
+      href="http://www.w3.org/DOM/">Document Object Model</a>.  The
+      advantage of the tree approach is that the whole document is
+      read into a tree whose structure is identical to the XML in the
+      document that is being read or written.  The tree can be added
+      to or pruned to reflect changes in the document.  Use <a
+      href="../Class/RavlN.XMLTreeC.html">XMLTreeC</a> for this
+      approach. </li>
+
+      <li>A stream-based method more like <a
+      href="http://www.saxproject.org/">SAX</a> (Simple API for XML).  The
+      advantage of this approach is that the document does not have to be
+      stored in its entirety.  Use the remaining classes (apart from XMLTreeC)
+      and functions below for this approach.  The following enum (not
+      otherwise in the documentation) might be useful:
+
+        <pre>enum XMLTagOpsT {
+    XMLEndTag, XMLContent, XMLIndent, XMLIndentDown, XMLBeginTag, 
+    XMLEmptyTag, XMLComment, XML_PI
+}; <pre>  
+      </li>
+    </ul>
+
+    <p> The classes and functions allow RAVL programs to read and
+    write XML files without including 3rd party libraries. If you want
+    to do any operations involving DTD's it is suggested you look at
+    one of the many existing libraries that can be found on the web.
+    If there is demand for this functionality a RAVL wrapper class for
+    one of these libraries may well be added to the RAVL Contrib code
+    base.</p>
+  </body>
+</html>

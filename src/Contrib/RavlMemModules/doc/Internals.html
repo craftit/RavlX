@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Module internals</title>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Internals" -->
+  </head>
+
+  <body>
+
+    <h2>Module locking</h2>
+
+
+    <p>Most modules require input data from other modules.  If Module 1
+    requires input from Module 2, it first of all constructs an "access" to
+    it.  There are 3 possible states that Module 2 could be in:</p>
+    <ul>
+      <li><b>uninitialised</b>, in which case constructing the access will
+      cause module 2 to be launched and run;</li>
+      <li><b>already running</b>, because another module (or possibly the
+      main program) has already caused it to be launched;</li>
+      <li><b>finished</b>, i.e. finished running or finished loading from file.</li>
+    </ul>
+    <p>The important distinction is between the uninitialised state and the
+    others, because if Module 2 is uninitialised, Module 1 will launch it, and
+    not otherwise.  The situation to be avoided is for a module to be launched
+    twice because two other modules access it simultaneously, both finding it
+    uninitialised.  The module body has a variable <code>state</code> that
+    prevents this happening; it therefore needs locking when being accessed.
+    An example of its operation is <a
+    href="../../../Images/Memory.pdf">here</a>. </p>
+
+    <h2>Memory</h2>
+
+    <p>The output of a module is stored in its memory unit, as a series either
+    of XML strings or image files.  Currently the XML output is stored both in
+    program memory and in an XML file, one file per module.  For the program
+    memory version, there is an optional mechanism for "forgetting" results
+    that are no longer needed by other modules, to reduce memory leakage.  The
+    program memory version is accessed by other modules in the same program
+    execution; the file version can be accessed by other modules in subsequent
+    program execution. </p>
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Thu Mar 12 10:13:58 GMT 2009 -->
+<!-- hhmts start -->
+Last modified: Wed Jan  5 16:36:31 GMT 2011
+<!-- hhmts end -->
+  </body>
+</html>

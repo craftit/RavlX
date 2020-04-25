@@ -1,0 +1,123 @@
+
+# Library: $(lib)
+
+# Requires: $(requires)
+# Supports: $(supports)
+
+$(ifany:supports:if($(forall:supports:($(found)) OR )FALSE))
+
+$(forall:requires:if($(found))
+)
+$(ifset:mustlinks:# MustLink: $(mustlinks)
+)
+
+set(DEPENDS_ON $(forall:libs:$(ifext:$lib:$(lib) )))
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_package(${D} REQUIRED)
+  endif()
+endforeach()
+
+include(CMakePackageConfigHelpers)
+
+include_directories(include)
+include_directories(src)
+
+set(HAVE_$(lib) 1)
+
+$(forall:libs:$(iflocal:$lib:include_directories(../../$(toplevel)/$(lib)/include)
+))
+
+$(forall:optlibs:
+if(DEFINED HAVE_$(lib))
+include_directories(../../$(toplevel)/$(lib)/include)
+endif())
+$(ifset:!isprogram:$(ifset:mustlinks:
+add_library($(lib)_Body STATIC
+ $(headers)
+ $(sources)
+)
+target_link_libraries($(lib)_Body PUBLIC $(forall:useslibs:$(linklib) ))
+
+add_library($(lib) OBJECT $(forall:mustlinks:$(src) ))
+target_link_libraries($(lib) PUBLIC $(lib)_Body )
+)$(else:
+add_library($(lib) STATIC $(headers) $(sources))
+target_link_libraries($(lib) PUBLIC $(forall:useslibs:$(linklib) ))
+)
+
+target_include_directories(
+    $(lib) PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+
+$(ifany:mustlinks:# MustLink fixes:
+install(EXPORT $(lib)_BodyConfig DESTINATION lib/cmake/$(lib)_Body/Target)
+install(TARGETS $(lib)_Body EXPORT $(lib)_BodyConfig
+   ARCHIVE  DESTINATION lib
+   LIBRARY  DESTINATION lib
+   RUNTIME  DESTINATION bin)  # This is for Windows
+install(TARGETS $(lib)_Body DESTINATION lib)
+
+configure_package_config_file(cmake/$(lib)_BodyConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/$(lib)_BodyConfig.cmake
+  INSTALL_DESTINATION lib/cmake/$(lib)_Body
+  PATH_VARS)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/$(lib)_BodyConfig.cmake
+        DESTINATION lib/cmake/$(lib)_Body )
+)
+
+install(TARGETS $(lib) EXPORT $(lib)Config
+   ARCHIVE  DESTINATION lib
+   LIBRARY  DESTINATION lib
+   RUNTIME  DESTINATION bin)  # This is for Windows
+
+install(EXPORT $(lib)Config DESTINATION lib/cmake/$(lib)/Target)
+install(TARGETS $(lib) DESTINATION lib)
+
+configure_package_config_file(cmake/$(lib)Config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/$(lib)Config.cmake
+  INSTALL_DESTINATION lib/cmake/$(lib)
+  PATH_VARS)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/$(lib)Config.cmake
+        DESTINATION lib/cmake/$(lib) )
+
+install(DIRECTORY include DESTINATION .)
+)
+
+$(ifany:mainexes:# Mains
+set(MAIN_LIBS  $(forall:alllibs:$(linklib) ) )
+$(forall:mainexes:
+add_executable($(exename) $(src) )
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) ${MAIN_LIBS} )
+install(TARGETS $(exename) DESTINATION bin)
+))
+$(ifany:examples:# Examples
+set(EXAMPLE_LIBS  $(forall:alllibs:$(linklib) ) )
+$(forall:examples:
+add_executable($(exename) EXCLUDE_FROM_ALL $(src) )
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) ${EXAMPLE_LIBS} )
+install(TARGETS $(exename) DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+))
+$(ifany:testexes:# Tests
+set(TEST_LIBS  $(forall:alllibs:$(linklib) ) )
+$(forall:testexes:
+add_executable($(exename) EXCLUDE_FROM_ALL $(src) )
+target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) ${TEST_LIBS} )
+add_test($(exename) $(exename))
+install(TARGETS $(exename) DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+))
+
+$(forall:auxdirs:# === Files for $(src) ===
+set(AUXDIR $(src))
+set(AUXFILES $(foraux:$src:
+  data/$(file) ))
+file(COPY ${AUXFILES} DESTINATION ${BUILD_ROOT_AUXFILE}/${AUXDIR})
+install(FILES ${AUXFILES} DESTINATION ${AUXDIR})
+
+)
+
+$(forall:requires:ENDIF()
+)
+$(ifany:supports:ENDIF())

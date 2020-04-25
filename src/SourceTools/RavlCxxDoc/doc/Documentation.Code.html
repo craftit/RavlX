@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+
+  <head>
+    <title>Documenting your classes</title>
+    <!--! author="Robert Crida" -->
+    <!--! docentry="Ravl.Documentation.Code" -->
+  </head>
+
+<body>
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+
+
+<BLOCKQUOTE>
+<BR><BR>
+
+
+
+<!-- ***************** Table Of Contents (On RHS of Page)  ***************** -->
+
+<table align="right" width=160 cellspacing=5><tr>
+<td bgcolor="#007FFF">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>CONTENTS</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=2>
+  <ul>
+  <li><A HREF="#specialcomments">Special Comment Types</A> like
+  <i>section</i>, <i>param</i>, etc.
+  <li><A HREF="#globalvariables">Global Variables</A> like
+  <i>docentry</i>, <i>userlevel</i>, etc.
+  <li><A HREF="#examplehh">Example Header File</A>
+  <li><A HREF="#forward">Forward Referencing & Validity</A>
+  </ul>
+  </font>
+</td>
+</tr>
+</table>
+
+<!-- ******************* Page Summary (On LHS of Page)  ******************* -->
+<P>Code is automatically documented using various specially-formatted comments 
+embedded in the header files. For the impatient, an <A
+HREF="#examplehh">example header file</A> highlighting the basic
+CxxDoc comments and variables is shown below.
+</P>
+
+<P> Comments acknowledged by CxxDoc come in four varieties:  </P>
+
+<!-- (adapted from /vol/vssp/cpug/tools/perceps341/DOCS) --> 
+<TABLE BORDER=1 width=90% align="middle" CELLPADDING=10> 
+<TR> <TD ALIGN=CENTER ><B>Symbol</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR> 
+<tr><td><B> //:</B> "Blah...<br><B>//:</B> ...blah."</td><td><B>Short
+descriptions</B> are lines begining with "//:".  Text in short description comments is concatenated to form a brief one line
+description of the class or member.</td></tr>
+<tr><td><B> //</B> "Blah...<br><B>//</B> ...blah."</td><td><B>Detailed descriptions</B>. Any C++
+comments (lines beginning with "//") inside a class definition (or
+following a short description comment that preceeds the class
+definition) that do not begin with "//:" or "//!" are concatenated to
+form a detailed description of the class or member.</td></tr> 
+<tr><td><B> //!name:</B> "Blah...<br><B>//!name:</B> ...blah."</td><td><B>Special Comment Types</B>. In
+addition to short and detailed descriptions, special custom comment
+types exist. The lines in these special comments start with "//!name:",
+where "name" can have different values shown <A HREF="#specialcomments">below</A>. </td></tr>
+<tr><td><B>//!&nbsp;name=</B>&lt;value&gt;</td><td><B>Global Variables</B>. Global variable
+definitions have the format. "//!&nbsp;name = &lt;value&gt;". They must occur
+OUTSIDE of any class declarations. There are three classes of
+variables: required, optional and automatic. The different global
+variables defined are described below. They apply to any items found
+in the header file following the comment in which they are
+declared.<br> Note that Variables have a space after the "!" whereas
+Special Comment Types do not. Also Variables will persist after their
+definition whereas Comments only exist at that point. </td></tr>
+</TABLE>
+
+<P> Please note that old C style comments between /* and */ are ignored when creating
+the documentation. </P>
+
+<P>
+These comments are associated with declarations as follows.
+</P>
+
+<MENU>
+<LI>
+The last short description (if any) before the Class (or typedef or macro etc) declaration is taken as the Class description. All detailed descriptions after that will be associated with the class (or typedef or macro etc).
+
+<LI>
+All comments after each member declaration (functions, variables, typedefs 
+etc) are taken as a description for that member of the class.
+
+<LI>
+The <I>const</I> after a constant member function must be separated from the
+closing bracket by one space.
+
+</MENU>
+
+<H3><A NAME="specialcomments">Special Comment Types</A></H3>
+
+<p>These are the special comment types defined:</p> <TABLE BORDER=1
+width=90% align="middle" CELLPADDING=10> <TR> <TD ALIGN=CENTER
+><B>Symbol</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR>
+<tr><td><b>//!classbugs:</b> </td><td>Use this to stress very dangerous
+bugs by inserting it after the detailed description of the class. It
+comes out in very big red font!</td></tr> 
+<tr><td><b>//!param: </b> </td><td>This
+comment type is used to document the parameters in your member
+functions. The name of the parameter comes straight after it followed
+by a hyphen (-), and then the description of that parameter. To
+continue the description on another line you just have another !param:
+followed by a hyphen and then the rest of the description, as shown in
+the <A HREF="#examplehh">example header file</A> below.</td></tr>
+<tr><td><b>//!throw: </b> </td><td>This
+comment type is used to document the exceptions thrown by your member
+functions. The name of the exception comes straight after it followed
+by a hyphen (-), and then the description of that exception. To
+continue the description on another line you use the same method as continuing !param:
+descriptions. Just have another !exception: followed by a hyphen and then the rest of 
+the description. See the !param: example shown in
+the <A HREF="#examplehh">example header file</A> below.</td></tr>
+<tr><td><b>//!return: </b> </td><td>Use this to document the return value of your member functions.</td></tr>
+<tr><td><b>//!deprecated: </b> </td><td>Use this to mark a method as obsolete, 
+and not for use in new code. Method's marked as deprectated may be removed
+in future releases of the library.  </td></tr>
+<tr><td><b>//!bug: </b> </td><td>Use this to report less fundamental
+bugs associated to particular member functions. Insert it after the
+detailed description of the member function.</td></tr>
+<tr><td><b>//:- </b> </td><td>Use this to create sections
+in the documentation. A description of the section can follow in the 
+normal way, as shown in the <A HREF="#examplehh">example header file</A>
+below.</td></tr>
+
+</TABLE>
+
+<H3><A NAME="globalvariables">Global Variables</A></H3>
+<p>
+These are the <b>required</b> global variables defined:
+</p>
+<TABLE BORDER=1 width=90% align="middle" CELLPADDING=10> 
+<TR> <TD ALIGN=CENTER ><B>Symbol</B></TD> <TD
+ALIGN=CENTER><B>Description</B></TD> </TR>
+<tr><td><b>//!&nbsp;docentry =</b> </td><td>This variable tells
+CxxDoc where the Class goes in the Class Tree.  Refer to the 
+<A HREF="Ravl.Documentation.docentry.html">docentry</A> 
+web page for further details.</td></tr>
+<tr><td><b>//!&nbsp;userlevel =</b> </td><td>The userlevel can be one of the following:<br>
+<u>Basic</u> - reserved for introductory classes.<br>
+<u>Normal</u> - everyday classes.<br>
+<u>Advanced</u> - for normal users, but require special knowledge or care in use.<br>
+<u>Develop </u> : part of the implementation of something else and not really to be used directly.<br>
+<u>Obsolete</u> - no longer used or have been replaced by something else, kept for backward compatibility.
+</td></tr>
+</TABLE>
+<TABLE>
+<p>
+This is the only <b>optional </b> global variable defined:</p>
+<TABLE BORDER=1 width=90% align="middle" CELLPADDING=10> 
+<TR> <TD ALIGN=CENTER ><B>Symbol</B></TD> <TD
+ALIGN=CENTER><B>Description</B></TD> </TR>
+<tr><td><b>//!&nbsp;example =</b> </td><td>The example variable is used to specify a source file that uses the class for example purposes. . Multple examples can be specified as "example1.cc;example2.cc". Also don't forget to update the <TT>defs.mk</TT> file:
+</P><P>
+&nbsp;&nbsp;&nbsp;&nbsp; <TT>EXAMPLES = myexample.cc</TT>
+</P></td></tr>
+</TABLE>
+
+<p>
+These are the <b>automatic </b> global variables defined. If you don't set 
+them they are worked out automatically.
+</p>
+<TABLE BORDER=1 width=90% align="middle" CELLPADDING=10> 
+<TR> <TD ALIGN=CENTER ><B>Symbol</B></TD> <TD
+ALIGN=CENTER><B>Description</B></TD> </TR>
+<tr><td><b>//!&nbsp;file =</b> </td><td>The location of the header file.</td></tr>
+<tr><td><b>//!&nbsp;author =</b> </td><td>This is your username if you don't put anything explicitly.</td></tr>
+<tr><td><b>//!&nbsp;date =</b> </td><td>This is the time and date you created the class. </td></tr>
+<tr><td><b>//!&nbsp;lib =</b> </td><td>This is the library that the class is part of. 
+This should be what a user would put in the <TT>USESLIBS</TT> line in a <TT>defs.mk</TT> 
+file if he wanted to use your class. It is case sensitive, and should be typed without 
+quotes.</td></tr>
+</TABLE>
+
+<P>
+<HR>
+<P>
+
+
+<!-- <H3>Examples</H3> -->
+
+<H3><A NAME="examplehh">Example Header File</A></H3>
+<!-- <BR><BR> -->
+
+<P>
+This is a simple example showing the basic structure of a header file. It
+includes the expected comments and where they should be placed. There is a
+particular problem when using <I>forward references</I>. Placement of these are
+critical.  In this example, the placement of the forward references
+are correct. For more details see <A><A HREF="#forward">Forward
+Referencing & Validity</A>.
+</P>
+
+<PRE>
+#ifndef CLASSNAME_HH
+#define CLASSNAME_HH
+//////////////////////////////////////////////////////////////////////////////
+//! file =      "QMakeProject/ParentDir/ThisDir/ClassName.hh"   
+//! author =    "Author's Name"
+//! lib =       libname [no quotes]
+//! date =      "6/01/00"
+//! userlevel = Normal
+//! example =   example.cc [no quotes]
+//! docentry =  "Image.Image Representations"
+
+// Forward References (comment ignored since no //:)
+class A;
+class B;
+
+// ---------------------------------------------------------------------------
+// **********  Class ClassName  **********************************************
+// ---------------------------------------------------------------------------
+// (previous lines will be ignored - no preceeding //: )
+
+//: Brief description of the class
+//
+// This class provides the facilities to do some stuff.&lt;p&gt;
+//
+// These comments are aimed at the user!!!!!!&lt;p&gt;
+//
+// As you can see, the detailed description can contain HTML markups to ensure
+// the appearance is as desired since the comments will be concatenated.
+//
+//!classbugs: You can indicate that a class is buggy using this special comment
+//!classbugs: type. Make sure that you don't use !bug: here since it will then 
+//!classbugs: be associated with every member as well!
+
+class ClassNameC
+{
+public :
+
+  ClassNameC();
+  //: Default constructor
+
+  ~ClassNameC();
+  //: Destructor
+
+  //:-----------------
+  //: Access Functions
+
+   int AccessFn1(int id);
+   //: Access function to return important number.
+   //!param: id - Identification number
+
+  //:----------------
+  //: Other Functions
+  //  Detailed description of this section.
+
+  MemberFunction(VectorC p, UIntT limit);
+  //: Brief description of function
+  //!param: p     - description of parameter
+  //!param: limit - An very important threshold used to decide .....
+  //!param:       - continuing desciption for the parameter `limit'
+  // Detailed description of function which can
+  // continue over many lines. Note that after the brief comment that they
+  // can come in any order.
+  //!bug: You can label a member as being buggy, eg not implemented or the
+  //!bug: algorithm is rubbish etc.
+
+};
+</PRE>
+
+<P>
+<HR>
+<P>
+
+<H3><A NAME="forward">Forward Referencing & Validity</A></H3>
+
+There is a particular problem with documentation that is produced when
+forward references are included in header files. The class description
+must come AFTER all the forward references have been declared, i.e.
+there should be nothing between the class description and the
+definition of the class. A correct example was shown in the
+<A HREF="#examplehh">Example Header File</A>
+section.
+
+<BR>
+
+
+</BLOCKQUOTE>
+
+</td>
+</tr></table> 
+
+</TD>
+</TABLE>
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Eigen, singular value and other decomposition</title>
+    <!--! docentry= "Ravl.API.Math.Linear_Algebra.Matrix_Decomposition" -->
+  </head>
+
+  <body>
+
+    <h2>Eigen decomposition or SVD?</h2>
+    <p>Eigen decomposition decomposes a matrix M thus:  <pre>   M * E = E * L</pre> where L is a diagonal matrix of eigenvalues, and E is a matrix of eigenvectors.  On the other hand, SVD decomposes M thus: <pre>   M * V = U * D</pre> where D is a diagonal matrix of singular values, and U and V are orthogonal matrices.  In general, D and L are not the same.  But it is easy to show that, <i>for symmetrical matrices</i>, these two decompositions are identical: <code>D = L</code> and <code>U = V = E</code>.  In this case, you have the choice of which to use.  It is generally reckoned that <b>SVD</b> is more stable, and is likely to give a more accurate answer than eigen decomposition.</p>
+
+    <h2>Which eigen decomposition?</h2>
+    <p>If you are nevertheless using eigen-decomposition, there are currently two algorithms in RAVL: one from the CCMath library and one from the JAMA library.  The CCMath ones are the functions named <code>FastEigen....</code>.  This algorithm is faster, but occasionally fails for ill-conditioned matrices.  The remaining functions are based on the JAMA algorithm implemented in  <a href="../Class/RavlN.EigenValueC.html">EigenValueC</a>.  Note that <code>EigenValueC</code> is templated, so that different floating point representations may be used.</p>
+
+    <h2>Which SVD?</h2>
+    <p>Similarly there are two algorithms for SVD: the one in <a href="../Class/RavlN.SVDC.html">SVDC</a> which is a C++ implementation of the <a href="http://math.nist.gov/javanumerics/jama">JAMA</a>, and the ones in the SVD functions below, which are based on the CCMath implementation.</p>  
+
+    <h2>Intel MKL library</h2>
+
+    <p>If you have the Intel MKL library and have included the code in Contrib/IntelMKL in your build, it will link in the faster Intel MKL library version in place of the CCMath one.  This has implementations of eigen-decomposition and SVD, as well as matrix inversion and FFT.</p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Thu Mar  8 14:01:00 GMT 2007 -->
+<!-- hhmts start -->
+Last modified: Thu Oct 25 10:18:13 BST 2012
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Sequences of numbered files</title>
+  </head>
+
+  <body>
+    <p>There are three ways of opening a numbered sequence of files: by
+    opening the first file in the sequence; by opening with a filename
+    containing %d in place of the number; or (if the number is before
+    the extension) by omitting the number entirely.</p>
+    
+    <h3> Using <code>%d</code> in the filename.  </h3>
+
+    <p>Using <code>%d</code> you can explicitly set the format of the
+    file name to be used. It is used by placing the <code>%d</code> in
+    the filename where the number is expected. <code>name%d.xxx</code>
+    can be used to read or write a sequence of files such as:</p>
+      
+    <pre>name1.xxx name2.xxx name3.xxx</pre> 
+    
+    <p>If you wish the filenames to be zero padded you can add the
+    number of digits between the <code>%</code> and the
+    <code>d</code>. So <code>name%3d.xxx</code> can be used to write
+    (or read) the following files:</p>
+      
+    <pre>name001.xxx name002.xxx name003.xxx</pre> 
+          
+    <h3> Using the name of the first file in the sequence. </h3> 
+      
+    <p>You can use the name of the first file in the sequence,
+    provided that this file cannot be interpreted as a stream
+    itself (such as pnm) you can just open the first file in the
+    sequence and the rest of the sequence will be found
+    automatically. So you could open the following sequence:</p>
+
+    <pre>name001.xxx name002.xxx name003.xxx</pre> 
+    
+    <p>with the filename <code>name001.xxx</code>.</p>
+      
+    <h3>Omitting the number completely. </h3> 
+      
+    <p>If the filename is in the form <code>nameNNN.XXX</code>, where
+    <code>NNN</code> is some number and <code>XXX</code> is the
+    extension (i.e. the number immediately precedes the extension),
+    the file may be opened as <code>name.XXX</code> (provided that no
+    file of that name exists). The system will scan the directory for
+    files which conform to this format.  It will then work out the
+    range of digits and also whether zero padding is being used.</p>
+      
+  </body>
+</html>

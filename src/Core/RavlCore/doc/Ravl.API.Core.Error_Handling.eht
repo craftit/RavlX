@@ -1,0 +1,31 @@
+! author="Charles Galambos"
+: Error reporting, Exceptions and Asserted invariants.
+
+<p>
+There are several macros which you can use for checking invariants
+in your program, much like 'assert(...)' in 'C'. They are 
+defined in <a href="../../../../../../include/Ravl/Assert.hh">'Ravl/Assert.hh'</a>.<p>
+
+&nbsp;&nbsp;&nbsp;<b>#include  "Ravl/Assert.hh"</b><p>
+
+The two main macros are :<p>
+
+&nbsp;&nbsp;&nbsp;<b>RavlAssert(</b>..condition..<b>);</b>  <p>
+
+which will stop the program if 'condition' is false. The is also <p>
+
+&nbsp;&nbsp;&nbsp;<b>RavlAssertMsg(</b>..condition..<b>,</b>..msg..<b>);</b> <p>
+
+which allows an extra message to the assertion to help developers track
+down problems in their code.  Asserts are NOT checked in optimised code they
+are re-defined to empty statements.  If you want to assert a condition in
+all compile modes use the RavlAlwaysAssert and RavlAlwaysAssertMsg macro's
+shown below.
+
+&nbsp;&nbsp;&nbsp;<b>RavlAlwaysAssert(</b>..condition..<b>);</b>  <p>
+
+&nbsp;&nbsp;&nbsp;<b>RavlAlwaysAssertMsg(</b>..condition..<b>,</b>..msg..<b>);</b> <p>
+
+
+
+

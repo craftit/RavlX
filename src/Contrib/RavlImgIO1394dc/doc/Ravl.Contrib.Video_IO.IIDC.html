@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry=Ravl.API.Images.Video.Video IO.IIDC -->
+<html>
+  <head>
+    <title>IIDC Camera Control</title>
+  </head>
+
+  <body>
+    <p>Requires library <code>RavlImgIO1394dc</code></p>
+    <hr>
+    <p>Very preliminary support for firewire cameras using the IIDC
+    protocol. Currently only supports the capture of grey scale
+    images. </p>
+
+    <p>To use the <a href="Ravl.API.Core.IO.Virtual_Files.html">virtual files</a> mechanism, use <code>@IIDC</code> as
+    the i/p file name.  For multiple cameras, use
+    <code>@IIDC:#0</code>, <code>@IIDC:#1</code> etc.</p>
+
+    <p> For a list of cameras supporting this protocol see: <a
+    href="http://www.tele.ucl.ac.be/PEOPLE/DOUXCHAMPS/ieee1394/cameras/">
+    http://www.tele.ucl.ac.be/PEOPLE/DOUXCHAMPS/ieee1394/cameras</a>
+    <br>
+    This driver requires the libdc1394 library which can be found at:
+    <a href="http://sourceforge.net/projects/libdc1394">
+    http://sourceforge.net/projects/libdc1394</a> </p>
+
+  </body>
+</html>

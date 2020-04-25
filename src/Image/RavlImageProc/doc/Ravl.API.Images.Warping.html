@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Image scaling and warping</title>
+    <!--! docentry="Ravl.API.Images.Scaling and Warping" -->
+  </head>
+
+  <body>
+
+    <p>Some points to note:</p>
+    <ul>
+      <li><p>The transform used by the warper actually computes points in the
+      reference image by transforming pixel coordinates from the warped image.
+      Hence if the warper is constructed on a transform with for example a
+      scale of 2 and positive rotation, the warped image will be &frac12; of
+      the size of the reference image and rotated negatively with respect to
+      it.</p></li> 
+      
+      <li><p>There are two possible coordinate systems to use when warping an
+      image:</p>
+        <ol>
+          <li>The coordinate system is at the top left-hand corner of pixel
+          (0,0).  Thus a rotation of +90&deg; will map pixel (0,0) to pixel
+          (-1,0).</li>
+          <li>The coordinate system is at the centre of pixel (0,0), so that a
+          rotation of +90&deg; will map pixel (0,0) to itself.  </li>
+        </ol>
+        <p>The default behaviour is the former, to preserve backwards
+        compatibility.  Use the <code>SetMidPixelCorrection()</code> method
+        with <code>correction = false</code> to get the latter behaviour.</p> </li>
+
+      <li>The default interpolation used is bilinear.  This can be changed
+      using suitable definitions of MixerT and SampleT in constructor and
+      template of the relevant warper.</li>
+    </ul>
+
+
+
+
+  </body>
+</html>
+  // <p>By default, the coordinate system for the input image is considered to be the top left-hand corner of pixel [0][0].  Thus a rotation of +90&deg; will map position (0,0) to (-1,0).  This behaviour is the default one for backwards compatibility.</p>  
+
+  // <p>Use <code>SetMidPixelCorrection(false)</code> to move the coordinate system to the centre of pixel [0][0], so that a rotation of +90&deg; will map position (0,0) to itself.</p> 

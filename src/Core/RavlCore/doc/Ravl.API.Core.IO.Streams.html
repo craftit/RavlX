@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Streams</title>
+  </head>
+
+  <body>
+
+You can use the RAVL streams <a href="../Class/RavlN.IStreamC.html">IStreamC</a>, <a
+href="../Class/RavlN.OStreamC.html">OStreamC</a>, together with the standard C++
+syntax of the I/O operators <code>&lt;&lt;</code> and <code>&gt;&gt;</code>, in
+conjunction with most of the RAVL classes.  These will read and write in ASCII
+format, just as the standard C++ streams do for simple types.  E.g. to load an
+image of reals from standard input:
+
+<pre>
+ImageC&lt;RealT&gt; x;
+cin &gt;&gt; x;
+</pre>
+
+This mechanism has been implemented for most of the RAVL classes.  If you find
+a class without it, please <a
+href="http://sourceforge.net/tracker/?group_id=24497&atid=381539">bug report</a>.<br>
+<b>N.B.</b> For floating-point data types, there is generally a loss
+of accuracy if data is written to a file in ASCII format and subsequently read
+back in to a program.
+
+<p> You can use the same mechanism for reading from and writing to RAVL
+strings, using the <a href="../Class/RavlN.StrIStreamC.html">StrIStreamC</a> and <a
+href="../Class/RavlN.StrOStreamC.html">StrOStreamC</a> classes.  This is especially
+useful for initialising small arrays, e.g.:
+
+<pre>
+  SArray1dC&lt;RealT&gt; coeffs(5);
+  StrIStreamC ("5 0.363 0.291 0.135 0.012 -0.030") &gt;&gt; coeffs;
+</pre>
+
+<p>For some classes there are also stream operators for the <a
+href="../Class/RavlN.BinIStreamC.html">BinIStreamC</a> and <a
+href="../Class/RavlN.BinOStreamC.html">BinOStreamC</a> classes.  These read and write
+binary files.  These streams have advantages over IStreamC and OStreamC: they
+are faster; they are often more compact, and they store floating point data
+without loss of precision.  If you need this operator for the class you are
+using, and it is not there, again it is worth <a
+href="http://sourceforge.net/tracker/?group_id=24497&atid=381539">asking</a>.
+
+<ul>
+<li> Both of the above input stream operators <i>always</i>
+expect to read data in the format that is written by the corresponding
+output streams, particularly in the case of
+the more complex objects.
+
+<li> Since the stream operators are not members of the classes being
+read/written, they are not found in the class documentation itself. They
+can however be found either in the namespace page, or in page listing
+related classes.
+</ul>
+
+<h3>Pointer Manager</h3>
+
+Often is is necessary to load and save complex structures where
+several objects have handles to some common data objects. With plain streams
+the data structure will be 'flattened' and the common data will be saved
+to the stream each time it is found in the structure.  In the best case
+this causes file bloat, and worst in can destroy important information that
+is need to reuse the data structures after they are loaded again. 
+
+<p> To help with this problem binary streams (and eventually istream/ostream) 
+have a feature to manage pointers or refrences so that the objects the 
+represent are only saved once to file.  To ensure an object is only saved
+once to a stream you wrap the variable in a IOPtr() call. 
+
+<p> To save:
+<pre>
+BinOStreamC os;
+DListC<int> list1;
+DListC<int> list2 = list1;
+os &lt;&lt; ObjIO(list1) &lt;&lt; ObjIO(list2);
+</pre>
+
+<p> To load:
+<pre>
+BinIStreamC is;
+DListC<int> list1;
+DListC<int> list2;
+os &gt;&gt; ObjIO(list1) &gt;&gt; ObjIO(list2);
+</pre>
+
+Using this mechanism the list will only be saved once, and upon load list1 and list2
+will be handles to the same object as when they were saved. See 
+<a href="../../Examples/exObjIO.cc.html">exObjIO.cc</a> for a more complete example.
+
+  </body>
+</html>

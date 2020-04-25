@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry="Ravl.API.Pattern Recognition.Optimisation2.Cases" -->
+<!--! autoLinkContext=RavlN -->
+<!--! autoLink=on -->
+<html>
+  <head>
+    <title>Optimisation Cases</title>
+  </head>
+  <body>
+  These state vector models have been derived from the StateVectorC base class
+  to represent specific models to be fitted by optimisation:
+  <ol>
+     <li> StateVectorLine2dC encapsulates a line on a plane;
+     <li> StateVectorHomog2dC encapsulates a 3x3 homography representing a
+          2D projective linear transformation between two planes;
+     <li> StateVectorAffine2dC encapsulates a homography representing a
+          2D affine linear transformation between two planes;
+     <li> StateVectorRot3dC encapsulates a 3D rotation.
+     <li> StateVectorQuadraticC encapsulates the parameters of a quadratic
+          curve on a plane.
+  </ol>
+  Observations of data points used to fit these models then give rise to the
+  following classes derived from one of ObservationExplicitC or
+  ObservationImplicitC.
+  <ul>
+     <li> ObservationLine2dPointC for a 2D point to be fitted to a line on
+          a plane.
+     <li> ObservationHomog2dPointC and ObservationImpHomog2dPointC for a 2D
+          point pair on planes related by a linear projective transformation
+	  (homography). The two classes represent respectively the explicit
+	  form with only the errors in the second plane modelled, and the
+	  slightly more complex implicit form with both errors modelled.
+     <li> ObservationQuadraticPointC and ObservationImpQuadraticPointC
+          for a point on a quadratic curve. The explicit and implicit forms
+	  are equivalent in this case, and the implicit form is used only
+	  for testing purposes.
+  </ul>
+  The support classes ObsVectorPoint2dPairC and ObsVectorBGPoint2dPairC
+  derived from ObsVectorC and ObsVectorBiGaussianC respectively
+  allow you to construct pairs of 2D point observations. This class is used
+  by the ObservationImpHomog2dPointC class, and should not be used directly by
+  the user program, but it would be used to build new observation classes
+  where 2D point pair observations are used with errors in both points,
+  such as for fitting the epipolar geometry between two images.
+  The other observation sub-classes use the ObsVectorC or ObsVectorBiGaussianC
+  observation vector classes directly.
+  <p>
+  To implement RANSAC we need further classes that fit a state vector
+  to a sample of observations, as sub-classes of FitToSampleC. The relevant
+  classes are
+  <ol>
+     <li> FitLine2dPointsC fits a line to a sample of two or more points on
+          a plane, represented by ObservationLine2dPointC objects.
+     <li> FitHomog2dPointsC fits a homography to a sample of four or more
+          point pairs on two planes, represented by either
+	  ObservationHomog2dPointC or ObservationImpHomog2dPointC objects.
+     <li> FitAffine2dPointsC fits a affine homography to a sample of four or more
+          point pairs on two planes, represented by ObservationAffine2dPointC.
+     <li> FitQuadraticPointsC fits a quadratic curve to 2D points, represented
+          by ObservationQuadraticPointC objects.
+  </ol>
+  </body>
+</html>

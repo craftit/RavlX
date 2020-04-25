@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Creating the set of modules</title>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Module Manager" -->
+  </head>
+
+  <body>
+    <p>Each module has to have a declaration of the module in an appropriate header file.  This can be conveniently done using a macro as follows:</p>
+
+<pre>
+#ifndef MODULES_LIST_HH
+#define MODULES_LIST_HH
+
+#include "Ravl/Threads/MemModules.hh"
+
+#define FUNC(x) bool x (MemModuleBodyC& module)
+
+FUNC(frame);
+//: Extracts frames from video source and conditions them
+//!param: Module name - frame
+//!param: Input from modules - none
+
+FUNC(shotdet);
+//: Shot detector
+//!param: Module name - shotBoundary
+//!param: Input from modules - frame
+
+FUNC(homogs);
+//: Computes homographies between adjacent frames and accumulates them
+//!param: Module name - homography
+//!param: Input from modules - frame, shotBoundary
+
+FUNC(mosaic);
+//: Computes mosaics
+//!param: Module name - shotClass
+//!param: Input from modules - frame, shotBoundary, homography
+
+#undef FUNC
+
+#endif
+</pre>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Feb  3 16:36:52 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Wed Feb 25 09:46:44 GMT 2009
+<!-- hhmts end -->
+  </body>
+</html>

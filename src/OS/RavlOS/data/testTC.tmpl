@@ -1,0 +1,256 @@
+$(ifset:test_var:Failure - test_status appears initially set)
+$(else:$(set:test_var=ok))
+$(ifset:!test_var:Failure - test_status uninitialising)
+$(set:test_var2=var_set_correctly)
+$(if:$test_var2!=var_set_correctly:Failure - test_var2 not set)
+$(else:$(//:$(set:test_var2=comment_not_working))$(if:$test_var2!=var_set_correctly:Failure - // comment not ignored))
+
+$(//: // , ifset, set tested by initial checks)
+
+
+
+
+$(//:Test for)
+$(set:test_var=$(for:, :1,2 3,,4, 5,67:+%arg%+))
+$(if:$test_var!=+1++2++3++4++5++67+:Failure - for expansion)
+
+
+
+
+$(//: finish testing if)
+
+$(//:Set some helper variables for following tests)
+$(set:TRUE=true)
+$(set:FALSE=false)
+
+
+$(//:Test if OR)
+$(set:test_var=Failed)
+$(if:$FALSE=true | $TRUE=true:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - if OR conjugate not working (FT))
+
+$(set:test_var=Failed)
+$(if:$TRUE=true | $(FALSE)=true:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - if OR conjugate not working (TF))
+
+$(set:test_var=Failed)
+$(if:$TRUE=true | $TRUE=true:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - if OR conjugate not working (TT))
+
+$(if:$FALSE=true | $FALSE=true:Failure - if OR conjugate not working (FF))
+
+
+$(//:Test if AND)
+$(if:$FALSE=true & $TRUE=true:Failure - if AND conjugate not working (FT))
+
+$(if:$TRUE=true & $FALSE=true:Failure - if AND conjugate not working (TF))
+
+$(set:test_var=Failed)
+$(if:$TRUE=true & $TRUE=true:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - if AND conjugate not working (TT))
+
+$(if:$FALSE=true & $FALSE=true:Failure - if AND conjugate not working (FF))
+
+
+$(//:Test if AND OR priority)
+$(set:test_var=Failure)
+$(if:$FALSE=true & $FALSE=true | $TRUE=true:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - OR evaluated before AND)
+
+$(set:test_var=Failure)
+$(if:$TRUE=true | $TRUE=true & $FALSE=true:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - OR evaluated before AND)
+
+
+
+$(//:Test else)
+$(set:test_var=Failed)
+$(if:$FALSE=true:Failure - if FALSE expanding)
+$(else:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - else not expanding)
+
+$(set:test_var2=Failed)
+$(if:$TRUE=true:$(set:test_var2=Success))
+$(else:$(set:test_var=Failed))
+$(if:$test_var!=Success:Failure - else incorrectly expanding)
+$(if:$test_var2!=Success:Failure - if TRUE not expanding)
+
+$(set:test_var=Success)
+$(set:test_var2=Failed)
+$(if:$FALSE=true | $TRUE=true:$(set:test_var2=Success))
+$(else:$(set:test_var=Failed))
+$(if:$test_var!=Success:Failure - else expanding after OR (FT))
+$(if:$test_var2!=Success:Failure - if OR not expanding (FT))
+
+$(set:test_var=Success)
+$(set:test_var2=Failed)
+$(if:$TRUE=true | $FALSE=true:$(set:test_var2=Success))
+$(else:$(set:test_var=Failed))
+$(if:$test_var!=Success:Failure - else expanding after OR (TF))
+$(if:$test_var2!=Success:Failure - if OR not expanding (TF))
+
+$(set:test_var=Failed)
+$(if:$FALSE=true | $FALSE=true:Failure - if OR expanding (FF))
+$(else:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - else not expanding after OR (FF))
+
+$(set:test_var=Success)
+$(set:test_var2=Failed)
+$(if:$TRUE=true | $TRUE=true:$(set:test_var2=Success))
+$(else:$(set:test_var=Failed))
+$(if:$test_var!=Success:Failure - else expandingi after OR (TT))
+$(if:$test_var2!=Success:Failure - if OR not expanding (TT))
+
+$(set:test_var=Failed)
+$(if:$FALSE=true & $TRUE=true:Failure - if AND expanding (FT))
+$(else:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - else not expanding after AND (FT))
+
+$(set:test_var=Failed)
+$(if:$TRUE=true & $FALSE=true:Failure - if AND expanding (TF))
+$(else:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - else not expanding after AND (TF))
+
+$(set:test_var=Success)
+$(set:test_var2=Failed)
+$(if:$TRUE=true & $TRUE=true:$(set:test_var2=Success))
+$(else:$(set:test_var=Failed))
+$(if:$test_var!=Success:Failure - else expanding after AND (TT))
+$(if:$test_var2!=Success:Failure - if AND not expanding (TT))
+
+$(set:test_var=Failed)
+$(if:$FALSE=true & $FALSE=true:Failure - if AND expanding (FF))
+$(else:$(set:test_var=Success))
+$(if:$test_var!=Success:Failure - else not expanding after AND (FF))
+
+
+
+
+$(//:Test include)
+$(include:testTC.inc)
+$(if:$test_var!=Include_OK:Failure - include not working)
+
+
+
+
+$(//:Test sub)
+$(set:test_var2=$(sub:$(ifset:test_var:Failure)$(else:Success)$(set:test_var3=Set)))
+$(if:$test_var2!=Success:Failure - sub returned $(test_var2).)
+$(if:test_var3=Set:Failure - persistant variable over sub)
+
+
+
+
+$(//:Test subc)
+$(set:test_var=Passed)
+$(set:test_var2=$(subc:$(if:$test_var=Passed:Success)$(else:Failure)$(set:test_var3=Set)))
+$(if:$test_var2!=Success:Failure - sub returned $(test_var2).)
+$(if:test_var3=Set:Failure - persistant variable over subc)
+
+
+
+
+$(//:Test subst)
+$(set:test_var=$(subst:Failure:Success:This test is a Failure.))
+$(if:$test_var!=This test is a Success.:Failure - simple subst failed)
+
+$(set:test_var=$(subst:Unmatched:Failure:Success))
+$(if:$test_var!=Success:Failure - subst with non-matching pattern failed)
+
+$(set:test_var=$(subst:.::Success.))
+$(if:$test_var!=Success:Failure - subst failing when substituting to null)
+
+$(set:test_var=$(subst:\::\\:::string:))
+$(if:$test_var!=\\string\:Failure - subst not working with complex escaped patterns)
+
+
+
+
+$(//:Test define)
+$(define:Macro:Parameter was %arg%.$(set:test_var=Success))
+$(set:test_vat=Failure)
+$(set:test_var2=$(Macro:P1))
+$(if:$test_var!=Success:Failure - macro not executing set)
+$(if:$test_var2!=Parameter was P1.:Failure - macro parameter expansion failing)
+
+
+
+$(//:Test htmlsafe)
+$(set:test_var=$(htmlsafe:<&> Success))
+$(set:test_var2=&lt;&amp;&gt; Success)
+$(if:$test_var!=$test_var2:Failure - htmlsafe conversion failed)
+
+
+
+
+$(//:Test case folding)
+$(set:test_var=$(lowercase:MiXeD))
+$(if:$test_var!=mixed:Failure - lowercase function not working)
+$(set:test_var=$(uppercase:MiXeD))
+$(if:$test_var!=MIXED:Failure - uppercase function not working)
+
+
+
+
+$(//:Test before)
+$(set:test_var=$(before:.:Success...Failure))
+$(if:$test_var!=Success:Failure - before failing with single char pattern)
+
+$(set:test_var=$(before:.F:Success..Failure))
+$(if:$test_var!=Success.:Failure - before failing with multi char pattern)
+
+$(set:test_var=$(before:.F:Success.Success))
+$(if:$test_var!=Success.Success:Failure - before failing with unmatched pattern)
+
+
+
+
+$(//:Test after)
+$(set:test_var=$(after:.:Failure..Success))
+$(if:$test_var!=.Success:Failure - before failing with single char pattern)
+
+$(set:test_var=$(after:..:Failure..Success))
+$(if:$test_var!=Success:Failure - after failing with multi char pattern)
+
+$(set:test_var=$(after:.F:Success..Success))
+$(if:$test_var!=Success..Success:Failure - after failing with unmatched pattern)
+
+
+
+
+$(//:Test truncate)
+$(set:test_var=$(truncate:7:Success is illusionary))
+$(if:$test_var!=Success:Failure - truncate failed)
+
+$(set:test_var=$(truncate:7:Success))
+$(if:$test_var!=Success:Failure - truncate failed)
+
+$(set:test_var=$(truncate:8:Success))
+$(if:$test_var!=Success:Failure - truncate failed)
+
+
+
+
+$(//:Test marktruncate)
+$(set:test_var=$(marktruncate:7:ss:SucceSS is illusionary))
+$(if:$test_var!=Success:Failure - truncate failed)
+
+$(set:test_var=$(marktruncate:7:SS:Success))
+$(if:$test_var!=Success:Failure - truncate failed)
+
+$(set:test_var=$(marktruncate:8:SS:Success))
+$(if:$test_var!=Success:Failure - truncate failed)
+
+
+
+
+$(//:Test silent)
+$(set:test_var=this_alone$(silent:_without_this_$(set:test_var2=Success)))
+$(if:$test_var!=this_alone:Failure - silent it is not)
+$(if:$test_var2!=Success:Failure - silent not performing set)
+
+
+
+
+$(set:test_var=Test successfully reached the end)
+$(test_var)

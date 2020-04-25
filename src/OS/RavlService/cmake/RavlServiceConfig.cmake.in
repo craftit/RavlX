@@ -1,0 +1,12 @@
+if(NOT RavlService_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlXMLFactory RavlCore RavlIO RavlThreads RavlOS  RavlService_Body)
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlServiceConfig.cmake")
+endif()

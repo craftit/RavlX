@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<?RAVL class='RavlN::XMLTreeC' ?>
+
+<Config verbose="false" >
+
+	<!-- A K-Nearest Neighbour classifier using Euclidean distance-->
+	<KNN typename="RavlN::DesignKNearestNeighbourC" k="5" use_average_knn="true">
+		<Distance typename="RavlN::DistanceEuclideanC" />
+	</KNN>
+
+	<!-- A classifier based on Gaussian Mixtures -->
+	<GMM typename="RavlN::DesignClassifierGaussianMixtureC" number_of_mixtures="100"
+		/>
+
+	<!-- A simple liner SVM classifier -->
+	<SVM typename="RavlN::DesignSvmSmoC" tolerance="0.00000001" penalty1="100"
+		penalty2="100" eps="0.0000001" lambdaThreshold="0.0000000000001">
+		<!--KernelFunction typename="RavlN::PolynomialKernelC" power="3" scale="1.0"
+			b="1.0" />
+		<KernelFunction typename="RavlN::QuadraticKernelC" scale="1.0" />
+    -->
+        <KernelFunction typename="RavlN::RBFKernelC" gamma="0.1" />
+	</SVM>
+
+	<!-- A simple liner SVM classifier -->
+	<SVMOneClass typename="RavlN::DesignOneClassC" tolerance="0.1" penalty1="1000"
+		penalty2="1000" eps="0.0000001" >
+		<KernelFunction typename="RavlN::QuadraticKernelC" scale="1.0" />
+	</SVMOneClass>
+
+	<!-- A neural network -->
+	<NeuralNetwork typename="RavlN::DesignClassifierNeuralNetworkC" numberOfLayers="3"
+		numberOfHiddenUnits="128" desiredError="0.00001" maxEpochs="10000" displayEpochs="100"
+		/>
+
+  <!-- Another neural network -->
+  <NN2 typename="RavlN::DesignClassifierNeuralNetwork2C" numberOfLayers="3"
+    numberOfHiddenUnits="128" desiredError="0.00001" maxEpochs="10000" displayEpochs="1"
+    doNormalisation="False" threads="8" regularisation="0.0" useSigmoidOnOutput="false"
+    >
+    <Optimiser typename="RavlN::OptimiseConjugateGradientC" 
+    iterations="500" useAbsoluteCostForTolerance="true" tolerance="1e-4" brentIterations="6" brentTolerance="1e-2" />
+  </NN2>
+
+  <LR  typename="RavlN::DesignClassifierLogisticRegressionC" regularisation="0.0" >
+  </LR>
+
+  <OptimiseClassifierDesign typename="RavlN::OptimiseClassifierDesignC" >
+    <Optimiser typename="RavlN::OptimisePowellC" 
+      iterations="100" tolerance="1e-4" brentIterations="8" brentTolerance="1e-4" />
+  </OptimiseClassifierDesign>
+  
+  <Linear typename="RavlN::DesignDiscriminantFunctionC">
+  	<DesignFunction typename="RavlN::DesignFuncLSQC" order="1" orthogonal="false" />
+  </Linear>
+  
+  <Quadratic typename="RavlN::DesignDiscriminantFunctionC">
+  	<DesignFunction typename="RavlN::DesignFuncLSQC" order="2" orthogonal="false" />
+  </Quadratic>
+  
+  <BayesNormalQuadratic typename="RavlN::DesignBayesNormalQuadraticC" equalPriors="true" />
+  
+  <BayesNormalLinear typename="RavlN::DesignBayesNormalLinearC" equalPriors="true" />
+
+   <FeatureSelection typename="RavlN::FeatureSelectPlusLMinusRC" plusL="2" minusR="1" deltaError="0.001" features="10" threads="8" />
+
+   <Cascade typename="RavlN::DesignCascadeBinaryC" maxStages="25" targetFalseRejection="0.001">
+    	<Design typename="RavlN::DesignDiscriminantFunctionC">
+  			<DesignFunction typename="RavlN::DesignFuncLSQC" order="1" orthogonal="false" />
+  		</Design>
+   </Cascade>
+   
+   <CascadeLR typename="RavlN::DesignCascadeBinaryC" maxStages="25" targetFalseRejection="0.001">
+    	<Design typename="RavlN::DesignClassifierLogisticRegressionC" regularisation="0" prependUnit="true" doNormalisation="false" />
+   </CascadeLR>
+   
+
+</Config>

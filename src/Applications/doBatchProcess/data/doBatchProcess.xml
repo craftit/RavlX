@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<?RAVL class='RavlN::XMLTreeC' ?>
+
+<Config verbose="false" >
+  
+  <Process typename="RavlN::DPNetworkC" >
+    <Components>
+      <Proc typename="RavlAudioN::WindowSignalFloatC" exportIPlug="In1" exportIPort="Out1" >
+      </Proc>
+    </Components>
+  </Process>
+  
+</Config>

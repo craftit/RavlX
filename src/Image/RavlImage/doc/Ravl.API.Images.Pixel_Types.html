@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! children="Grey Level;RGB;YUV;HSV;YCbCr" -->
+<html>
+  <head>
+    <title>Pixel representations</title>
+  </head>
+
+  <body>
+    <p>The pixel classes are grouped into subtopics according to the colour
+    space used.  The relevant image conversion functions are included in each
+    group, as well as in a <a href="Ravl.API.Images.Converters.html">complete
+    list</a>.  Subtopics also contain conversions between the subtopic colour
+    space and colour spaces further up the list.</p>
+
+    <p>Note that YUV colour components are a linear combination of
+    RGB components; hence the U and V components <i>do</i> contain luminance
+    information.  (E.g. doubling R, G and B components will, after conversion
+    to YUV, double the U and V components, even though the chromaticity has
+    not changed.)  If you need a representation that separates luminance and
+    chromaticity completely, use the HSV classes.</p>
+
+    <p>There is much confusion about the difference between YUV and YCbCr, and
+    the term YUV is frequently used when YCbCr is meant:</p>
+
+    <ul>
+      <li>The colour spaces for YUV and YCbCr are different; hence within
+      RAVL, the difference is manifested in the matrix values used to convert
+      between YUV (or YCbCr) and RGB.  We have introduced separate pixel
+      classes for each to help people produce the correct colour rendering of
+      their images. </li>
+
+      <li>The YUV colour space traditionally used by the image processing
+      community is based on the colour space used in analogue composite colour
+      television signals, but ignoring the offset of the black level.</li>
+
+      <li> YCbCr pixels have a black offset of 16 grey levels.  These classes
+      are relevant in the context of ITU Rec. 601 digital video sources (or
+      high-def equivalents), such as the DVS digital video acquistion and
+      playback cards.  Hence use YCbCr only if you are operating directly on
+      these sources or files grabbed directly from them.</li>
+    </ul>
+
+    <p>The YPbPr classes are intended for a simulation of the analogue composite video format.</p>
+ 
+    <p>See the relevant subtopic for more information.</p>
+
+
+  </body>
+</html>

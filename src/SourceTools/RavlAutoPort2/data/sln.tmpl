@@ -1,0 +1,22 @@
+$(FileObject:one)$(FilePattern:Ravl.sln)Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+$(forall:libs:Project("$(topandtail:$(include:@$(outputdir)/GUID/Solution.sguid))") = "$(libname)", "$(libname).vcproj", "$(topandtail:$(include:@$(outputdir)/GUID/$(libname).guid))"
+$(ifany:useslibs:	ProjectSection(ProjectDependencies) = postProject 
+$(forall:useslibs:$(IfFileExists:$(outputdir)/GUID/$(name).guid:		$(topandtail:$(include:@$(outputdir)/GUID/$(name).guid)) = $(topandtail:$(include:@$(outputdir)/GUID/$(name).guid))
+))	EndProjectSection
+)EndProject
+)Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+$(forall:libs:		$(topandtail:$(include:@$(outputdir)/GUID/$(name).guid)).Debug|Win32.ActiveCfg = Debug|Win32
+		$(topandtail:$(include:@$(outputdir)/GUID/$(name).guid)).Debug|Win32.Build.0 = Debug|Win32
+		$(topandtail:$(include:@$(outputdir)/GUID/$(name).guid)).Release|Win32.ActiveCfg = Release|Win32
+		$(topandtail:$(include:@$(outputdir)/GUID/$(name).guid)).Release|Win32.Build.0 = Release|Win32
+)       EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

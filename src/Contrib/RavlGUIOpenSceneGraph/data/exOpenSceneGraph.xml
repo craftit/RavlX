@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<?RAVL class='RavlN::XMLTreeC' ?>
+
+<Config verbose="false">
+  <OpenSceneGraphWidget typename="RavlOSGN::OpenSceneGraphWidgetC" width="300" height="300" >
+    <Scene typename="RavlOSGN::GroupC">
+      <Nodes>
+        <Sphere typename="RavlOSGN::SphereC" colour="0.0 1.0 0.0 1.0" />
+        <Box typename="RavlOSGN::BoxC" colour="0.0 0.0 1.0 1.0" size="1.0 1.0 1.0" position="-1 0 0" />
+        <TextTransform typename="RavlOSGN::TransformPositionAttitudeC" position="1 0 0" axis="1 0 0" angle="1.5707963267948966" scale="0.1 0.1 0.1" >
+          <Node typename="RavlOSGN::TextC" text="Some text!" colour="1.0 0.0 0.0 1.0" alignment="CentreBaseLine" axisAlignment="Screen" size="0.5" />
+        </TextTransform>
+        <!--
+        <ImageTransform typename="RavlOSGN::TransformPositionAttitudeC" position="1 0 0" axis="1 0 0" angle="1.5707963267948966" coords="0 -1 0 1">
+          <Node typename="RavlOSGN::ImageByteRGBAC" filename="/Users/charlesgalambos/Build/share/RAVL/pixmaps/monkey.ppm" alpha="0.75" />
+        </ImageTransform>
+        -->
+          <Stack typename="RavlOSGN::LayoutStackC" gap="0.1" stackAxis="-1" >
+            <Nodes>
+              <Box1 typename="RavlOSGN::BoxC" colour="0.0 0.0 1.0 1.0" size="1.0 1.0 1.0" position="0 0 0" />
+              <Shape2 typename="RavlOSGN::CylinderC" colour="0.0 1.0 0.0 1.0" height="1.0" radius="1.5" position="0 0 0" />
+              <Box3 typename="RavlOSGN::BoxC" colour="1.0 0.0 0.0 1.0" size="1.0 1.0 1.0" position="0 0 0" />
+              <Box4 typename="RavlOSGN::ConeC" colour="0.0 1.0 0.0 1.0" height="1.0" radius="1.5" position="0 0 0" />
+              <Sphere typename="RavlOSGN::SphereC" colour="0.0 1.0 1.0 1.0" radius="0.5" />
+              <Shape5 typename="RavlOSGN::BoxC" colour="1.0 0.0 1.0 1.0" size="1.0 1.0 1.0" position="0 0 0" />
+              <Shape6 typename="RavlOSGN::CapsuleC" colour="1.0 0.0 1.0 1.0" height="1.5" radius="1.0" position="0 0 0" />
+            </Nodes>
+          </Stack>
+        <HUD typename="RavlOSGN::HUDC" coords="0 768 0 1024" >
+          <Node typename="RavlOSGN::GeodeC" bringToFront="true" >
+            <Draw typename="RavlOSGN::TextC" text="HUUD!" colour="0.0 1.0 0.0 1.0" position="100 100 -1" size="100" alignment="CentreBaseLine" axisAlignment="Screen" />
+          </Node>
+        </HUD>
+      </Nodes>
+    </Scene>
+  </OpenSceneGraphWidget>
+  
+</Config>

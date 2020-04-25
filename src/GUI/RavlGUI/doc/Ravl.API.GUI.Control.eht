@@ -1,0 +1,34 @@
+! author="Charles Galambos"
+! docentry="Ravl.API.Graphics.GTK.Control"
+: Control widgets
+
+
+    <p> Most of these classes and functions create widgets that respond to
+    user actions.  Hence these widgets generally need to be connected to
+    appropriate callback routines.</p>
+
+    <p>There are two modes of connection to a callback routine, depending on
+    whether the <i>callback</i> is a member of a <a
+    href="Ravl.Introduction.Reference_Counting.html">reference-counted</a>
+    ("big") object or not.  (Don't forget that a body class is <i>not</i>
+    reference counted.)</p>
+    <ul>
+      <li>If the callback is a member of a reference-counted class, use
+      <code>Connect()</code> to connect to the callback. </li> <li>If the
+      callback is not a member of a reference-counted class, use
+      <code>ConnectRef()</code> to connect to the callback.  This category
+      includes non-member functions and body classes for reference-counted
+      classes.</li>
+    </ul>
+
+    <p>The function versions of the control widgets (<code>Button()</code>,
+    <code>FileSelector()</code> etc.) combine the object declaration and the
+    connection to the callback in a single call.  These functions come in two
+    flavours corresponding to <code>Connect()</code> and<code>
+    ConnectRef()</code>.  E.g. <code>Button()</code> combines declaration of a
+    <code>ButtonC</code> object and an invocation of <code>Connect()</code>,
+    while <code>ButtonR()</code> combines declaration of a
+    <code>ButtonC</code> object and an invocation of
+    <code>ConnectRef()</code>.</p>
+
+    <p>See also the <a href="http://library.gnome.org/devel/gtk/stable/gtkobjects.html">GTK object</a> reference.</p>

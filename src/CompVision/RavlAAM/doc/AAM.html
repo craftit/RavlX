@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry=Ravl.API.Images.AAM -->
+<html>
+  <head>
+    <title>Active Appearance Models</title>
+  </head>
+
+  <body>
+
+  <p>
+  We describe here a set of classes for designing and manipulating statistical model of shape and appearance. Although a small number of classes have been designed specifically for human faces, the majority of classes are generic and can be applied to arbitrary object types. We give a brief overview of the classes included. This requires preliminary knowledge of the concepts of statistical models of shape and appearance. The user is referred to the publications from <a href="http://www.wiau.man.ac.uk/~bim/">Tim Cootes' website</a> for a detailed description of such concepts.
+  </p>
+
+
+  <h3> Object representation </h3>
+
+  <p>
+  Before building a statistical model of shape or appearance of an object, it is necessary to adopt an object representation. An instance of an object is called an appearance and represented by the class <a href="../Class/RavlImageN.AAMAppearanceC.html">AAMAppearanceC</a>. An appearance consists essentially of a shape and a texture. The shape is represented by the X and Y coordinates of the feature points defining the shape. The texture is represented by the image in which the coordinates of the feature points are expressed. The functions <a href="../Class/RavlImageN.LoadFeatureFileObconst_StringC_Amp_const_StringC_Amp_bool_boolCb.html">LoadFeatureFile</a>, <a href="../Class/RavlImageN.LoadFeatureSetObconst_StringC_Amp_const_StringC_Amp_bool_boolCb.html">LoadFeatureSet</a> and <a href="../Class/RavlImageN.LoadFeatureSetObconst_DListCLtStringCGt_Amp_const_StringC_Amp_bool_boolCb.html">LoadFeatureSet</a> can be used to load an <a href="../Class/RavlImageN.ImagePointFeatureSetC.html">ImagePointFeatureSetC</a> object from an XML file and convert it into an appearance. Inversely, an appearance can be saved in an XML file as an <a href="../Class/RavlImageN.ImagePointFeatureSetC.html">ImagePointFeatureSetC</a> with the functions <a href="../Class/RavlImageN.SaveFeatureSetObconst_AAMAppearanceC_Amp_const_ImagePointFeatureSetC_Amp_ImagePointFeatureSetC_Amp_const_FilenameCCb.html">SaveFeatureSet</a>, <a href="../Class/RavlImageN.SaveFeatureSetObconst_AAMAppearanceC_Amp_const_ImagePointFeatureSetC_Amp_const_StringC_Amp_const_StringC_Amp_const_FilenameCCb.html">SaveFeatureSet</a> or <a href="../Class/RavlImageN.SaveFeatureSetObconst_SampleCLtAAMAppearanceCGt_Amp_const_ImagePointFeatureSetC_Amp_const_DListCLtStringCGt_Amp_const_StringC_Amp_const_DListCLtFilenameCGtCb.html">SaveFeatureSet</a>. An example of an XML file <a href="../../../Images/AAM/000_1_2_090.xml">000_1_2_090.xml</a> representing a face and the image of the corresponding appearance <a href="../../../Images/AAM/000_1_2_090.png">000_1_2_090.png</a> are given for illustration.
+  </p>
+
+  <p>
+  The class <a href="../Class/RavlImageN.AAMAppearanceMirrorC.html">AAMAppearanceMirrorC</a> provides simple methods for generating mirror appearances of given appearances; this is useful for multiplying the number of appearances available or for imposing some symmetry on the statistical model built from such appearances.
+  </p>
+
+  <h3> Statistical models </h3>
+
+  <p>
+  Different types of statistical model can be built depending whether only shape information is included in the model (statistical shape model), or both shape and texture are considered (statistical model of appearance). A statistical shape model is represented by the classes <a href="../Class/RavlImageN.AAMShapeModelC.html">AAMShapeModelC</a>, <a href="../Class/RavlImageN.AAMAffineShapeModelC.html">AAMAffineShapeModelC</a>, <a href="../Class/RavlImageN.AAMScaleRotationShapeModelC.html">AAMScaleRotationShapeModelC</a>; the difference classes represent different types of rigid transformation for aligning the shape. Statistical models of appearance are represented by the class <a href="../Class/RavlImageN.AAMAppearanceModelC.html">AAMAppearanceModelC</a>. In all cases the dimension reduction is carried out by Principal Component Analysis (PCA), and it is possible to control the degree of compression of the model. Building a statistical model requires a database of appearance for training. The applications <a href="../Application/aamBuildShapeModel.html">aamBuildShapeModel</a> and <a href="../Application/aamBuildAppearanceModel.html">aamBuildAppearanceModel</a> are designed for such purposes. Some visualisation tools are also provided by the application <a href="../Application/aamViewShapeModel.html">aamViewShapeModel</a>.
+  </p>
+
+  <h3> Face localisation </h3>
+
+  <p>
+  In order to be applicable for image interpretation, it is necessary to be able identify the model parameters which represent best the image of interest. From an optimisation point of view, fitting a model to an image consists in finding the appearance parameters that minimise the difference between the target image and the one synthesised by the appearance model. This is a priori a complicated general optimisation problem because of the possibly large number of parameters involved. However Cootes has shown that it is possible to learn how to correct the model parameters according to the residual. The class <a href="../Class/RavlImageN.AAMActiveAppearanceModelC.html">AAMActiveAppearanceModelC</a> is an implementation of the Active Appearance Model (AAM) described by Cootes. This requires again training with a database of appearances, which can be done with the application <a href="../Application/aamBuildActiveAppearanceModel.html">aamBuildActiveAppearanceModel</a>. Note that designing the AAM can be a very computer intensive operation, for this reason the applications <a href="../Application/aamBuildActiveAppearanceModel.html">aamBuildActiveAppearanceModel</a> can be run in parallel on several machines and the application <a href="../Application/aamCombineActiveAppearanceModel.html">aamCombineActiveAppearanceModel</a> used to combine the results and produce the final AAM.
+  </p>
+
+  <p>
+  In order to improve the convergence properties and speed of the search algorithm, it is possible to use a multi-resolution framework. In this approach several AAM sorted in order of increasing resolution are provided. The search starts at the coarsest level and is progressively refined until the highest resolution is reached. This is implemented in the class <a href="../Class/RavlImageN.AAMMultiResActiveAppearanceModelC.html">AAMMultiResActiveAppearanceModelC</a>.
+  </p>
+
+  <h3> Pose estimation and correction </h3>
+
+  <p>
+  The class <a href="../Class/RavlImageN.AAMPoseEstimateC.html">AAMPoseEstimateC</a> provides methods for estimating the pose of an object in a given appearance and also for synthesising novel appearances corresponding to the same object but under different poses. The pose is represented by two angles corresponding to pan and tilt angles. The pose estimator is trained on a set of appearances for which the pose is known. The application <a href="../Application/aamBuildPoseEstimator.html">aamBuildPoseEstimator</a> is used to build such a model.
+  </p>
+
+  <h3> Special case of human faces </h3>
+
+  <p>
+  The class <a href="../Class/RavlImageN.AAMFaceLocalisationC.html">AAMFaceLocalisationC</a> is designed for locating human faces. The current implementation is semi-automatic in the sense it requires initialisation of the search with some eye coordinates. Such information can be obtained from an eye locator. The application <a href="../Application/aamLocaliseFace.html">aamLocaliseFace</a> shows an example of fitting an appearance model to an image.
+  </p>
+
+  <p>
+  The class <a href="../Class/RavlImageN.AAMFaceCorrectionC.html">AAMFaceCorrectionC</a> is designed for pose estimation and correction of human faces. It includes methods for geometric normalisation based on the eyes coordinates. The application <a href="../Application/aamSynthesizeFrontal.html">aamSynthesizeFrontal</a> synthesise a frontal view of faces from a single view in an arbitrary unknown pose.
+  </p>
+
+  </body>
+</html>

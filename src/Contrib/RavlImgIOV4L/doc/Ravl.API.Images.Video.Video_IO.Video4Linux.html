@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Interface to Video 4 Linux frame grabbers </title>
+  </head>
+  <body>
+    <p>Requires library <code>RavlImgIOV4L</code></p>
+    <hr>
+    <p> This adds two new <a href="Ravl.API.Core.IO.Virtual_Files.html">virtual files</a> '@V4L' and '@V4LH' which can be used
+      to access video for linux drivers.
+    <p>
+    <ul>
+      <li> <b>V4L</b> - Gets full sized images from the image source. </li>
+      <li> <b>V4LH</b> - Gets half sized (in each dimension) images. </li>
+    </ul>
+    The filename is constructed as follows:
+    
+    <b>@V4L:</b>(device name)</b>[<b>#</b>(channel no)]
+    
+    <ul>
+      <li> <b>(device name)</b> - Name of video device, typically <code>/dev/video0</code> </li>
+      <li> <b>(channel no)</b> - Adding a # followed by a number to the filename sets the input channel number. If its omitted, it defaults to 0 </li>
+    </ul>
+    
+    <p>
+
+      The following code will grab a single image (See <a href="Ravl.API.Core.IO.html">Ravl.API.Core.IO</a>):
+    <pre>
+      ImageC&lt;ByteYUVValueC&gt; x;
+      Load("@V4L:/dev/video0#0", x);
+    </pre>
+
+    or a seqence of images (See <a href="Ravl.API.OS.Sequence.html">Ravl.API.OS.Sequence</a>) :
+
+    <pre>
+    DPIPortC&lt;ImageC&lt;ByteYUVValueC&gt; &gt; in;
+    if(!OpenISequence(in,"@V4L:/dev/video0#0")) {
+      // Failed to open input file.
+      // Report an error...
+    }
+    ImageC&lt;ByteYUVValueC&gt; value;
+    while(in.Get(value)) {
+      // Process your data...
+    }
+
+    </pre>
+    
+    <h3>V4L stream attributes:</h3>
+    <ul>
+      <li><b>framerate</b> Number of frames per second. </li>
+      <li><b>brightness</b> Brightness.Integer 0-65535  </li>
+      <li><b>contrast</b>  Contrast. Integer 0-65535  </li>
+      <li><b>gamma</b> Gamma correction. Integer 0-65535 </li>
+      <li><b>agc</b> Philips webcam. AGC control. Integer 0-65535  </li>
+      <li><b>indicator</b> Philips webcam. Control of the indicator. Lower 16 bits, time on, upper 16bits time off in milliseconds. </li>
+      <li><b>padded</b> Philips webcam. size of image padding. </li>
+      <li><b>compression</b> Philips webcam. Prefered compression 0-None 100-Maximum.  </li>
+      <li><b>shutter_speed</b> Philips webcam. Integer. Time in 1/65536 seconds ?  </li>
+      <li><b>whitebalance</b> Philips webcam. White balance mode.   </li>
+      <li><b>reset</b> Philips webcam. When set, resets the camera to its factory defaults.  </li>
+    </ul>
+    
+    <p> For more information on control's relating to the philips web cam driver see <a href="http://www.smcc.demon.nl/webcam">Philips USB webcam API<a>.
+    </p>
+  </body>
+</html>

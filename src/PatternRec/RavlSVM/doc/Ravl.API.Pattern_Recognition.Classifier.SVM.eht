@@ -1,0 +1,87 @@
+<html>
+  <head><title>! author="Alexey Kostin"
+: Support vector machines package</title></head>
+
+
+  <body><p>The package includes classes for dealing with the <i>Support vector
+  machines</i> (SVM) classifier. The original two classes classifier proposed
+  by Vapnik [<a>#ref_Vapnik>1</a>] is implemented. <i>Sequential Minimal
+  Optimisation</i> (SMO) method proposed by Platt {<a>#ref_Platt>2</a>] is
+  utilised for solving the quadratic optimisation problem.  The package
+  consists of three parts, namely,</p>
+
+    <ul>
+      <li> Class which designs SVM classifier 
+        <a href="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a>;</li>
+      <li> SVM classifier itself
+        <a href="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a>;</li>
+      <li> Set of <a href=
+      "Ravl.API.Pattern_Recognition.Classifier.SVM.Kernel_functions.html">
+      classes for kernel functions</a>.</li>
+    </ul>
+
+    <p>The <a href="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a> class
+    basically contains implementation of SMO algorithm for calculation of
+    Lagrangian multipliers in dual quadratic optimisation problem. Constructor
+    of the class accepts:</p>
+    <ul>
+      <li>KernelFunction parameter, which defines kernel function</li>
+      <li>penalty parameters Penalty1 and Penalty2 for shifting objects of
+        training set in case of non-separable classes</li>
+      <li>parameters of SMO algorithm Tolerance and Eps</li>
+      <li>LambdaThreshold parameter defining smallest value of lagrangian
+      multiplier, which is not rounded down to zero.</li>
+    </ul>
+    <p>The <code>Apply()</code> function of the class runs the SMO algorithm
+    on a training set. For convenience the <code>Apply()</code> function can
+    accept a different set of parameters. Basically there are two main
+    differences, namely in object labelling: '-1' for the first class (as it is
+    commonly adopted for SVM classifier) or '0' (Ravl style) and some
+    functions accept an ObjectsToUse parameter that is an array of object
+    indices from the whole training set, which should be used for
+    training.</p>
+
+    <p>The <a href="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a>
+    class is a very simple class which just calculates the value of the
+    discriminant function. The class has two functions:
+    <code>Classify()</code> and <code>ClassifySvm()</code>, the only
+    difference between them being in the return value. The
+    <code>Classify()</code> function should be virtual and comply with the
+    Ravl style of labelling classes, i.e. it returns '0' for the objects of
+    the first class. The <code>ClassifySvm()</code> function just returns the
+    value of discriminant function.</p>
+
+    <p>Both <a href="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a> and
+    <a href="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a> classes
+    use the abstraction of Kernel Function. Some of the most commonly used
+    kernel functions are already <a href=
+    "Ravl.API.Pattern_Recognition.Classifier.SVM.Kernel_functions.html">
+    included in the package</a>. But there is possibility to use any of your
+    own kernels by creating new classes, based on the <a
+    href="../Class/RavlN.KernelFunctionC.html">KernelFunctionC</a> base
+    class. In the case when there is no explicit features (featureless case)
+    there is a trick, which still allows the use of the package. Each object
+    should have unique number or set of numbers associated with it. The number
+    should be treated as a feature or features, then it is passed to the classes
+    from the package. But the featureless kernel function should use the
+    number as identifier of the data associated with the object.</p>
+
+    <h3> References:</h3> 
+
+    <p><a name="ref_Vapnik"></a> 1. <a
+    href="http://portal.acm.org/citation.cfm?id=130401"> Bernhard E. Boser
+    and Isabelle Guyon and Vladimir Vapnik. A Training Algorithm for Optimal
+    Margin Classifiers. <i>Computational Learning
+    Theory</i>. pp. 144-152. 1992. </a></p>
+
+    <p><a name="ref_Platt"></a> 2. <a
+    href="http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf">
+    J. Platt. Sequential minimal optimization: A fast algorithm for training
+    support vector machines. <i>Technical Report 98-14</i>, Microsoft
+    Research, Redmond, Washington, April 1998.
+    </a></p>
+
+  </body>
+</html>
+
+    

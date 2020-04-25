@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Automatic type conversion</title>
+  </head>
+  <body>
+
+The problem of proliferation of formats is not limited to files. It
+occurs in the structures used to represent the data used within
+programs as well.  If there are <b>N</b> different representations for some
+data within a program, and <b>M</b> different file formats, there could be
+a requirement for up to <b>N*M</b> load routines.
+
+<P>
+Fortunately the concept of a `Process' for transforming data from the
+previous section provides a solution.  As has been done for file
+formats it is possible to keep a database of known transformations
+between different data representations.  Using this database we can
+identify a transformation or set of transformations that converts
+between the representation used by a file format and that used by the
+program.
+
+<P>
+The set of transformations known to the program can be thought of as a
+graph, each node corresponding to a data representation, and the edges
+as transformations between them. The problem of finding the quickest
+way of converting one type to another becomes one of searching for
+the shortest path through the graph. This is a well-known and studied
+problem, and is easily solved.  Figure <A HREF="Ravl.API.Core.IO.Type_Converter.html#fig:typeconv">17</A> shows a
+simple type conversion graph. The numbers shown next to the edges are
+the defined costs of conversions which will be discussed next.  It is
+possible to convert between any two nodes in this graph even though
+not all conversions are defined; it is this consideration which
+justifies the added complexity of using such graphs, over a simple
+conversion list.
+
+<P>
+The nodes of the graph in Figure <A HREF="Ravl.API.Core.IO.Type_Converter.html#fig:typeconv">17</A>, are represented
+by the class `DPTypeInfoC', and the edges by the class `DPProcInfoC'.
+Both these classes contains virtual methods which allow the type conversion
+mechanism both to handle data, and construct conversion pipes without
+any direct reference to types themselves.  
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:typeconv"></A><A NAME="225"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 17:</STRONG>
+A simple type conversion graph.</CAPTION>
+<TR><TD>
+<IMG WIDTH="317" HEIGHT="98" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img27.png" ALT="typeconv.eps"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Sometimes information is lost in a conversion, e.g. turning a real
+number into an integer.  This means that not all paths through the
+graph are equally desirable.  Since the IO routines can not know what
+aspects of the information being handled are important we cannot
+guarantee the best conversion path is chosen.  It is possible to
+define a heuristic, which chooses the path which 'loses' the least
+information.  For this a value is associated with each conversion
+which estimates the relative information lost in the conversion.  The
+value is provided by the programmer, and should be the ratio of bits
+used in the representation of the output divided by the number used to
+represent the input data. The graph search then becomes a search for
+the least cost, leading to a problem with known solutions from
+computer science. The heuristic described above is a little ad-hoc,
+but in practice has provided satisfactory behaviour.
+
+<P>
+With the use of templating the addition of new conversion can be made
+very easy.  As with processes described earlier only a single function
+need be defined. The following example defines the conversion from
+an integer to a floating point number, (defined as RealT in RAVL),
+which loses no information and hence has a cost of one.
+
+<P>
+<BLOCKQUOTE>
+<TT>RealT DPConvIntT2RealT ( const IntT &amp;val ) 
+<BR>{ return ( RealT) val ; } 
+<BR>
+<BR>
+DP_REGISTER_CONVERSION ( DPConvIntT2RealT,1 ) ;
+</TT>
+</BLOCKQUOTE>
+
+<P>
+The type conversion mechanism is available should the user wish to use
+it.  The interface consists of 3 functions. The first, 'DPCanConvert'
+tests if a conversion is possible, and takes as argument references
+the C++ rtti type_info structure. A Boolean is returned indicating
+whether a conversion is possible.  The second function,
+`DPDoConvertion' takes as arguments two abstract handles, RCAbstractC,
+which can wrap any other C++ type rather like a void * in 'C'.  This
+will convert the handle from its original type to the one required, if
+possible.  If the conversion fails an invalid handle is returned.
+Finally a templated function, DPTypeConvert is provided which wraps
+the `DPDoConvertion' operation so the user can use the type conversion
+without any special constructions.  This final mechanism is provided
+mainly for testing the type conversion mechanism, as if both types are
+fully defined, conversion can be done through conventional C++
+means. The following example uses the interface to convert an integer
+to a double, the hard way.
+
+<P>
+<BLOCKQUOTE>
+<TT>int i = 10;
+<BR>
+double j;
+<BR>
+if(DPTypeConvert(i,j)) 
+<BR>{ cout &lt;&lt; "Conversion succeeded"; } 
+<BR></TT>
+</BLOCKQUOTE>
+
+  </body>
+</html>

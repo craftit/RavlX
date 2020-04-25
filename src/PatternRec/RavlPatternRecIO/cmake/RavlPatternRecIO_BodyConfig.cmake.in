@@ -1,0 +1,12 @@
+if(NOT RavlPatternRecIO_Body_FOUND)
+include(CMakeFindDependencyMacro)
+
+set(DEPENDS_ON RavlCore RavlIO RavlPatternRec RavlDataSet RavlMath RavlXMLFactory RavlThreads  )
+foreach(D IN LISTS DEPENDS_ON)
+  if(NOT ${D}_FOUND)
+    find_dependency(${D})
+  endif()
+endforeach()
+
+include("${CMAKE_CURRENT_LIST_DIR}/Target/RavlPatternRecIO_BodyConfig.cmake")
+endif()

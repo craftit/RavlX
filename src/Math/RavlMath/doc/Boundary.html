@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Region Boundaries</title>
+    <!--! docentry=Ravl.API.Images.Boundaries;Ravl.API.Math.Geometry.2D.Boundary -->
+  </head>
+
+  <body>
+    <p>Boundaries of regions are here represented by the line segments that form the junction between pixels of adjacent regions.  If the image is interpreted as an array of pixels on the form of square tiles, the boundary follows the edges of the tiles.  Thus each element <a href="../Class/RavlN.CrackC.html">CrackC</a> of a boundary <a href="../Class/RavlN.BoundaryC.html">BoundaryC</a> can be considered to be a vector of length 1 pixel, with 4 possible orientations.  It follows that the coordinate system used for the CrackC position is offset by 1/2 pixel in each direction with respect to the pixel position; thus a CrackC position of [i,j] is always at the "top left-hand" corner of pixel [i,j]:</p>
+    <img src="../../../html/Boundary.png" alt="illustration of boundary and boundary elements">
+
+    <p> This representation as the gap <i>between</i> the pixels is in contrast to the representation in <a href="Ravl.API.Images.Edges.html">Edges</a>.</p>
+
+
+    <hr>
+    <address><a href="mailto:w.christmas@ee.surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Tue Apr  6 17:00:24 BST 2004 -->
+<!-- hhmts start -->
+Last modified: Thu May  8 15:20:53 BST 2008
+<!-- hhmts end -->
+  </body>
+</html>

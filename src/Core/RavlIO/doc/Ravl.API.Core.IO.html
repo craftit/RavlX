@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! author="Charles Galambos, Bill Christmas" -->
+<!--! docentry="Ravl.API.Core.IO" -->
+<html>
+  <head>
+    <title>Input Output system</title>
+  </head>
+
+  <body>
+
+
+<p> The mechanisms for doing I/O in RAVL are:  </p> 
+
+    <ul>
+      <li><b>via C++ streams:</b> The standard C++ stream mechanism (See "The
+      C++ Programming Language" by B. Stroustrup) will read and write objects
+      in a format unique to RAVL.  The details for this mechanism and a
+      variation that allows the creation of binary streams can be found in <a
+      href="Ravl.API.Core.IO.Streams.html">Rav.API.Core.IO.Streams</a>. All
+      Ravl classes should contain an interface to C++ streams.</li> 
+
+      <li><b>via the <a href="#LoadSave"><code>Load()</code> /
+      <code>Save()</code></a> functions:</b> This is useful where there is a
+      choice of file formats, or where implicit data conversion is needed.
+      When outputting an object, it includes a header denoting the object
+      class. </li>
+
+      <li><b>via the <a href="Ravl.API.OS.Sequence.html">sequence mechanism</a></b>:
+      This is a mechanism for dealing with sequences of objects, such as
+      images in a video file.</li>
+    </ul>
+
+<h2> <a name="LoadSave"></a>Using the <a href=
+"../Class/RavlN.html#LoadObconst_StringC_Ref_DataT_Ref_StringC_boolCb">
+<code>Load()</code></a> / <a href=
+"../Class/RavlN.html#SaveObconst_StringC_Ref_const_DataT_Ref_StringC_boolCb"> <code>Save()</code></a> functions</h2>
+
+<p>The <code>Load()</code> / <code>Save()</code> functions in the RavlN namespace provide a
+more sophisticated I/O mechanism.  They were originally developed for the <a
+href="../Class/RavlImageN.ImageC.html">ImageC</a> template class (see <a
+href="Ravl.API.Images.IO.html">Image I/O</a>), but are now available for other
+classes as well.  The mechanism identifies the type of file being loaded, and
+selects the appropriate code for loading it, if it exists.  It will also do
+certain type conversions automatically where its is deemed safe to do so.  The
+algorithm picks the conversion with the least conversion cost, resolving any
+ambiguity by using the format with the highest priority.</p>
+
+<p>For example, to read a real image from an RAVL ASCII "streams" format file
+and store it in a pgm file:</p>
+
+<pre>
+  #include "Ravl/IO.hh"
+  ....
+  ImageC&lt;RealT&gt; x;
+  RavlN::Load("fred", x);
+  RavlN::Save("jim.pgm", x);
+</pre>
+
+<p>The pixel types in the files "fred" and "jim.pgm" are unknown at compile time; the appropriate
+type conversions therefore have to be selected at run time.</p>
+
+<p>When saving using <code>Save()</code>, the format can be specified either in the filename extension or in the "fileformat" argument. The two basic file types are "abs" (binary) and "streams" (ASCII).  If no hint of the file type is given, the "streams" ASCII format is used.  When loading with <code>Load()</code>, the RAVL I/O system usually seems to be smart enough to work out the file format for itself.</p>
+
+<p> A more complete example of how to use this mechanism is given in <a
+href="../../../Auto/Examples/exFileFormat.cc.html">exFileFormat.cc</a>.  Because the necessary I/O library is not known to QMake at compile time, to use this
+mechanism you'll have to include it explicitly in
+<code>defs.mk</code>, e.g.:</p>
+
+<pre>  USESLIBS = RavlIO .... </pre>
+
+    <p>Sometimes the documentation gives a hint of which library to use.  If not, try <a href="Ravl.API.Core.IO.IOHacks.html">here</a>.  We need to
+work on this.</p>
+
+<p>A list of currently supported formats can be obtained with the
+<code>conv</code> program: </p>
+<pre>  conv -lf </pre>
+
+ A list of automatic type conversions that are available can also be found:
+<pre>  conv -lc </pre>
+
+<p> <b>N.B.</b> If you are not using shared libraries (see "shared" command-line option in <a href="Ravl.QMake.html">QMake</a>), the increase 
+in size of your executable from this library can be <font size = +4>large</font>, because all of
+the possible formats and conversions have to be allowed for at compile/link
+time.
+
+
+    <h2> Writing your own <code>Load/Save</code> stuff <a name="writingyourown"/></h2>
+
+
+<h4>Simple Class IO</h4>
+
+Writing your own file I/O is a little more complicated. If all you want to do is
+load and save your own class, write basic stream operators for your class and
+then instantiate an instance of <code>FileFormatStreamC</code> class as a global variable.
+The following example shows how a file format for loading and saving <code>RealT</code> 
+objects to ASCII streams (type "stream") was created.
+
+<pre>
+  #include "Ravl/DP/FileFormatStream.hh"
+
+  FileFormatStreamC &lt;RealT&gt; FileFormatStream_RealT;
+</pre>
+
+If you wanted to write the data to a binary stream (type "abs") instead, you would use:
+
+<pre>
+  #include "Ravl/DP/FileFormatBinStream.hh"
+
+  FileFormatBinStreamC &lt;RealT&gt; FileFormatBinStream_RealT;
+</pre>
+
+
+<h4>Writing Conversions</h4>
+
+Writing your own data conversion classes is not much more difficult. You have
+to write a simple function which does the conversion and then instantiate an
+instance of the converter class <code>DPConverterFuncC</code>.  The following example shows
+the standard code for converting an <code>IntT</code> to a <code>RealT</code>. Note this conversion is
+safe since no information is lost. Care must be taken when writing these
+functions, especially if you lose information in the conversion, as it can lead
+to unexpected results.  The final parameter (= 1 in this example) indicates the
+degree of loss. (1 indicates no loss; 8 used to indicate double -> unsigned
+byte).
+
+<pre>
+  #include "Ravl/DP/Converter.hh"
+
+  RealT DPConvIntT2RealT(const IntT &val) 
+  { return (RealT) val; }
+
+  DP_REGISTER_CONVERSION(DPConvIntT2RealT,1);
+</pre>
+
+<h4>Creating a new file format</h4>
+
+The procedure for creating entirely new file formats is more involved. I'll
+give only an outline of the procedure here:
+
+<ol>
+
+<li> Create a new class each format that you wish to add one for loading and
+one for saving. These should be derived from DPIPortBodyC<> and DPOPortBodyC<>
+respectively.
+
+<li> Create a new FileFormatXXXC class derived from FileFormatBodyC. In this
+class override the virtual functions which identify the file format and create
+the input and output streams.
+
+<li> Create a static instance of the new file format class, to register it with
+the IO mechanism.
+
+</ol>
+
+  </body>
+</html>

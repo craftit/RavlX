@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Interface to Meteor1 frame grabber</title>
+  </head>
+
+  <body>
+    <p>Requires library <code>RavlImgIOMeteor1</code></p>
+    <hr>
+    <p>
+      This adds a new 
+      <a href="Ravl.API.Core.IO.Virtual_Files.html">virtual file</a> @METEOR1
+      which can be used to access matrox's meteor 1 frame grabber.  In order to
+      use this interface you must have the driver installed, it can be found at
+      <a href="http://home.att.net/~marksu/meteorman.html">http://home.att.net/~marksu/meteorman.html</a>.      
+    <p>
+      
+      The following code can then be used for grabbing a single image
+      (See <a href="Ravl.API.Core.IO.html">Ravl.API.Core.IO</a>):
+      
+    <pre>
+      ImageC&lt;ByteYUVValueC&gt; x;
+      Load("@METEOR1:/dev/meteor0", x);
+    </pre>
+
+    or a seqence (See <a href="Ravl.API.OS.Sequence.html">Ravl.API.OS.Sequence</a>)
+    
+    <pre>
+    DPIPortC&lt;ImageC&lt;ByteYUVValueC&gt; &gt; in;
+    if(!OpenISequence(in,"@METEOR1:/dev/meteor0")) {
+      // Failed to open input file.
+      // Report an error...
+    }
+    ImageC&lt;ByteYUVValueC&gt;  value;
+    while(in.Get(value)) {
+      // Process your data...
+    }
+
+    </pre>
+
+  </body> 
+</html>
+

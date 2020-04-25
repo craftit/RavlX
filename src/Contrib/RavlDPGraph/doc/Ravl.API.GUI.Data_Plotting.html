@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry="Ravl.API.Graphics.Plotting.DPGraph" -->
+<html>
+  <head>
+    <title>Data Processing Graphing</title>
+  </head>
+
+  <body>
+    <p>Requires library <code>RavlDPGraph</code></p>
+    <hr>
+    <p>This library allows the IO mechanism to 'save' data to the display as a graph.  The string "@GRAPH" is used in place of a file name.</p> 
+
+    <p>To save individual images to the display, see <a href="../../../examples/exDPGraphWindow.cc">this example</a>.</p>
+
+    <p>It can also be used to display a sequence of graphs via the RAVL streaming mechanism.  Thus if you want to output a series of graphs to the display, the constructor might be invoked as:</p>
+<pre>
+  DPOPortC<Array1dC<RealT> > outp;
+  if(!OpenOSequence(outp,"@GRAPH")) {
+    cerr << "Failed to open output '" << ofn << "'\n";
+    return 1;
+  }
+</pre>
+    <p>To give the window a label "Graphs", invoke it like this:</p>
+    <pre>  if(!OpenOSequence(outp,"@X:Graphs")) {
+</pre>
+
+<p>  Normally repeated saves to the same window will replace its contents, if you want to accumulate the results of processing in a window you can use <B>@GRAPHA</B>.
+
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Template Language</title>
+  </head>
+  <body>
+                             
+    The following is a brief description of the template language
+    implemented in the TemplateFileC and TemplateComplexC classes.
+    These are the basic commands provided for all templates. It is
+    easy to add more commands which are appropriate for a particular
+    application.
+    
+    <h2> Simple Templates </h2> The template file is copied character
+    for character to the output file, including cariage returns etc,
+    except in where the following strings are found.  This template
+    syntax is implemented in TemplateFileC.
+    <table>
+      <tr><td> <B>$(x)</B> </td><td> Substitute variable 'x' into
+	  file. </td></tr>
+      <tr><td> <B>$$(</b> </td><td> '$$(' becomes '$(' in the output. '$'
+	  followed by any other text is copied to the output. </td></tr>
+    </table>
+    Note: Extra close brackets ')' will be send to the output as normal.
+    
+    <h2> Complex Templates </h2>
+    
+    The TemplateComplexC file uses a similar syntax, but interprets
+    more complex variables, of the form:
+    
+    <B>$(x:a)</B> Execute command 'x' with parameter 'a' <br>	
+    
+    Note: expand in the following context means substitute all
+    variables in it, and make it value of the command. <br>
+
+    <h3> Commands </h3>
+    
+    Commands recognised by the basic interpreter are as follows:
+    
+    <table>
+      <tr><td> <B>$(//:a)</B></td><td> Discard 'a', as a comment </td></tr>
+      
+      <tr><td> <B>$(set:a=b)</B></td><td> Assign the expanded value of 'b' to variable a </td></tr>
+      
+      <tr><td> <B>$(for:a:b:c)</B></td><td> For each item in list 'b',
+	  separated by the delimiters in string 'a'.  Substitute %arg% into
+	  'c' and expand it.  If a number of deliminators are found in a
+	  row, they are treated as a single deliminator. i.e. two spaces
+	  in a row is treated as one space.  </td></tr>
+      
+      <tr><td> <B>$(if:a:b)</B></td><td> If condition 'a' is true,
+	  expand 'b'. For a description of conditions see below. </td></tr>
+      
+      <tr><td> <B>$(ifset:a:b)</B></td><td> If variable 'a' is set, or not set <B>$(ifset:!a:b)</B>, then expand 'b'. </td></tr>
+      
+      <tr><td> <B>$(else:a)</B></td><td> If the last condition failed, expand 'a' </td></tr>
+      
+      <tr><td> <B>$(include:a) </B></td><td> Include the file 'a' as if where part of
+	  this file.  Normaly this file is prefixed with the path to the template directory, but if the name is prefix with @, no prefix is applied. </td></tr>
+      
+      <tr><td> <B>$(sub:a)</B></td><td> Expand 'a' in new environment,
+	  with no variables set. The values of any variables set within
+	  this environment are discarded on completion. </td></tr>
+      
+      <tr><td> <B>$(subc:a)</B></td><td> Expand 'a' in new enviroment,
+	  with a copy of current variables. The values of any variables
+	  set or changed within this enviroment are discarded on
+	  completion. </td></tr>
+
+      <tr><td> <B>$(subst:a:b:c)</B></td><td> Expand 'c' and subitute all instances
+	 of string 'a' with string 'b'. Then output it.  </td></tr>
+      
+      <tr><td> <B>$(define:a:b)</B></td><td> Define a new macro called 'a', upon
+	  execution substitute the macro parameter for %arg% in 'b' and
+	  expand it.  Macros can then be executed as any other command.
+	  Caution, standard commands may be overriden with this</td></tr>
+      
+      <tr><td> <B>$(htmlsafe:a)</B></td><td> Make appropriate substitutions to an
+	  expanded version of 'a' so it will read properly in a html
+	  browser. </td></tr>
+      
+      <tr><td> <B>$(uppercase:a)</B></td><td> Expand 'a', and make it all upper case. </td></tr>
+      
+      <tr><td> <B>$(lowercase:a)</B></td><td> Expand 'a', and make it all lower case. </td></tr>
+      
+      <tr><td> <B>$(before:a:b)</B></td><td> Expand 'b', and make return all text before 'a'. 
+	  Return the whole string if 'a' is not found. </td></tr>
+      
+      <tr><td> <B>$(after:a:b)</B></td><td> Expand 'b', and make return all text after 'a'. 
+	  Return the whole string if 'a' is not found. </td></tr>
+      
+      <tr><td> <B>$(truncate:n:a)</B></td><td> Expand 'a', and truncate the string to 'n' charactors. </td></tr>
+      
+      <tr><td> <B>$(marktruncate:n:a:b)</B></td><td> Expand 'b', and truncate the string to 'n' charactors. if the string is truncated replace the last charactors in the string with 'a' </td></tr>
+      
+      <tr><td> <B>$(silent:a)</B></td><td> Expand 'a', but discard the output. This
+	  maybe used to comment the setup of variables, without sending
+	  the comments to the output file. </td></tr>
+      
+      <tr><td> <B>$(FilePattern:a)</B></td><td> Special keyword, ignored. Used in derived classes to indicate what files to generate. </td></tr>
+      
+      <tr><td> <B>$(FileObject:a)</B></td><td> Special keyword, ignored.  Used in derived classes to indicate what files to generate. </td></tr>
+    </table>
+    
+    <h3> Conditions </h3>
+    
+    Here are the conditions understood by <B>if</B> command:
+    <table>
+      <tr><td> <B>a = b</B> </td><td>  If 'a' equals 'b' </td></tr>
+      
+      <tr><td> <B>a != b</B> </td><td>  If 'a' does not equal 'b' </td></tr>
+      
+      <tr><td> <B>x &amp; y </B> </td><td>  If x and y are true, where 'x' and 'y' are conditions. </td></tr>
+      
+      <tr><td> <B>x | y </B> </td><td> If x or y are true, where 'x' and 'y' are conditions. </td></tr>
+    </table>
+    &amp; always has precident over |, making the condition a min
+    term.  The condition may include fix strings or variables,
+    which are proceeded by a '$'.  e.g. <B>$a=b</B> If the value
+    of variable 'a' equals 'b'
+    
+    <hr>
+    <address><a href="mailto:ees1cg@syzygy.ee.surrey.ac.uk">Charles Galambos</a></address>
+<!-- Created: Tue Feb 29 08:53:27 GMT 2000 -->
+<!-- hhmts start -->
+Last modified: Thu Jun  1 16:25:08 BST 2006
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry="Ravl.API.Math.Optimisation;Ravl.API.Pattern Recognition.Optimisation2" -->
+<!--! autoLinkContext=RavlN -->
+<!--! autoLink=on -->
+<html>
+  <head>
+    <title>Optimiser classes II</title>
+  </head>
+  <body>
+  This set of classes covers non-linear optimisation of a vector of parameters
+  using a combination of multiple observations.
+  Currently the supported algorithms are:
+    <ul>
+      <li> Levenberg-Marquardt least squares minimisation, with the added feature
+        of allowing robust observations. There is a
+        <a href="../../../html/levmarq.pdf">PDF document</a>
+        describing the theory underlying this implementation of
+        Levenberg-Marquardt.
+        The LevenbergMarquardtC class implements a standard
+        Levenberg-Marquardt damped least-squares iteration, given a
+        state vector and a list of observations.
+        There is an alternative Levenberg-Marquardt implementation in the
+        <a href="Ravl.API.Pattern_Recognition.Optimisation.Implementation.html">Optimisation I</a> category.
+      <li> RANSAC robust model fitting using randomised sampling.
+        The RansacC class constitutes a generic implementation
+        of RANSAC, with user-defined classes for sampling, fitting the
+        model to a sample and evaluating model parameters.
+    </ul>
+    <p> There is also a <a href="../../../html/Optimisation.pdf">presentation on RANSAC and Levenberg-Marquardt</a>.</p>
+    <p> The main principle embodied in the design of these classes is the need
+      for separating the role of the four major classes of objects involved in
+      optimisation:
+  <ol>
+    <li> A data item such as a point or a line, signifying a piece of data
+         that should fit one or more models for the data, along with an
+	 estimate for the uncertainty (covariance). ObsVectorC is the
+	 base class for such data points, and can be used directly for
+	 simple data items. Sub-classes of ObsVectorC deal
+	 with more complex error models (usually robust models, see
+	 ObsVectorBiGaussianC) and specific
+	 types of data items, of which the 2D point pair is the only
+	 current example (see ObsVectorPoint2dPairC and
+	 ObsVectorBGPoint2dPairC). For specific data item types the most
+	 useful, and probably only, added feature will be a specialised
+	 constructor dealing with a particular data type.
+    <li> The model to be fitted to the data. We organise the parameters of
+         the model into a vector (the "state vector"), and the base class
+	 StateVectorC encapsulates both the parameters and some standard
+	 methods acting on them, such as adjusting a parameter or returning
+	 the best estimate of the state vector. StateVectorC can be used
+	 directly in simple cases, but best practice is to derive a class
+	 specific to the model. This is often necessary in order to add
+	 certain functionality into the model, for instance dealing with
+	 redundant parameters (see the derived class StateVectorLine2dC).
+	 It also provides stronger type checking in the observation sub-classes
+	 (see below).
+    <li> The observation model relating a data item to the model being fitted.
+         This is the "glue" that pulls together the two class hierarchies
+	 described above. The ObservationC base class encapsulates the
+	 functional model for the relationship between a single data item
+	 and the model being fitted. Sub-classes ObservationExplicitC and
+	 ObservationImplicitC handle explicit and implicit functional models
+	 respectively. You will need to derive a class from either
+	 ObservationExplicitC or ObservationImplicit specific to the
+	 functional model of your observations. If the functional model can
+	 be put into explicit form, derive from ObservationExplicitC.
+	 If the optimisation requires derivatives, you can optionally supply
+	 a method to compute them; otherwise the default is to compute them
+	 numerically.
+    <li> The optimisation algorithm used to fit the model. Levenberg-Marquardt
+         and RANSAC are the currently implemented algorithms,
+	 and provide examples for building optimisation routines using the
+	 above classes.
+  </ol>
+
+  
+
+  </body>
+</html>

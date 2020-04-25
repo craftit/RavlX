@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <!--! docentry="Ravl.API.Core.IO.Virtual Files;Ravl.API.Images.IO.Virtual Files;Ravl.API.Audio.IO.Virtual Files" -->
+    <title>I/O to access system resources</title>
+  </head>
+  <body>
+    <p>The RAVL IO mechanism includes a way of accessing various system
+    resources as if they were files - "virtual files", much like devices in
+    /dev under UN*X.  In RAVL all virtual files start with the @
+    character. They allow you to access things like frame grabbers, audio
+    devices and the display as if they were files.</p>
+
+    <p> Here are some examples. (Note: Some of these links may be broken if
+    you don't have the appropriate software modules installed.) </p>
+      
+    <ul>
+      <li><a href="Ravl.API.Graphics.Data_Display.html"><b>@X</b> and <b>@XA</b></a> Used to display images on the screen. </li>
+      <li><a href="Ravl.API.Graphics.3D_Data_Display.html"><b>@GL</b></a> Used to display 3D objects on the screen. </li>
+      <li><a href="Ravl.API.Graphics.Graph_Plotting.DPGraph.html"><b>@GRAPH</b> and <b>@GRAPHA</b></a> Used to display data as a graph on the screen. </li>
+      <li><a href="Ravl.API.OS.Network.html"><B>@NET</b></a> Access an exported network port as a stream. &nbsp; </li>
+      <li><a href="Ravl.API.Images.Video.Video_IO.Video4Linux.html"><b>@V4L</b> and <b>@V4LH</b></a> Access a video 4 linux frame grabber. (From RAVL's Contrib library) </li>
+      <li><a href="Ravl.API.Images.Video.Video_IO.IIDC.html"><b>@IIDC</b></a> Firewire camera's using the IIDC protocol. (From RAVL's Contrib library) </li>
+      <li><a href="Ravl.API.Images.Video.Video_IO.Meteor1.html"><b>@METEOR1</b></a> Access a meteor 1 frame grabber. (From RAVL's Contrib library) </li>
+      <li><a href="Ravl.API.Images.Video.Video_IO.SGI_DMedia.html"><B>@DIVO</b></a> Driver for the SGI's  DIVO SDI frame grabber &nbsp; </li>
+      <li><a href="Ravl.API.Images.Video.Video_IO.ClipStationPro.html"><B>@CSP</b></a> Driver for the Clip Station Pro SDI frame grabber. &nbsp; </li>
+      <li><a href="Ravl.API.Audio.IO.Unix.html"><B>@DEVAUDIO</b></a> Input and output of audio streams from the /dev/audio and /dev/dsp linux devices &nbsp; </li>
+      <li><a href="Ravl.API.Core.IO.URL_Handling.html"><B>@http</b></a> Access web pages and images as if they were local files. &nbsp; </li>
+      <li><a href="Ravl.API.Core.IO.URL_Handling.html"><B>@https</b></a> Access secure web pages and images as if they were local files. &nbsp; </li>
+      <li><a href="Ravl.API.Core.IO.URL_Handling.html"><B>@ftp</b></a> Access files on an ftp server. &nbsp; </li>
+      <li><a href="Ravl.API.Core.IO.URL_Handling.html"><B>@ldap</b></a> Access files on a LDAP server. &nbsp; </li>
+      <li><B>@str</b> Allows a string embedded in a file name to read as if it were the contents of a
+      file. E.g. if this string is used in place of a "file name": &nbsp;
+      <code>"@str:... some data ..."</code>  then on reading the "file", its "contents" would be:
+      &nbsp; <code>... some data ...</code> </li>
+    </ul>
+    
+    
+  </body>
+</html>

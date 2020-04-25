@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+: Various fixed sized containers.
+
+These classes let you aggregate objects together without generating a
+new class. They have a hash method as so can be used to generate keys
+for hash tables. This saves on typing, but can make code difficult to
+follow, so use with caution.

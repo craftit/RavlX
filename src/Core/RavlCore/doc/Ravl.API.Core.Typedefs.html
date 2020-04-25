@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! autoLinkContext=RavlN -->
+<!--! autoLink=on -->
+<html>
+  <head>
+    <title>Typedefs</title>
+  </head>
+  <body>
+    
+    <p>There are a few typedefs commonly used in RAVL code. These make
+    it easier to port code transparently between different platforms
+    as it allows you to make assumptions about types you can't make
+    about the standard 'C' types.  E.g. in RAVL, IntT is guaranteed to
+    always be at least a 32-bit integer. 
+
+    <p> Most of them are defined <a href="../Class/RavlN.html#IntT">here</a>.
+    However, due to problems with the way the documentation system handles
+    multiple platforms, you might prefer to use the corresponding <a
+    href="../../../../../../include/Ravl/Types.hh">header file</a>. </p>
+    
+    <p>It's also worth noting the <a href= "../Class/RavlN.IndexC.html">
+    IndexC</a> class: this has been introduced as an alternative efficient
+    signed integer of at least 32 bits, as a work around for the many problems
+    that can arise from C's rounding and sign conversion rules. </p>
+    
+  </body>
+</html>

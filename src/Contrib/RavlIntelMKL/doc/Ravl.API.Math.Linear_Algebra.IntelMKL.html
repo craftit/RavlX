@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>IntelMKL, Extremely fast Linear Algebra routines</title>
+  </head>
+  <body>
+     <p>IntelMKL is an external library which provides an extremely efficient 
+     implementation of many linear algebra routines.  Intel have spent lots
+     of effort in parellelising the routines and they can be 100's of times faster
+     than the standard Ravl routines, especially on large matrices.  To use these 
+     routines you will need to install IntelMKL which is downloadable from the Intel web-site</p>
+     
+     <p>Whilst the following routines allow you to explicity call the 
+     IntelMKL routines, if you link the RavlIntelMKL library against any of your
+     executables then the equivalent IntelMKL routine may automatically be called to compute
+     the Inverse/EigenValues/SVD instead of using some of the normal Ravl functions.  
+     This is done via a series of hooks.</p>
+     
+     <p>Note, the Inverse function does not return the actual determinant and is
+     set to -1.0.  This is because the IntelMKL use Lapack routines and the determinant
+     is not returned from the Lapack library.</p>     
+
+  </body>
+</html>

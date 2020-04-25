@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Modules Header" -->
+    <title>Declaring the modules</title>
+  </head>
+
+  <body>
+    <p>Each module is a unique handle and body class.  The handle is derived
+    from the base handle <a href="../Class/MemModuleC.html">
+    <code>MemModuleC</code></a>, and the body from the corresponding abstract
+    body base class, <a href="../Class/MemModuleBodyC.html">
+    <code>MemModuleBodyC</code></a>.  The handle and most of the body are
+    generated automatically when the module is declared in an appropriate
+    header file using the <code>DECLARE_RAVL_MEM_MODULE</code> macro.  For
+    example the module "MyModule" is declared thus:</p>
+
+    <pre>DECLARE_RAVL_MEM_MODULE(MyModule);
+</pre>
+
+    <p>This will generate all of class <code>MyModuleC</code>,  and all of 
+    <code>MyModuleBodyC</code> apart from the application member
+    <code>MyModuleBodyC::Run()</code></p>
+
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Thu Feb 26 17:00:13 GMT 2009 -->
+<!-- hhmts start -->
+Last modified: Thu Feb 26 17:23:11 GMT 2009
+<!-- hhmts end -->
+  </body>
+</html>

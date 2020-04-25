@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!--! autoLinkContext=RavlN -->
+<!--! autoLink=on -->
+<html>
+  <head>
+    <title>Network and process communication</title>
+  </head>
+
+  <body>
+    <p>Requires library <code>RavlNet</code></p>
+    <hr>
+    There are currently 3 levels of networking support in RAVL:
+    <h3>Low level</h3>
+    
+    SocketC - This class provides low level socket operations associated TCP/IP and DNS networking. It hides the platform specific implementation details.
+    
+    <h3>Medium Level</h3>
+    
+    <p>NetIStreamC &amp; NetOStreamC - These allow a network stream to treated much like a file. You can use these to send data across a connection as text with the standard C++ '>>' and '<<' stream operators or with BinIStreamC and BinOStreamC as machine-independent binary.</p>
+
+    <p>Equivalently, you can open an IStreamC or OStreamC using the "@NET" virtual file name:  <code>@NET:trinity.ee.surrey.ac.uk:4345</code></p>
+
+    <p>NetEndPointC - Provides a mechanism for calling methods of a class across the network.</p>
+    
+    <h3> High level </h3>
+    
+    <a href="Ravl.API.OS.Network.NetPort.html">NetPort</a> - This class allows streams of data to exported across the network.  E.g. this can be used for transporting the results of image processing, or the raw images from a grabber card.
+    
+    
+  </body>
+</html>

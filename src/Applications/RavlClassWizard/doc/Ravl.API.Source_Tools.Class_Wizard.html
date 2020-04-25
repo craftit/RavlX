@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Class Wizard</title>
+  </head>
+
+  <body>
+<pre>
+Usage: cwiz [options] 
+   -p () [] Prefix to add to modified files, can be used to check results before applying the changes directly.  
+   -v (false) [false] Verbose mode. 
+   arg (.) [.] Input directory.  
+   -d (false) [false] Dry run, don't write any files. 
+   -s (false) [false] Write stubs. 
+   -dt (false) [false] Dump parse tree. 
+   -help (true) [false] Print usage information. 
+</pre>
+    <p>Class wizard is program designed to help with writing and maintaining Ravl style 'big objects'.  You write the body class, exactly as it should eventually be:
+</p>    <ul>
+      <li><pre>#include "Ravl/RefCounter.hh"</pre></li>
+      <li>with class name ending <code>...BodyC</code></li>
+      <li>with an entry under <code>HEADERS</code> in the <code>defs.mk</code> file</li>
+      <li>with public inheritance of RCBodyC </li>
+    </ul>
+    <p>If you run <code>cwiz</code> (with no options) it will add the handle class to all appropriately-formatted body classes that it finds, in that directory and any nested directories.  </p>
+
+    <p><a href="../../../html/CwizExample.hh">Download this example</a> and try it yourself.</p>
+
+<h2>Notes:</h2>
+
+<ul>
+      <li>By default, the header file is overwritten.  Use the "<code>-p</code>" option to specify a different o/p file.  Use "<code>-p -</code>" to write o/p to the terminal.</li>
+<li> Uses the public part of the body class as reference to maintain the handle class.</li>
+<li> Modifies existing header files, no need for seperate header compilation stage. </li>
+      <li>Updates existing handle classes when additions are made to body classes.</li>
+<li> Works around any modifications made by the author.</li>
+<li> All methods and classes that are added are marked with '//!author:cwiz'.</li>
+</ul>
+
+<p>
+<h2>Operations:</h2>
+<ul>
+<li> Create handle a method for each public body method. 
+<li> Create handle constructors for each public constructor in the body class.
+<li> If no handle class is found, creates the handle class and places it after the body class.
+<li> Remove handle methods and constructors for which there are no body methods. (Only methods marked with '//!author:cwiz')
+<li> Optionally will create stub functions for the .cc file with '-s' option.
+</ul>
+  </body>
+</html>
