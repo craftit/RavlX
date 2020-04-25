@@ -31,7 +31,7 @@ include_directories(../../Core/RavlCore/include)
 
 
 add_library(RavlUUId STATIC include/Ravl/GenerateUUId.hh src/GenerateUUId.cc)
-target_link_libraries(RavlUUId PUBLIC uuidTheo RavlThreads RavlCore )
+target_link_libraries(RavlUUId PUBLIC uuid RavlThreads RavlCore )
 
 
 target_include_directories(
