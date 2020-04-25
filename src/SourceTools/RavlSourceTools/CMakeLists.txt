@@ -62,32 +62,32 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS  )
 
-add_executable(defsCheck applications/defsCheck.cc )
+add_executable(defsCheck ${EXCLUDE_APPLICATIONS} applications/defsCheck.cc )
 target_link_libraries(defsCheck RavlSourceTools ${MAIN_LIBS} )
-install(TARGETS defsCheck DESTINATION bin)
+install(TARGETS defsCheck DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(annotate applications/annotate.cc )
+add_executable(annotate ${EXCLUDE_APPLICATIONS} applications/annotate.cc )
 target_link_libraries(annotate RavlSourceTools ${MAIN_LIBS} )
-install(TARGETS annotate DESTINATION bin)
+install(TARGETS annotate DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(amma2ravl applications/amma2ravl.cc )
+add_executable(amma2ravl ${EXCLUDE_APPLICATIONS} applications/amma2ravl.cc )
 target_link_libraries(amma2ravl RavlSourceTools ${MAIN_LIBS} )
-install(TARGETS amma2ravl DESTINATION bin)
+install(TARGETS amma2ravl DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(docSubst applications/docSubst.cc )
+add_executable(docSubst ${EXCLUDE_APPLICATIONS} applications/docSubst.cc )
 target_link_libraries(docSubst RavlSourceTools ${MAIN_LIBS} )
-install(TARGETS docSubst DESTINATION bin)
+install(TARGETS docSubst DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(docRename applications/docRename.cc )
+add_executable(docRename ${EXCLUDE_APPLICATIONS} applications/docRename.cc )
 target_link_libraries(docRename RavlSourceTools ${MAIN_LIBS} )
-install(TARGETS docRename DESTINATION bin)
+install(TARGETS docRename DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlOS  )
 
-add_executable(exBuildInfo EXCLUDE_FROM_ALL examples/exBuildInfo.cc )
+add_executable(exBuildInfo ${EXCLUDE_EXAMPLES} examples/exBuildInfo.cc )
 target_link_libraries(exBuildInfo RavlSourceTools ${EXAMPLE_LIBS} )
-install(TARGETS exBuildInfo DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exBuildInfo DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

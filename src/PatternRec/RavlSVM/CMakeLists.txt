@@ -93,54 +93,54 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlPatternRec RavlDataSet RavlMath RavlXMLFactory RavlThreads RavlIO ArffIO RavlOS RavlImage RavlImageIO RavlMathIO  )
 
-add_executable(oneClassTest applications/oneClassTest.cc )
+add_executable(oneClassTest ${EXCLUDE_APPLICATIONS} applications/oneClassTest.cc )
 target_link_libraries(oneClassTest RavlSVM ${MAIN_LIBS} )
-install(TARGETS oneClassTest DESTINATION bin)
+install(TARGETS oneClassTest DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(oneClassLargeTest applications/oneClassLargeTest.cc )
+add_executable(oneClassLargeTest ${EXCLUDE_APPLICATIONS} applications/oneClassLargeTest.cc )
 target_link_libraries(oneClassLargeTest RavlSVM ${MAIN_LIBS} )
-install(TARGETS oneClassLargeTest DESTINATION bin)
+install(TARGETS oneClassLargeTest DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(createClassifier applications/createClassifier.cc )
+add_executable(createClassifier ${EXCLUDE_APPLICATIONS} applications/createClassifier.cc )
 target_link_libraries(createClassifier RavlSVM ${MAIN_LIBS} )
-install(TARGETS createClassifier DESTINATION bin)
+install(TARGETS createClassifier DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(classifyArff applications/classifyArff.cc )
+add_executable(classifyArff ${EXCLUDE_APPLICATIONS} applications/classifyArff.cc )
 target_link_libraries(classifyArff RavlSVM ${MAIN_LIBS} )
-install(TARGETS classifyArff DESTINATION bin)
+install(TARGETS classifyArff DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(svmTest applications/svmTest.cc )
+add_executable(svmTest ${EXCLUDE_APPLICATIONS} applications/svmTest.cc )
 target_link_libraries(svmTest RavlSVM ${MAIN_LIBS} )
-install(TARGETS svmTest DESTINATION bin)
+install(TARGETS svmTest DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(svmTest2 applications/svmTest2.cc )
+add_executable(svmTest2 ${EXCLUDE_APPLICATIONS} applications/svmTest2.cc )
 target_link_libraries(svmTest2 RavlSVM ${MAIN_LIBS} )
-install(TARGETS svmTest2 DESTINATION bin)
+install(TARGETS svmTest2 DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(svmTest3 applications/svmTest3.cc )
+add_executable(svmTest3 ${EXCLUDE_APPLICATIONS} applications/svmTest3.cc )
 target_link_libraries(svmTest3 RavlSVM ${MAIN_LIBS} )
-install(TARGETS svmTest3 DESTINATION bin)
+install(TARGETS svmTest3 DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(svmTest4 applications/svmTest4.cc )
+add_executable(svmTest4 ${EXCLUDE_APPLICATIONS} applications/svmTest4.cc )
 target_link_libraries(svmTest4 RavlSVM ${MAIN_LIBS} )
-install(TARGETS svmTest4 DESTINATION bin)
+install(TARGETS svmTest4 DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(svmTest5 applications/svmTest5.cc )
+add_executable(svmTest5 ${EXCLUDE_APPLICATIONS} applications/svmTest5.cc )
 target_link_libraries(svmTest5 RavlSVM ${MAIN_LIBS} )
-install(TARGETS svmTest5 DESTINATION bin)
+install(TARGETS svmTest5 DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(classifyList applications/classifyList.cc )
+add_executable(classifyList ${EXCLUDE_APPLICATIONS} applications/classifyList.cc )
 target_link_libraries(classifyList RavlSVM ${MAIN_LIBS} )
-install(TARGETS classifyList DESTINATION bin)
+install(TARGETS classifyList DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 # Tests
 set(TEST_LIBS  RavlCore RavlPatternRec RavlDataSet RavlMath RavlXMLFactory RavlThreads RavlIO ArffIO RavlOS RavlImage RavlImageIO RavlMathIO  )
 
-add_executable(testSvmXMLFactory EXCLUDE_FROM_ALL tests/testSvmXMLFactory.cc )
+add_executable(testSvmXMLFactory ${EXCLUDE_UNITTESTS} tests/testSvmXMLFactory.cc )
 target_link_libraries(testSvmXMLFactory RavlSVM ${TEST_LIBS} )
 add_test(testSvmXMLFactory testSvmXMLFactory)
-install(TARGETS testSvmXMLFactory DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testSvmXMLFactory DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/RAVL/testData/svm ===

@@ -70,17 +70,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlGUI RavlImage RavlIO RavlMath ${GTK2_LIBRARIES} RavlCore RavlThreads RavlImageProc RavlOS  )
 
-add_executable(exCanvas EXCLUDE_FROM_ALL examples/exCanvas.cc )
+add_executable(exCanvas ${EXCLUDE_EXAMPLES} examples/exCanvas.cc )
 target_link_libraries(exCanvas RavlGUI2D ${EXAMPLE_LIBS} )
-install(TARGETS exCanvas DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exCanvas DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exRawZoomCanvas EXCLUDE_FROM_ALL examples/exRawZoomCanvas.cc )
+add_executable(exRawZoomCanvas ${EXCLUDE_EXAMPLES} examples/exRawZoomCanvas.cc )
 target_link_libraries(exRawZoomCanvas RavlGUI2D ${EXAMPLE_LIBS} )
-install(TARGETS exRawZoomCanvas DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exRawZoomCanvas DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exGUIMarkupCanvas EXCLUDE_FROM_ALL examples/exGUIMarkupCanvas.cc )
+add_executable(exGUIMarkupCanvas ${EXCLUDE_EXAMPLES} examples/exGUIMarkupCanvas.cc )
 target_link_libraries(exGUIMarkupCanvas RavlGUI2D ${EXAMPLE_LIBS} )
-install(TARGETS exGUIMarkupCanvas DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exGUIMarkupCanvas DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

@@ -85,9 +85,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlAAM RavlGUI2D RavlCore RavlImage RavlImageProc RavlMath RavlOS RavlPatternRec RavlOptimise RavlIO Optimisation RavlXMLFactory RavlThreads RavlGUI RavlDataSet RavlImageIO RavlExtImgIO RavlMathIO  )
 
-add_executable(aamViewShapeModel applications/aamViewShapeModel.cc )
+add_executable(aamViewShapeModel ${EXCLUDE_APPLICATIONS} applications/aamViewShapeModel.cc )
 target_link_libraries(aamViewShapeModel RavlAAMGUI ${MAIN_LIBS} )
-install(TARGETS aamViewShapeModel DESTINATION bin)
+install(TARGETS aamViewShapeModel DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

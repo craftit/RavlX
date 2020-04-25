@@ -93,13 +93,13 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlImage RavlIO ${libmpeg2_LIBRARIES} RavlCore RavlOS  )
 
-add_executable(exMPEG2 EXCLUDE_FROM_ALL examples/exMPEG2.cc )
+add_executable(exMPEG2 ${EXCLUDE_EXAMPLES} examples/exMPEG2.cc )
 target_link_libraries(exMPEG2 RavlLibMPEG2 ${EXAMPLE_LIBS} )
-install(TARGETS exMPEG2 DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exMPEG2 DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exMPEG2Seek EXCLUDE_FROM_ALL examples/exMPEG2Seek.cc )
+add_executable(exMPEG2Seek ${EXCLUDE_EXAMPLES} examples/exMPEG2Seek.cc )
 target_link_libraries(exMPEG2Seek RavlLibMPEG2 ${EXAMPLE_LIBS} )
-install(TARGETS exMPEG2Seek DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exMPEG2Seek DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

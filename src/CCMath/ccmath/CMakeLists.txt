@@ -63,10 +63,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlCore  )
 
-add_executable(testValS EXCLUDE_FROM_ALL tests/testValS.cc )
+add_executable(testValS ${EXCLUDE_UNITTESTS} tests/testValS.cc )
 target_link_libraries(testValS ccmath ${TEST_LIBS} )
 add_test(testValS testValS)
-install(TARGETS testValS DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testValS DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

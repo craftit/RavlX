@@ -56,9 +56,9 @@ endif()
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS RavlIO RavlVideoIO RavlImage RavlOSIO RavlImageIO  )
 
-add_executable(VGrab applications/VGrab.cc )
+add_executable(VGrab ${EXCLUDE_APPLICATIONS} applications/VGrab.cc )
 target_link_libraries(VGrab  ${MAIN_LIBS} )
-install(TARGETS VGrab DESTINATION bin)
+install(TARGETS VGrab DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

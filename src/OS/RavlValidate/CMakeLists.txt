@@ -62,9 +62,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS  )
 
-add_executable(Validate applications/Validate.cc )
+add_executable(Validate ${EXCLUDE_APPLICATIONS} applications/Validate.cc )
 target_link_libraries(Validate RavlValidate ${MAIN_LIBS} )
-install(TARGETS Validate DESTINATION bin)
+install(TARGETS Validate DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

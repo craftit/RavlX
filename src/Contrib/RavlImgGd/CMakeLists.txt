@@ -66,10 +66,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlImage ${libgd_LIBRARIES} RavlIO RavlCore  )
 
-add_executable(testGd EXCLUDE_FROM_ALL tests/testGd.cc )
+add_executable(testGd ${EXCLUDE_UNITTESTS} tests/testGd.cc )
 target_link_libraries(testGd RavlImgGd ${TEST_LIBS} )
 add_test(testGd testGd)
-install(TARGETS testGd DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testGd DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

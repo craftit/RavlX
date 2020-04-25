@@ -89,9 +89,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlIO ${audiofile_LIBRARIES} RavlAudioUtil RavlAudioIO RavlCore RavlOSIO RavlDevAudio  )
 
-add_executable(exAudioFile EXCLUDE_FROM_ALL examples/exAudioFile.cc )
+add_executable(exAudioFile ${EXCLUDE_EXAMPLES} examples/exAudioFile.cc )
 target_link_libraries(exAudioFile RavlAudioFile ${EXAMPLE_LIBS} )
-install(TARGETS exAudioFile DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exAudioFile DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

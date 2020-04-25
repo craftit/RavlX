@@ -64,25 +64,25 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlCore RavlMath  )
 
-add_executable(OrthogonalRegressionTest EXCLUDE_FROM_ALL tests/OrthogonalRegressionTest.cc )
+add_executable(OrthogonalRegressionTest ${EXCLUDE_UNITTESTS} tests/OrthogonalRegressionTest.cc )
 target_link_libraries(OrthogonalRegressionTest RavlOptimise ${TEST_LIBS} )
 add_test(OrthogonalRegressionTest OrthogonalRegressionTest)
-install(TARGETS OrthogonalRegressionTest DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS OrthogonalRegressionTest DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(QuadraticFitTest EXCLUDE_FROM_ALL tests/QuadraticFitTest.cc )
+add_executable(QuadraticFitTest ${EXCLUDE_UNITTESTS} tests/QuadraticFitTest.cc )
 target_link_libraries(QuadraticFitTest RavlOptimise ${TEST_LIBS} )
 add_test(QuadraticFitTest QuadraticFitTest)
-install(TARGETS QuadraticFitTest DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS QuadraticFitTest DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(Homography2dFitTest EXCLUDE_FROM_ALL tests/Homography2dFitTest.cc )
+add_executable(Homography2dFitTest ${EXCLUDE_UNITTESTS} tests/Homography2dFitTest.cc )
 target_link_libraries(Homography2dFitTest RavlOptimise ${TEST_LIBS} )
 add_test(Homography2dFitTest Homography2dFitTest)
-install(TARGETS Homography2dFitTest DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS Homography2dFitTest DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(Affine2dFitTest EXCLUDE_FROM_ALL tests/Affine2dFitTest.cc )
+add_executable(Affine2dFitTest ${EXCLUDE_UNITTESTS} tests/Affine2dFitTest.cc )
 target_link_libraries(Affine2dFitTest RavlOptimise ${TEST_LIBS} )
 add_test(Affine2dFitTest Affine2dFitTest)
-install(TARGETS Affine2dFitTest DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS Affine2dFitTest DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

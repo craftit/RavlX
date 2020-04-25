@@ -93,9 +93,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlIO RavlAudioUtil RavlAudioIO ${libpulse-simple_LIBRARIES} RavlThreads RavlCore RavlOSIO RavlOS  )
 
-add_executable(exPulseAudio EXCLUDE_FROM_ALL examples/exPulseAudio.cc )
+add_executable(exPulseAudio ${EXCLUDE_EXAMPLES} examples/exPulseAudio.cc )
 target_link_libraries(exPulseAudio RavlPulseAudio ${EXAMPLE_LIBS} )
-install(TARGETS exPulseAudio DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exPulseAudio DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

@@ -64,9 +64,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCxxDoc RavlCore RavlOS RavlSourceTools  )
 
-add_executable(cwiz applications/cwiz.cc )
+add_executable(cwiz ${EXCLUDE_APPLICATIONS} applications/cwiz.cc )
 target_link_libraries(cwiz RavlClassWizard ${MAIN_LIBS} )
-install(TARGETS cwiz DESTINATION bin)
+install(TARGETS cwiz DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

@@ -33,9 +33,9 @@ include_directories(../../SourceTools/RavlSourceTools/include)
 # Mains
 set(MAIN_LIBS  RavlOS RavlSourceTools  )
 
-add_executable(q2cmake applications/q2cmake.cc )
+add_executable(q2cmake ${EXCLUDE_APPLICATIONS} applications/q2cmake.cc )
 target_link_libraries(q2cmake  ${MAIN_LIBS} )
-install(TARGETS q2cmake DESTINATION bin)
+install(TARGETS q2cmake DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

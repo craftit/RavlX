@@ -88,13 +88,13 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlXMLFactory ${libzmq_LIBRARIES} RavlService RavlIO RavlThreads RavlOS  )
 
-add_executable(testRavlZeroMQ applications/testRavlZeroMQ.cc )
+add_executable(testRavlZeroMQ ${EXCLUDE_APPLICATIONS} applications/testRavlZeroMQ.cc )
 target_link_libraries(testRavlZeroMQ RavlZmq ${MAIN_LIBS} )
-install(TARGETS testRavlZeroMQ DESTINATION bin)
+install(TARGETS testRavlZeroMQ DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(testRavlZeroMQXML applications/testRavlZeroMQXML.cc )
+add_executable(testRavlZeroMQXML ${EXCLUDE_APPLICATIONS} applications/testRavlZeroMQXML.cc )
 target_link_libraries(testRavlZeroMQXML RavlZmq ${MAIN_LIBS} )
-install(TARGETS testRavlZeroMQXML DESTINATION bin)
+install(TARGETS testRavlZeroMQXML DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

@@ -92,13 +92,13 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlGUI RavlXMLFactory ${libglade_LIBRARIES} RavlCore RavlThreads RavlImage RavlMath RavlOS RavlIO  )
 
-add_executable(exLibGlade EXCLUDE_FROM_ALL examples/exLibGlade.cc )
+add_executable(exLibGlade ${EXCLUDE_EXAMPLES} examples/exLibGlade.cc )
 target_link_libraries(exLibGlade RavlLibGlade ${EXAMPLE_LIBS} )
-install(TARGETS exLibGlade DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exLibGlade DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exLibGladeCustom EXCLUDE_FROM_ALL examples/exLibGladeCustom.cc )
+add_executable(exLibGladeCustom ${EXCLUDE_EXAMPLES} examples/exLibGladeCustom.cc )
 target_link_libraries(exLibGladeCustom RavlLibGlade ${EXAMPLE_LIBS} )
-install(TARGETS exLibGladeCustom DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exLibGladeCustom DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

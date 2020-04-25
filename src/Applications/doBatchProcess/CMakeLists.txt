@@ -43,9 +43,9 @@ endif()
 # Mains
 set(MAIN_LIBS  RavlOSIO RavlPatternRec RavlAudioFeatures RavlAudioIO RavlCore RavlXMLFactory RavlThreads RavlIO RavlOS  )
 
-add_executable(doBatchProcess applications/doBatchProcess.cc )
+add_executable(doBatchProcess ${EXCLUDE_APPLICATIONS} applications/doBatchProcess.cc )
 target_link_libraries(doBatchProcess  ${MAIN_LIBS} )
-install(TARGETS doBatchProcess DESTINATION bin)
+install(TARGETS doBatchProcess DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

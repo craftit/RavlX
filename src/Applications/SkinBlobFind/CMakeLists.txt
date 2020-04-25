@@ -40,9 +40,9 @@ include_directories(../../OS/RavlOS/include)
 # Mains
 set(MAIN_LIBS  RavlImage RavlImageIO RavlExtImgIO RavlOSIO RavlImageProc RavlCore RavlIO RavlMath RavlOS  )
 
-add_executable(SkinBlobFind applications/SkinBlobFind.cc )
+add_executable(SkinBlobFind ${EXCLUDE_APPLICATIONS} applications/SkinBlobFind.cc )
 target_link_libraries(SkinBlobFind  ${MAIN_LIBS} )
-install(TARGETS SkinBlobFind DESTINATION bin)
+install(TARGETS SkinBlobFind DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

@@ -91,9 +91,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlImageIO RavlOSIO RavlImage RavlCore RavlIO RavlOS  )
 
-add_executable(exImgSeq EXCLUDE_FROM_ALL examples/exImgSeq.cc )
+add_executable(exImgSeq ${EXCLUDE_EXAMPLES} examples/exImgSeq.cc )
 target_link_libraries(exImgSeq RavlVideoIO ${EXAMPLE_LIBS} )
-install(TARGETS exImgSeq DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exImgSeq DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

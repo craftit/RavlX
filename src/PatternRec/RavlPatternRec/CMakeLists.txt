@@ -102,107 +102,107 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlMath RavlOSIO RavlIO fann RavlXMLFactory RavlMathIO RavlDataSet Optimisation RavlThreads RavlPlot RavlImage RavlOS RavlPatternRecIO RavlSVM  )
 
-add_executable(doCluster applications/doCluster.cc )
+add_executable(doCluster ${EXCLUDE_APPLICATIONS} applications/doCluster.cc )
 target_link_libraries(doCluster RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doCluster DESTINATION bin)
+install(TARGETS doCluster DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doPolyFit applications/doPolyFit.cc )
+add_executable(doPolyFit ${EXCLUDE_APPLICATIONS} applications/doPolyFit.cc )
 target_link_libraries(doPolyFit RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doPolyFit DESTINATION bin)
+install(TARGETS doPolyFit DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doDimensionReduction applications/doDimensionReduction.cc )
+add_executable(doDimensionReduction ${EXCLUDE_APPLICATIONS} applications/doDimensionReduction.cc )
 target_link_libraries(doDimensionReduction RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doDimensionReduction DESTINATION bin)
+install(TARGETS doDimensionReduction DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doLeaveOneOut applications/doLeaveOneOut.cc )
+add_executable(doLeaveOneOut ${EXCLUDE_APPLICATIONS} applications/doLeaveOneOut.cc )
 target_link_libraries(doLeaveOneOut RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doLeaveOneOut DESTINATION bin)
+install(TARGETS doLeaveOneOut DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doTrainClassifier applications/doTrainClassifier.cc )
+add_executable(doTrainClassifier ${EXCLUDE_APPLICATIONS} applications/doTrainClassifier.cc )
 target_link_libraries(doTrainClassifier RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doTrainClassifier DESTINATION bin)
+install(TARGETS doTrainClassifier DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doTestClassifier applications/doTestClassifier.cc )
+add_executable(doTestClassifier ${EXCLUDE_APPLICATIONS} applications/doTestClassifier.cc )
 target_link_libraries(doTestClassifier RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doTestClassifier DESTINATION bin)
+install(TARGETS doTestClassifier DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doTrainCascadeClassifier applications/doTrainCascadeClassifier.cc )
+add_executable(doTrainCascadeClassifier ${EXCLUDE_APPLICATIONS} applications/doTrainCascadeClassifier.cc )
 target_link_libraries(doTrainCascadeClassifier RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doTrainCascadeClassifier DESTINATION bin)
+install(TARGETS doTrainCascadeClassifier DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doClassify applications/doClassify.cc )
+add_executable(doClassify ${EXCLUDE_APPLICATIONS} applications/doClassify.cc )
 target_link_libraries(doClassify RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doClassify DESTINATION bin)
+install(TARGETS doClassify DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doAsymmetricAdaBoost applications/doAsymmetricAdaBoost.cc )
+add_executable(doAsymmetricAdaBoost ${EXCLUDE_APPLICATIONS} applications/doAsymmetricAdaBoost.cc )
 target_link_libraries(doAsymmetricAdaBoost RavlPatternRec ${MAIN_LIBS} )
-install(TARGETS doAsymmetricAdaBoost DESTINATION bin)
+install(TARGETS doAsymmetricAdaBoost DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlMath RavlOSIO RavlIO fann RavlXMLFactory RavlMathIO RavlDataSet Optimisation RavlThreads RavlPlot RavlImage RavlOS RavlPatternRecIO RavlSVM  )
 
-add_executable(exKMeansCluster EXCLUDE_FROM_ALL examples/exKMeansCluster.cc )
+add_executable(exKMeansCluster ${EXCLUDE_EXAMPLES} examples/exKMeansCluster.cc )
 target_link_libraries(exKMeansCluster RavlPatternRec ${EXAMPLE_LIBS} )
-install(TARGETS exKMeansCluster DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exKMeansCluster DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exFuzzyCMeansCluster EXCLUDE_FROM_ALL examples/exFuzzyCMeansCluster.cc )
+add_executable(exFuzzyCMeansCluster ${EXCLUDE_EXAMPLES} examples/exFuzzyCMeansCluster.cc )
 target_link_libraries(exFuzzyCMeansCluster RavlPatternRec ${EXAMPLE_LIBS} )
-install(TARGETS exFuzzyCMeansCluster DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exFuzzyCMeansCluster DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDesignMeanShiftCluster EXCLUDE_FROM_ALL examples/exDesignMeanShiftCluster.cc )
+add_executable(exDesignMeanShiftCluster ${EXCLUDE_EXAMPLES} examples/exDesignMeanShiftCluster.cc )
 target_link_libraries(exDesignMeanShiftCluster RavlPatternRec ${EXAMPLE_LIBS} )
-install(TARGETS exDesignMeanShiftCluster DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDesignMeanShiftCluster DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDesignGaussianMixture EXCLUDE_FROM_ALL examples/exDesignGaussianMixture.cc )
+add_executable(exDesignGaussianMixture ${EXCLUDE_EXAMPLES} examples/exDesignGaussianMixture.cc )
 target_link_libraries(exDesignGaussianMixture RavlPatternRec ${EXAMPLE_LIBS} )
-install(TARGETS exDesignGaussianMixture DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDesignGaussianMixture DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exKNearestNeighbour EXCLUDE_FROM_ALL examples/exKNearestNeighbour.cc )
+add_executable(exKNearestNeighbour ${EXCLUDE_EXAMPLES} examples/exKNearestNeighbour.cc )
 target_link_libraries(exKNearestNeighbour RavlPatternRec ${EXAMPLE_LIBS} )
-install(TARGETS exKNearestNeighbour DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exKNearestNeighbour DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlMath RavlOSIO RavlIO fann RavlXMLFactory RavlMathIO RavlDataSet Optimisation RavlThreads RavlPlot RavlImage RavlOS RavlPatternRecIO RavlSVM  )
 
-add_executable(testMeasure EXCLUDE_FROM_ALL tests/testMeasure.cc )
+add_executable(testMeasure ${EXCLUDE_UNITTESTS} tests/testMeasure.cc )
 target_link_libraries(testMeasure RavlPatternRec ${TEST_LIBS} )
 add_test(testMeasure testMeasure)
-install(TARGETS testMeasure DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testMeasure DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testDistanceXMLFactory EXCLUDE_FROM_ALL tests/testDistanceXMLFactory.cc )
+add_executable(testDistanceXMLFactory ${EXCLUDE_UNITTESTS} tests/testDistanceXMLFactory.cc )
 target_link_libraries(testDistanceXMLFactory RavlPatternRec ${TEST_LIBS} )
 add_test(testDistanceXMLFactory testDistanceXMLFactory)
-install(TARGETS testDistanceXMLFactory DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDistanceXMLFactory DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testPatternRecCluster EXCLUDE_FROM_ALL tests/testPatternRecCluster.cc )
+add_executable(testPatternRecCluster ${EXCLUDE_UNITTESTS} tests/testPatternRecCluster.cc )
 target_link_libraries(testPatternRecCluster RavlPatternRec ${TEST_LIBS} )
 add_test(testPatternRecCluster testPatternRecCluster)
-install(TARGETS testPatternRecCluster DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testPatternRecCluster DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testBasicModels EXCLUDE_FROM_ALL tests/testBasicModels.cc )
+add_executable(testBasicModels ${EXCLUDE_UNITTESTS} tests/testBasicModels.cc )
 target_link_libraries(testBasicModels RavlPatternRec ${TEST_LIBS} )
 add_test(testBasicModels testBasicModels)
-install(TARGETS testBasicModels DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testBasicModels DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testGaussianMixture EXCLUDE_FROM_ALL tests/testGaussianMixture.cc )
+add_executable(testGaussianMixture ${EXCLUDE_UNITTESTS} tests/testGaussianMixture.cc )
 target_link_libraries(testGaussianMixture RavlPatternRec ${TEST_LIBS} )
 add_test(testGaussianMixture testGaussianMixture)
-install(TARGETS testGaussianMixture DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testGaussianMixture DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testClassifier EXCLUDE_FROM_ALL tests/testClassifier.cc )
+add_executable(testClassifier ${EXCLUDE_UNITTESTS} tests/testClassifier.cc )
 target_link_libraries(testClassifier RavlPatternRec ${TEST_LIBS} )
 add_test(testClassifier testClassifier)
-install(TARGETS testClassifier DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testClassifier DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testClassifierXMLFactory EXCLUDE_FROM_ALL tests/testClassifierXMLFactory.cc )
+add_executable(testClassifierXMLFactory ${EXCLUDE_UNITTESTS} tests/testClassifierXMLFactory.cc )
 target_link_libraries(testClassifierXMLFactory RavlPatternRec ${TEST_LIBS} )
 add_test(testClassifierXMLFactory testClassifierXMLFactory)
-install(TARGETS testClassifierXMLFactory DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testClassifierXMLFactory DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testClassifierOneAgainstAll EXCLUDE_FROM_ALL tests/testClassifierOneAgainstAll.cc )
+add_executable(testClassifierOneAgainstAll ${EXCLUDE_UNITTESTS} tests/testClassifierOneAgainstAll.cc )
 target_link_libraries(testClassifierOneAgainstAll RavlPatternRec ${TEST_LIBS} )
 add_test(testClassifierOneAgainstAll testClassifierOneAgainstAll)
-install(TARGETS testClassifierOneAgainstAll DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testClassifierOneAgainstAll DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/Ravl/PatternRec ===

@@ -102,45 +102,45 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlMath RavlImageProc RavlCore RavlIO RavlImage RavlOS RavlXMLFactory RavlRLog ${librlog_LIBRARIES} RavlGnuPlot RavlDataSet RavlThreads RavlTwoWayMap RavlPlot RavlPatternRecIO RavlSVM RavlOSIO RavlPatternRec  )
 
-add_executable(readFaceXml applications/readFaceXml.cc )
+add_executable(readFaceXml ${EXCLUDE_APPLICATIONS} applications/readFaceXml.cc )
 target_link_libraries(readFaceXml RavlFace ${MAIN_LIBS} )
-install(TARGETS readFaceXml DESTINATION bin)
+install(TARGETS readFaceXml DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(copyFaceXml applications/copyFaceXml.cc )
+add_executable(copyFaceXml ${EXCLUDE_APPLICATIONS} applications/copyFaceXml.cc )
 target_link_libraries(copyFaceXml RavlFace ${MAIN_LIBS} )
-install(TARGETS copyFaceXml DESTINATION bin)
+install(TARGETS copyFaceXml DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(modifyFaceXml applications/modifyFaceXml.cc )
+add_executable(modifyFaceXml ${EXCLUDE_APPLICATIONS} applications/modifyFaceXml.cc )
 target_link_libraries(modifyFaceXml RavlFace ${MAIN_LIBS} )
-install(TARGETS modifyFaceXml DESTINATION bin)
+install(TARGETS modifyFaceXml DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(splitFaceXml applications/splitFaceXml.cc )
+add_executable(splitFaceXml ${EXCLUDE_APPLICATIONS} applications/splitFaceXml.cc )
 target_link_libraries(splitFaceXml RavlFace ${MAIN_LIBS} )
-install(TARGETS splitFaceXml DESTINATION bin)
+install(TARGETS splitFaceXml DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(faceInfoDb2enrolSession applications/faceInfoDb2enrolSession.cc )
+add_executable(faceInfoDb2enrolSession ${EXCLUDE_APPLICATIONS} applications/faceInfoDb2enrolSession.cc )
 target_link_libraries(faceInfoDb2enrolSession RavlFace ${MAIN_LIBS} )
-install(TARGETS faceInfoDb2enrolSession DESTINATION bin)
+install(TARGETS faceInfoDb2enrolSession DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(insertFeatureSets applications/insertFeatureSets.cc )
+add_executable(insertFeatureSets ${EXCLUDE_APPLICATIONS} applications/insertFeatureSets.cc )
 target_link_libraries(insertFeatureSets RavlFace ${MAIN_LIBS} )
-install(TARGETS insertFeatureSets DESTINATION bin)
+install(TARGETS insertFeatureSets DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(mergeSightingSets applications/mergeSightingSets.cc )
+add_executable(mergeSightingSets ${EXCLUDE_APPLICATIONS} applications/mergeSightingSets.cc )
 target_link_libraries(mergeSightingSets RavlFace ${MAIN_LIBS} )
-install(TARGETS mergeSightingSets DESTINATION bin)
+install(TARGETS mergeSightingSets DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(perturbFaceXml applications/perturbFaceXml.cc )
+add_executable(perturbFaceXml ${EXCLUDE_APPLICATIONS} applications/perturbFaceXml.cc )
 target_link_libraries(perturbFaceXml RavlFace ${MAIN_LIBS} )
-install(TARGETS perturbFaceXml DESTINATION bin)
+install(TARGETS perturbFaceXml DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(faceInfoDb2SightingSet applications/faceInfoDb2SightingSet.cc )
+add_executable(faceInfoDb2SightingSet ${EXCLUDE_APPLICATIONS} applications/faceInfoDb2SightingSet.cc )
 target_link_libraries(faceInfoDb2SightingSet RavlFace ${MAIN_LIBS} )
-install(TARGETS faceInfoDb2SightingSet DESTINATION bin)
+install(TARGETS faceInfoDb2SightingSet DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doClassifierRoc applications/doClassifierRoc.cc )
+add_executable(doClassifierRoc ${EXCLUDE_APPLICATIONS} applications/doClassifierRoc.cc )
 target_link_libraries(doClassifierRoc RavlFace ${MAIN_LIBS} )
-install(TARGETS doClassifierRoc DESTINATION bin)
+install(TARGETS doClassifierRoc DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

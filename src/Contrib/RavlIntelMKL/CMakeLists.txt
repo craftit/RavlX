@@ -87,15 +87,15 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  ${MKL_LIBRARIES} RavlMath RavlCore RavlOS  )
 
-add_executable(testIntelFFT2d EXCLUDE_FROM_ALL tests/testIntelFFT2d.cc )
+add_executable(testIntelFFT2d ${EXCLUDE_UNITTESTS} tests/testIntelFFT2d.cc )
 target_link_libraries(testIntelFFT2d RavlIntelMKL ${TEST_LIBS} )
 add_test(testIntelFFT2d testIntelFFT2d)
-install(TARGETS testIntelFFT2d DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testIntelFFT2d DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testIntelMKL EXCLUDE_FROM_ALL tests/testIntelMKL.cc )
+add_executable(testIntelMKL ${EXCLUDE_UNITTESTS} tests/testIntelMKL.cc )
 target_link_libraries(testIntelMKL RavlIntelMKL ${TEST_LIBS} )
 add_test(testIntelMKL testIntelMKL)
-install(TARGETS testIntelMKL DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testIntelMKL DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

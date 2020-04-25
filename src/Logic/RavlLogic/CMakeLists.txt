@@ -67,25 +67,25 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlCore RavlPatternRec RavlMath RavlDataSet RavlIO  )
 
-add_executable(testLogic EXCLUDE_FROM_ALL tests/testLogic.cc )
+add_executable(testLogic ${EXCLUDE_UNITTESTS} tests/testLogic.cc )
 target_link_libraries(testLogic RavlLogic ${TEST_LIBS} )
 add_test(testLogic testLogic)
-install(TARGETS testLogic DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testLogic DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testLiteralIndex EXCLUDE_FROM_ALL tests/testLiteralIndex.cc )
+add_executable(testLiteralIndex ${EXCLUDE_UNITTESTS} tests/testLiteralIndex.cc )
 target_link_libraries(testLiteralIndex RavlLogic ${TEST_LIBS} )
 add_test(testLiteralIndex testLiteralIndex)
-install(TARGETS testLiteralIndex DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testLiteralIndex DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testBLiteralIndex EXCLUDE_FROM_ALL tests/testBLiteralIndex.cc )
+add_executable(testBLiteralIndex ${EXCLUDE_UNITTESTS} tests/testBLiteralIndex.cc )
 target_link_libraries(testBLiteralIndex RavlLogic ${TEST_LIBS} )
 add_test(testBLiteralIndex testBLiteralIndex)
-install(TARGETS testBLiteralIndex DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testBLiteralIndex DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testDecisionTree EXCLUDE_FROM_ALL tests/testDecisionTree.cc )
+add_executable(testDecisionTree ${EXCLUDE_UNITTESTS} tests/testDecisionTree.cc )
 target_link_libraries(testDecisionTree RavlLogic ${TEST_LIBS} )
 add_test(testDecisionTree testDecisionTree)
-install(TARGETS testDecisionTree DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDecisionTree DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

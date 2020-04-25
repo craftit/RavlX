@@ -89,25 +89,25 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlOS RavlCore ${SOCKET_LIBRARIES} RavlThreads RavlIO RavlService RavlXMLFactory  )
 
-add_executable(exSocket EXCLUDE_FROM_ALL examples/exSocket.cc )
+add_executable(exSocket ${EXCLUDE_EXAMPLES} examples/exSocket.cc )
 target_link_libraries(exSocket RavlNet ${EXAMPLE_LIBS} )
-install(TARGETS exSocket DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exSocket DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exEndPoint EXCLUDE_FROM_ALL examples/exEndPoint.cc )
+add_executable(exEndPoint ${EXCLUDE_EXAMPLES} examples/exEndPoint.cc )
 target_link_libraries(exEndPoint RavlNet ${EXAMPLE_LIBS} )
-install(TARGETS exEndPoint DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exEndPoint DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exNetPort EXCLUDE_FROM_ALL examples/exNetPort.cc )
+add_executable(exNetPort ${EXCLUDE_EXAMPLES} examples/exNetPort.cc )
 target_link_libraries(exNetPort RavlNet ${EXAMPLE_LIBS} )
-install(TARGETS exNetPort DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exNetPort DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlOS RavlCore ${SOCKET_LIBRARIES} RavlThreads RavlIO RavlService RavlXMLFactory  )
 
-add_executable(testNetPort EXCLUDE_FROM_ALL tests/testNetPort.cc )
+add_executable(testNetPort ${EXCLUDE_UNITTESTS} tests/testNetPort.cc )
 target_link_libraries(testNetPort RavlNet ${TEST_LIBS} )
 add_test(testNetPort testNetPort)
-install(TARGETS testNetPort DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testNetPort DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

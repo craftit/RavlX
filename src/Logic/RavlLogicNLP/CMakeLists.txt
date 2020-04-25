@@ -63,17 +63,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlLogic RavlCore  )
 
-add_executable(exNonlinearPlanner EXCLUDE_FROM_ALL examples/exNonlinearPlanner.cc )
+add_executable(exNonlinearPlanner ${EXCLUDE_EXAMPLES} examples/exNonlinearPlanner.cc )
 target_link_libraries(exNonlinearPlanner RavlLogicNLP ${EXAMPLE_LIBS} )
-install(TARGETS exNonlinearPlanner DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exNonlinearPlanner DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlLogic RavlCore  )
 
-add_executable(testNonLinearPlanner EXCLUDE_FROM_ALL tests/testNonLinearPlanner.cc )
+add_executable(testNonLinearPlanner ${EXCLUDE_UNITTESTS} tests/testNonLinearPlanner.cc )
 target_link_libraries(testNonLinearPlanner RavlLogicNLP ${TEST_LIBS} )
 add_test(testNonLinearPlanner testNonLinearPlanner)
-install(TARGETS testNonLinearPlanner DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testNonLinearPlanner DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

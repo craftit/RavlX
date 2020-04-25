@@ -77,9 +77,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlImage RavlImageProc RavlImageIO Optimisation RavlCore RavlMath RavlOptimise RavlDataSet RavlXMLFactory RavlThreads RavlIO RavlExtImgIO RavlOS RavlPatternRec  )
 
-add_executable(chartdet applications/chartdet.cc )
+add_executable(chartdet ${EXCLUDE_APPLICATIONS} applications/chartdet.cc )
 target_link_libraries(chartdet RavlChartDetector ${MAIN_LIBS} )
-install(TARGETS chartdet DESTINATION bin)
+install(TARGETS chartdet DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

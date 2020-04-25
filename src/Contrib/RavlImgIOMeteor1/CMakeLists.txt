@@ -89,16 +89,16 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlImageIO RavlCore RavlImage RavlIO RavlGUI RavlGUI2D  )
 
-add_executable(tuneMeteor applications/tuneMeteor.cc )
+add_executable(tuneMeteor ${EXCLUDE_APPLICATIONS} applications/tuneMeteor.cc )
 target_link_libraries(tuneMeteor RavlImgIOMeteor1 ${MAIN_LIBS} )
-install(TARGETS tuneMeteor DESTINATION bin)
+install(TARGETS tuneMeteor DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlImageIO RavlCore RavlImage RavlIO RavlGUI RavlGUI2D  )
 
-add_executable(exMeteor EXCLUDE_FROM_ALL examples/exMeteor.cc )
+add_executable(exMeteor ${EXCLUDE_EXAMPLES} examples/exMeteor.cc )
 target_link_libraries(exMeteor RavlImgIOMeteor1 ${EXAMPLE_LIBS} )
-install(TARGETS exMeteor DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exMeteor DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

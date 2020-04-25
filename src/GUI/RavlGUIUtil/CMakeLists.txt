@@ -71,9 +71,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlGUI RavlCore RavlIO RavlGUI2D ${GTK2_LIBRARIES} RavlThreads RavlImage RavlImageProc RavlMath RavlOS  )
 
-add_executable(exAttributeEditor EXCLUDE_FROM_ALL examples/exAttributeEditor.cc )
+add_executable(exAttributeEditor ${EXCLUDE_EXAMPLES} examples/exAttributeEditor.cc )
 target_link_libraries(exAttributeEditor RavlGUIUtil ${EXAMPLE_LIBS} )
-install(TARGETS exAttributeEditor DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exAttributeEditor DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

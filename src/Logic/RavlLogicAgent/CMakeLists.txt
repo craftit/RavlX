@@ -68,17 +68,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlLogic RavlDPMT RavlLogicNLP RavlCore RavlIO RavlThreads RavlOS  )
 
-add_executable(exAgent EXCLUDE_FROM_ALL examples/exAgent.cc )
+add_executable(exAgent ${EXCLUDE_EXAMPLES} examples/exAgent.cc )
 target_link_libraries(exAgent RavlLogicAgent ${EXAMPLE_LIBS} )
-install(TARGETS exAgent DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exAgent DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlLogic RavlDPMT RavlLogicNLP RavlCore RavlIO RavlThreads RavlOS  )
 
-add_executable(testActiveBlackboard EXCLUDE_FROM_ALL tests/testActiveBlackboard.cc )
+add_executable(testActiveBlackboard ${EXCLUDE_UNITTESTS} tests/testActiveBlackboard.cc )
 target_link_libraries(testActiveBlackboard RavlLogicAgent ${TEST_LIBS} )
 add_test(testActiveBlackboard testActiveBlackboard)
-install(TARGETS testActiveBlackboard DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testActiveBlackboard DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

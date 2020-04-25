@@ -89,13 +89,13 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  ${libClipStationPro_LIBRARIES} RavlCore RavlImage RavlImageIO RavlThreads RavlOSIO RavlMath  )
 
-add_executable(exCSPControl EXCLUDE_FROM_ALL examples/exCSPControl.cc )
+add_executable(exCSPControl ${EXCLUDE_EXAMPLES} examples/exCSPControl.cc )
 target_link_libraries(exCSPControl CSPDriver ${EXAMPLE_LIBS} )
-install(TARGETS exCSPControl DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exCSPControl DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exImgIOCSP EXCLUDE_FROM_ALL examples/exImgIOCSP.cc )
+add_executable(exImgIOCSP ${EXCLUDE_EXAMPLES} examples/exImgIOCSP.cc )
 target_link_libraries(exImgIOCSP CSPDriver ${EXAMPLE_LIBS} )
-install(TARGETS exImgIOCSP DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exImgIOCSP DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

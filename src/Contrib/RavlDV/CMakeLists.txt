@@ -95,9 +95,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlImage RavlIO RavlOS RavlOSIO ${libdv_LIBRARIES} RavlVideoIO RavlAV RavlAudioUtil RavlImageProc RavlDevAudio  )
 
-add_executable(doDvDisplay applications/doDvDisplay.cc )
+add_executable(doDvDisplay ${EXCLUDE_APPLICATIONS} applications/doDvDisplay.cc )
 target_link_libraries(doDvDisplay RavlDV ${MAIN_LIBS} )
-install(TARGETS doDvDisplay DESTINATION bin)
+install(TARGETS doDvDisplay DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

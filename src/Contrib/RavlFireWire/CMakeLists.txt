@@ -67,9 +67,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlDV LibFireWire RavlCore  )
 
-add_executable(doDvGrab applications/doDvGrab.cc )
+add_executable(doDvGrab ${EXCLUDE_APPLICATIONS} applications/doDvGrab.cc )
 target_link_libraries(doDvGrab RavlFireWire ${MAIN_LIBS} )
-install(TARGETS doDvGrab DESTINATION bin)
+install(TARGETS doDvGrab DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

@@ -97,9 +97,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlNet RavlOSIO RavlCore RavlXMLFactory RavlThreads RavlOS RavlService RavlDPMT RavlIO RavlImageIO RavlVideoIO RavlExtImgIO RavlImage  )
 
-add_executable(dsd applications/dsd.cc )
+add_executable(dsd ${EXCLUDE_APPLICATIONS} applications/dsd.cc )
 target_link_libraries(dsd RavlDataServer ${MAIN_LIBS} )
-install(TARGETS dsd DESTINATION bin)
+install(TARGETS dsd DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

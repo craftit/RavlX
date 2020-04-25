@@ -69,13 +69,13 @@ endif()
 # Mains
 set(MAIN_LIBS  RavlImageProc RavlVideoIO RavlGUI2D RavlImageIO RavlCore ${GTK2_LIBRARIES} RavlGUI RavlThreads RavlImage RavlMath RavlIO RavlOSIO RavlOS RavlOptimise  )
 
-add_executable(mosaic applications/mosaic.cc )
+add_executable(mosaic ${EXCLUDE_APPLICATIONS} applications/mosaic.cc )
 target_link_libraries(mosaic  ${MAIN_LIBS} )
-install(TARGETS mosaic DESTINATION bin)
+install(TARGETS mosaic DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(xmosaic applications/xmosaic.cc )
+add_executable(xmosaic ${EXCLUDE_APPLICATIONS} applications/xmosaic.cc )
 target_link_libraries(xmosaic  ${MAIN_LIBS} )
-install(TARGETS xmosaic DESTINATION bin)
+install(TARGETS xmosaic DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

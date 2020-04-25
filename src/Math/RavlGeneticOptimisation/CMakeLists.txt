@@ -90,17 +90,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlOS RavlIO RavlXMLFactory RavlService RavlThreads RavlCore RavlMath RavlGeneticProgram  )
 
-add_executable(exGeneticOptimisation EXCLUDE_FROM_ALL examples/exGeneticOptimisation.cc )
+add_executable(exGeneticOptimisation ${EXCLUDE_EXAMPLES} examples/exGeneticOptimisation.cc )
 target_link_libraries(exGeneticOptimisation RavlGeneticOptimisation ${EXAMPLE_LIBS} )
-install(TARGETS exGeneticOptimisation DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exGeneticOptimisation DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlOS RavlIO RavlXMLFactory RavlService RavlThreads RavlCore RavlMath RavlGeneticProgram  )
 
-add_executable(testGeneticOpt EXCLUDE_FROM_ALL tests/testGeneticOpt.cc )
+add_executable(testGeneticOpt ${EXCLUDE_UNITTESTS} tests/testGeneticOpt.cc )
 target_link_libraries(testGeneticOpt RavlGeneticOptimisation ${TEST_LIBS} )
 add_test(testGeneticOpt testGeneticOpt)
-install(TARGETS testGeneticOpt DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testGeneticOpt DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/Ravl/Genetic ===

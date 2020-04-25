@@ -83,25 +83,25 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore  )
 
-add_executable(exComposeSingle EXCLUDE_FROM_ALL examples/exComposeSingle.cc )
+add_executable(exComposeSingle ${EXCLUDE_EXAMPLES} examples/exComposeSingle.cc )
 target_link_libraries(exComposeSingle RavlIO ${EXAMPLE_LIBS} )
-install(TARGETS exComposeSingle DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exComposeSingle DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDataProc EXCLUDE_FROM_ALL examples/exDataProc.cc )
+add_executable(exDataProc ${EXCLUDE_EXAMPLES} examples/exDataProc.cc )
 target_link_libraries(exDataProc RavlIO ${EXAMPLE_LIBS} )
-install(TARGETS exDataProc DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDataProc DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exFileFormat EXCLUDE_FROM_ALL examples/exFileFormat.cc )
+add_executable(exFileFormat ${EXCLUDE_EXAMPLES} examples/exFileFormat.cc )
 target_link_libraries(exFileFormat RavlIO ${EXAMPLE_LIBS} )
-install(TARGETS exFileFormat DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exFileFormat DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore  )
 
-add_executable(testDataProc EXCLUDE_FROM_ALL tests/testDataProc.cc )
+add_executable(testDataProc ${EXCLUDE_UNITTESTS} tests/testDataProc.cc )
 target_link_libraries(testDataProc RavlIO ${TEST_LIBS} )
 add_test(testDataProc testDataProc)
-install(TARGETS testDataProc DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDataProc DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

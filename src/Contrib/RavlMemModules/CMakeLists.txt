@@ -70,10 +70,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlCore RavlImage RavlOS RavlThreads RavlImageIO RavlIO RavlMath RavlExtImgIO  )
 
-add_executable(testMemModules EXCLUDE_FROM_ALL tests/testMemModules.cc )
+add_executable(testMemModules ${EXCLUDE_UNITTESTS} tests/testMemModules.cc )
 target_link_libraries(testMemModules RavlMemModules ${TEST_LIBS} )
 add_test(testMemModules testMemModules)
-install(TARGETS testMemModules DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testMemModules DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/doc/Ravl/Images ===

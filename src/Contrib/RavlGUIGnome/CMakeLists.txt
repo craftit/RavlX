@@ -67,9 +67,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlGUI ${libgnome_LIBRARIES} RavlCore RavlThreads RavlImage  )
 
-add_executable(exGnome EXCLUDE_FROM_ALL examples/exGnome.cc )
+add_executable(exGnome ${EXCLUDE_EXAMPLES} examples/exGnome.cc )
 target_link_libraries(exGnome RavlGUIGnome ${EXAMPLE_LIBS} )
-install(TARGETS exGnome DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exGnome DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

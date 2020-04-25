@@ -78,9 +78,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlGUI RavlFace RavlGUI2D RavlRLog ${librlog_LIBRARIES} ${GTK2_LIBRARIES} RavlCore RavlThreads RavlImage RavlIO RavlImageProc RavlOS RavlMath RavlXMLFactory RavlExtImgIO  )
 
-add_executable(markupTool applications/markupTool.cc )
+add_executable(markupTool ${EXCLUDE_APPLICATIONS} applications/markupTool.cc )
 target_link_libraries(markupTool MarkupTool ${MAIN_LIBS} )
-install(TARGETS markupTool DESTINATION bin)
+install(TARGETS markupTool DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

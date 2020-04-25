@@ -96,16 +96,16 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlAudioUtil RavlOS RavlOSIO RavlCore RavlIO RavlMath  )
 
-add_executable(audioconv applications/audioconv.cc )
+add_executable(audioconv ${EXCLUDE_APPLICATIONS} applications/audioconv.cc )
 target_link_libraries(audioconv RavlAudioIO ${MAIN_LIBS} )
-install(TARGETS audioconv DESTINATION bin)
+install(TARGETS audioconv DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlAudioUtil RavlOS RavlOSIO RavlCore RavlIO RavlMath  )
 
-add_executable(exTranscriptionStream EXCLUDE_FROM_ALL examples/exTranscriptionStream.cc )
+add_executable(exTranscriptionStream ${EXCLUDE_EXAMPLES} examples/exTranscriptionStream.cc )
 target_link_libraries(exTranscriptionStream RavlAudioIO ${EXAMPLE_LIBS} )
-install(TARGETS exTranscriptionStream DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exTranscriptionStream DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

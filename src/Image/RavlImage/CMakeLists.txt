@@ -69,42 +69,42 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlIO RavlMath RavlImageIO RavlOS RavlImageProc  )
 
-add_executable(imgdiff applications/imgdiff.cc )
+add_executable(imgdiff ${EXCLUDE_APPLICATIONS} applications/imgdiff.cc )
 target_link_libraries(imgdiff RavlImage ${MAIN_LIBS} )
-install(TARGETS imgdiff DESTINATION bin)
+install(TARGETS imgdiff DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlIO RavlMath RavlImageIO RavlOS RavlImageProc  )
 
-add_executable(exImage EXCLUDE_FROM_ALL examples/exImage.cc )
+add_executable(exImage ${EXCLUDE_EXAMPLES} examples/exImage.cc )
 target_link_libraries(exImage RavlImage ${EXAMPLE_LIBS} )
-install(TARGETS exImage DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exImage DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDraw EXCLUDE_FROM_ALL examples/exDraw.cc )
+add_executable(exDraw ${EXCLUDE_EXAMPLES} examples/exDraw.cc )
 target_link_libraries(exDraw RavlImage ${EXAMPLE_LIBS} )
-install(TARGETS exDraw DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDraw DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exFont EXCLUDE_FROM_ALL examples/exFont.cc )
+add_executable(exFont ${EXCLUDE_EXAMPLES} examples/exFont.cc )
 target_link_libraries(exFont RavlImage ${EXAMPLE_LIBS} )
-install(TARGETS exFont DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exFont DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlIO RavlMath RavlImageIO RavlOS RavlImageProc  )
 
-add_executable(testImage EXCLUDE_FROM_ALL tests/testImage.cc )
+add_executable(testImage ${EXCLUDE_UNITTESTS} tests/testImage.cc )
 target_link_libraries(testImage RavlImage ${TEST_LIBS} )
 add_test(testImage testImage)
-install(TARGETS testImage DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testImage DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testHSVValue EXCLUDE_FROM_ALL tests/testHSVValue.cc )
+add_executable(testHSVValue ${EXCLUDE_UNITTESTS} tests/testHSVValue.cc )
 target_link_libraries(testHSVValue RavlImage ${TEST_LIBS} )
 add_test(testHSVValue testHSVValue)
-install(TARGETS testHSVValue DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testHSVValue DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(test_imgdiff EXCLUDE_FROM_ALL tests/test_imgdiff.cc )
+add_executable(test_imgdiff ${EXCLUDE_UNITTESTS} tests/test_imgdiff.cc )
 target_link_libraries(test_imgdiff RavlImage ${TEST_LIBS} )
 add_test(test_imgdiff test_imgdiff)
-install(TARGETS test_imgdiff DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS test_imgdiff DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/RAVL/Fonts ===

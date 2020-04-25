@@ -63,9 +63,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS RavlSourceTools  )
 
-add_executable(CxxDoc applications/CxxDoc.cc )
+add_executable(CxxDoc ${EXCLUDE_APPLICATIONS} applications/CxxDoc.cc )
 target_link_libraries(CxxDoc RavlCxxDoc ${MAIN_LIBS} )
-install(TARGETS CxxDoc DESTINATION bin)
+install(TARGETS CxxDoc DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

@@ -69,10 +69,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlCore RavlPatternRec RavlMath RavlXMLFactory RavlThreads RavlDataSet RavlIO  )
 
-add_executable(test_kalman EXCLUDE_FROM_ALL tests/test_kalman.cc )
+add_executable(test_kalman ${EXCLUDE_UNITTESTS} tests/test_kalman.cc )
 target_link_libraries(test_kalman RavlKalmanFilter ${TEST_LIBS} )
 add_test(test_kalman test_kalman)
-install(TARGETS test_kalman DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS test_kalman DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

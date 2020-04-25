@@ -90,18 +90,18 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlImage ${opencv_LIBRARIES} RavlCore RavlIO RavlOS RavlImageIO  )
 
-add_executable(exOpenCV applications/exOpenCV.cc )
+add_executable(exOpenCV ${EXCLUDE_APPLICATIONS} applications/exOpenCV.cc )
 target_link_libraries(exOpenCV RavlOpenCV ${MAIN_LIBS} )
-install(TARGETS exOpenCV DESTINATION bin)
+install(TARGETS exOpenCV DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 # Tests
 set(TEST_LIBS  RavlImage ${opencv_LIBRARIES} RavlCore RavlIO RavlOS RavlImageIO  )
 
-add_executable(testOpenCV EXCLUDE_FROM_ALL tests/testOpenCV.cc )
+add_executable(testOpenCV ${EXCLUDE_UNITTESTS} tests/testOpenCV.cc )
 target_link_libraries(testOpenCV RavlOpenCV ${TEST_LIBS} )
 add_test(testOpenCV testOpenCV)
-install(TARGETS testOpenCV DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testOpenCV DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

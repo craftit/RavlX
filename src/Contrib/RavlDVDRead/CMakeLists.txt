@@ -92,9 +92,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlLibMPEG2 ${dvdread_LIBRARIES} RavlIO RavlCore RavlThreads RavlImage  )
 
-add_executable(exDVDRead EXCLUDE_FROM_ALL examples/exDVDRead.cc )
+add_executable(exDVDRead ${EXCLUDE_EXAMPLES} examples/exDVDRead.cc )
 target_link_libraries(exDVDRead RavlDVDRead ${EXAMPLE_LIBS} )
-install(TARGETS exDVDRead DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDVDRead DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

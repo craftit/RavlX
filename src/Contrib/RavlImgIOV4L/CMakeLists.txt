@@ -94,9 +94,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlImageIO RavlVideoIO RavlCore RavlImage RavlIO RavlOSIO  )
 
-add_executable(testV4LIO applications/testV4LIO.cc )
+add_executable(testV4LIO ${EXCLUDE_APPLICATIONS} applications/testV4LIO.cc )
 target_link_libraries(testV4LIO RavlImgIOV4L ${MAIN_LIBS} )
-install(TARGETS testV4LIO DESTINATION bin)
+install(TARGETS testV4LIO DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

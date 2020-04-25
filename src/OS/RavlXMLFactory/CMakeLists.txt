@@ -86,17 +86,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlIO RavlThreads RavlOS  )
 
-add_executable(exXMLFactory EXCLUDE_FROM_ALL examples/exXMLFactory.cc )
+add_executable(exXMLFactory ${EXCLUDE_EXAMPLES} examples/exXMLFactory.cc )
 target_link_libraries(exXMLFactory RavlXMLFactory ${EXAMPLE_LIBS} )
-install(TARGETS exXMLFactory DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exXMLFactory DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlIO RavlThreads RavlOS  )
 
-add_executable(testXMLFactory EXCLUDE_FROM_ALL tests/testXMLFactory.cc )
+add_executable(testXMLFactory ${EXCLUDE_UNITTESTS} tests/testXMLFactory.cc )
 target_link_libraries(testXMLFactory RavlXMLFactory ${TEST_LIBS} )
 add_test(testXMLFactory testXMLFactory)
-install(TARGETS testXMLFactory DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testXMLFactory DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

@@ -120,13 +120,13 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D RavlGUIUtil RavlIO RavlMath ${GTK2_LIBRARIES} RavlDPDisplay RavlThreads RavlImageIO RavlVideoIO RavlImageProc RavlNet RavlService  )
 
-add_executable(VPlay applications/VPlay.cc )
+add_executable(VPlay ${EXCLUDE_APPLICATIONS} applications/VPlay.cc )
 target_link_libraries(VPlay RavlVPlay ${MAIN_LIBS} )
-install(TARGETS VPlay DESTINATION bin)
+install(TARGETS VPlay DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(VCopy applications/VCopy.cc )
+add_executable(VCopy ${EXCLUDE_APPLICATIONS} applications/VCopy.cc )
 target_link_libraries(VCopy RavlVPlay ${MAIN_LIBS} )
-install(TARGETS VCopy DESTINATION bin)
+install(TARGETS VCopy DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

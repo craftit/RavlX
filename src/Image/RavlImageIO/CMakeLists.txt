@@ -86,17 +86,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlIO RavlImage RavlOS  )
 
-add_executable(exImgIO EXCLUDE_FROM_ALL examples/exImgIO.cc )
+add_executable(exImgIO ${EXCLUDE_EXAMPLES} examples/exImgIO.cc )
 target_link_libraries(exImgIO RavlImageIO ${EXAMPLE_LIBS} )
-install(TARGETS exImgIO DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exImgIO DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlIO RavlImage RavlOS  )
 
-add_executable(testImgIO EXCLUDE_FROM_ALL tests/testImgIO.cc )
+add_executable(testImgIO ${EXCLUDE_UNITTESTS} tests/testImgIO.cc )
 target_link_libraries(testImgIO RavlImageIO ${TEST_LIBS} )
 add_test(testImgIO testImgIO)
-install(TARGETS testImgIO DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testImgIO DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/RAVL/pixmaps ===

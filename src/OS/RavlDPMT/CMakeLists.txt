@@ -65,21 +65,21 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlOS RavlIO RavlThreads  )
 
-add_executable(exMTDataProc EXCLUDE_FROM_ALL examples/exMTDataProc.cc )
+add_executable(exMTDataProc ${EXCLUDE_EXAMPLES} examples/exMTDataProc.cc )
 target_link_libraries(exMTDataProc RavlDPMT ${EXAMPLE_LIBS} )
-install(TARGETS exMTDataProc DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exMTDataProc DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDPSplit EXCLUDE_FROM_ALL examples/exDPSplit.cc )
+add_executable(exDPSplit ${EXCLUDE_EXAMPLES} examples/exDPSplit.cc )
 target_link_libraries(exDPSplit RavlDPMT ${EXAMPLE_LIBS} )
-install(TARGETS exDPSplit DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDPSplit DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlOS RavlIO RavlThreads  )
 
-add_executable(testOSDataProc EXCLUDE_FROM_ALL tests/testOSDataProc.cc )
+add_executable(testOSDataProc ${EXCLUDE_UNITTESTS} tests/testOSDataProc.cc )
 target_link_libraries(testOSDataProc RavlDPMT ${TEST_LIBS} )
 add_test(testOSDataProc testOSDataProc)
-install(TARGETS testOSDataProc DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testOSDataProc DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

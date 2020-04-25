@@ -67,10 +67,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  ${LAPACK_LIBRARIES} RavlCore RavlOS RavlIO RavlMath  )
 
-add_executable(testLapack EXCLUDE_FROM_ALL tests/testLapack.cc )
+add_executable(testLapack ${EXCLUDE_UNITTESTS} tests/testLapack.cc )
 target_link_libraries(testLapack RavlLapackWraps ${TEST_LIBS} )
 add_test(testLapack testLapack)
-install(TARGETS testLapack DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testLapack DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

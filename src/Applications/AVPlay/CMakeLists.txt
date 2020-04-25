@@ -96,9 +96,9 @@ endif()
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS RavlIO RavlDPDisplay RavlImageIO RavlImage RavlVideoIO RavlImageProc RavlNet RavlGUI RavlGUI2D RavlThreads RavlMath RavlOSIO RavlDPMT RavlAV RavlVPlay RavlAudioIO ${GTK2_LIBRARIES} RavlAudioUtil  )
 
-add_executable(AVPlay applications/AVPlay.cc )
+add_executable(AVPlay ${EXCLUDE_APPLICATIONS} applications/AVPlay.cc )
 target_link_libraries(AVPlay  ${MAIN_LIBS} )
-install(TARGETS AVPlay DESTINATION bin)
+install(TARGETS AVPlay DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

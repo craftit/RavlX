@@ -97,25 +97,25 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlPlot RavlOS RavlPatternRec RavlCore RavlMath RavlImage RavlDataSet RavlIO RavlXMLFactory RavlThreads RavlOSIO Optimisation RavlExtImgIO  )
 
-add_executable(exGnuPlot applications/exGnuPlot.cc )
+add_executable(exGnuPlot ${EXCLUDE_APPLICATIONS} applications/exGnuPlot.cc )
 target_link_libraries(exGnuPlot RavlGnuPlot ${MAIN_LIBS} )
-install(TARGETS exGnuPlot DESTINATION bin)
+install(TARGETS exGnuPlot DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(exGnuPlot2d applications/exGnuPlot2d.cc )
+add_executable(exGnuPlot2d ${EXCLUDE_APPLICATIONS} applications/exGnuPlot2d.cc )
 target_link_libraries(exGnuPlot2d RavlGnuPlot ${MAIN_LIBS} )
-install(TARGETS exGnuPlot2d DESTINATION bin)
+install(TARGETS exGnuPlot2d DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(exGnuPlot3d applications/exGnuPlot3d.cc )
+add_executable(exGnuPlot3d ${EXCLUDE_APPLICATIONS} applications/exGnuPlot3d.cc )
 target_link_libraries(exGnuPlot3d RavlGnuPlot ${MAIN_LIBS} )
-install(TARGETS exGnuPlot3d DESTINATION bin)
+install(TARGETS exGnuPlot3d DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(exGnuPlot2dClassifier applications/exGnuPlot2dClassifier.cc )
+add_executable(exGnuPlot2dClassifier ${EXCLUDE_APPLICATIONS} applications/exGnuPlot2dClassifier.cc )
 target_link_libraries(exGnuPlot2dClassifier RavlGnuPlot ${MAIN_LIBS} )
-install(TARGETS exGnuPlot2dClassifier DESTINATION bin)
+install(TARGETS exGnuPlot2dClassifier DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(exGnuPlotTestFunctions applications/exGnuPlotTestFunctions.cc )
+add_executable(exGnuPlotTestFunctions ${EXCLUDE_APPLICATIONS} applications/exGnuPlotTestFunctions.cc )
 target_link_libraries(exGnuPlotTestFunctions RavlGnuPlot ${MAIN_LIBS} )
-install(TARGETS exGnuPlotTestFunctions DESTINATION bin)
+install(TARGETS exGnuPlotTestFunctions DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

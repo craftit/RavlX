@@ -63,67 +63,67 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore ${CMAKE_THREAD_LIBS_INIT} RavlOS  )
 
-add_executable(exThread EXCLUDE_FROM_ALL examples/exThread.cc )
+add_executable(exThread ${EXCLUDE_EXAMPLES} examples/exThread.cc )
 target_link_libraries(exThread RavlThreads ${EXAMPLE_LIBS} )
-install(TARGETS exThread DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exThread DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exSignal EXCLUDE_FROM_ALL examples/exSignal.cc )
+add_executable(exSignal ${EXCLUDE_EXAMPLES} examples/exSignal.cc )
 target_link_libraries(exSignal RavlThreads ${EXAMPLE_LIBS} )
-install(TARGETS exSignal DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exSignal DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exSignal1 EXCLUDE_FROM_ALL examples/exSignal1.cc )
+add_executable(exSignal1 ${EXCLUDE_EXAMPLES} examples/exSignal1.cc )
 target_link_libraries(exSignal1 RavlThreads ${EXAMPLE_LIBS} )
-install(TARGETS exSignal1 DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exSignal1 DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exSignal2 EXCLUDE_FROM_ALL examples/exSignal2.cc )
+add_executable(exSignal2 ${EXCLUDE_EXAMPLES} examples/exSignal2.cc )
 target_link_libraries(exSignal2 RavlThreads ${EXAMPLE_LIBS} )
-install(TARGETS exSignal2 DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exSignal2 DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exLaunchThread EXCLUDE_FROM_ALL examples/exLaunchThread.cc )
+add_executable(exLaunchThread ${EXCLUDE_EXAMPLES} examples/exLaunchThread.cc )
 target_link_libraries(exLaunchThread RavlThreads ${EXAMPLE_LIBS} )
-install(TARGETS exLaunchThread DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exLaunchThread DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(testAtomicSpeed EXCLUDE_FROM_ALL examples/testAtomicSpeed.cc )
+add_executable(testAtomicSpeed ${EXCLUDE_EXAMPLES} examples/testAtomicSpeed.cc )
 target_link_libraries(testAtomicSpeed RavlThreads ${EXAMPLE_LIBS} )
-install(TARGETS testAtomicSpeed DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS testAtomicSpeed DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore ${CMAKE_THREAD_LIBS_INIT} RavlOS  )
 
-add_executable(testRWLock EXCLUDE_FROM_ALL tests/testRWLock.cc )
+add_executable(testRWLock ${EXCLUDE_UNITTESTS} tests/testRWLock.cc )
 target_link_libraries(testRWLock RavlThreads ${TEST_LIBS} )
 add_test(testRWLock testRWLock)
-install(TARGETS testRWLock DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testRWLock DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testLaunchThread EXCLUDE_FROM_ALL tests/testLaunchThread.cc )
+add_executable(testLaunchThread ${EXCLUDE_UNITTESTS} tests/testLaunchThread.cc )
 target_link_libraries(testLaunchThread RavlThreads ${TEST_LIBS} )
 add_test(testLaunchThread testLaunchThread)
-install(TARGETS testLaunchThread DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testLaunchThread DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testTickerTrigger EXCLUDE_FROM_ALL tests/testTickerTrigger.cc )
+add_executable(testTickerTrigger ${EXCLUDE_UNITTESTS} tests/testTickerTrigger.cc )
 target_link_libraries(testTickerTrigger RavlThreads ${TEST_LIBS} )
 add_test(testTickerTrigger testTickerTrigger)
-install(TARGETS testTickerTrigger DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testTickerTrigger DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testTimedTriggerQueue EXCLUDE_FROM_ALL tests/testTimedTriggerQueue.cc )
+add_executable(testTimedTriggerQueue ${EXCLUDE_UNITTESTS} tests/testTimedTriggerQueue.cc )
 target_link_libraries(testTimedTriggerQueue RavlThreads ${TEST_LIBS} )
 add_test(testTimedTriggerQueue testTimedTriggerQueue)
-install(TARGETS testTimedTriggerQueue DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testTimedTriggerQueue DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testSignal EXCLUDE_FROM_ALL tests/testSignal.cc )
+add_executable(testSignal ${EXCLUDE_UNITTESTS} tests/testSignal.cc )
 target_link_libraries(testSignal RavlThreads ${TEST_LIBS} )
 add_test(testSignal testSignal)
-install(TARGETS testSignal DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testSignal DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testAtomic EXCLUDE_FROM_ALL tests/testAtomic.cc )
+add_executable(testAtomic ${EXCLUDE_UNITTESTS} tests/testAtomic.cc )
 target_link_libraries(testAtomic RavlThreads ${TEST_LIBS} )
 add_test(testAtomic testAtomic)
-install(TARGETS testAtomic DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testAtomic DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testThreads EXCLUDE_FROM_ALL tests/testThreads.cc )
+add_executable(testThreads ${EXCLUDE_UNITTESTS} tests/testThreads.cc )
 target_link_libraries(testThreads RavlThreads ${TEST_LIBS} )
 add_test(testThreads testThreads)
-install(TARGETS testThreads DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testThreads DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

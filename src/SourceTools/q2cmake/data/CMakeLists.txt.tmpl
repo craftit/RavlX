@@ -89,24 +89,24 @@ install(DIRECTORY include DESTINATION .)
 $(ifany:mainexes:# Mains
 set(MAIN_LIBS  $(forall:alllibs:$(linklib) ) )
 $(forall:mainexes:
-add_executable($(exename) $(src) )
+add_executable($(exename) ${EXCLUDE_APPLICATIONS} $(src) )
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) ${MAIN_LIBS} )
-install(TARGETS $(exename) DESTINATION bin)
+install(TARGETS $(exename) DESTINATION bin ${EXCLUDE_APPLICATIONS})
 ))
 $(ifany:examples:# Examples
 set(EXAMPLE_LIBS  $(forall:alllibs:$(linklib) ) )
 $(forall:examples:
-add_executable($(exename) EXCLUDE_FROM_ALL $(src) )
+add_executable($(exename) ${EXCLUDE_EXAMPLES} $(src) )
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) ${EXAMPLE_LIBS} )
-install(TARGETS $(exename) DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS $(exename) DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 ))
 $(ifany:testexes:# Tests
 set(TEST_LIBS  $(forall:alllibs:$(linklib) ) )
 $(forall:testexes:
-add_executable($(exename) EXCLUDE_FROM_ALL $(src) )
+add_executable($(exename) ${EXCLUDE_UNITTESTS} $(src) )
 target_link_libraries($(exename) $(ifset:!isprogram:$(mainlib)) ${TEST_LIBS} )
 add_test($(exename) $(exename))
-install(TARGETS $(exename) DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS $(exename) DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 ))
 
 $(forall:auxdirs:# === Files for $(src) ===

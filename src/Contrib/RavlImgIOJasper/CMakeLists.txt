@@ -90,10 +90,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlImage ${libjasper_LIBRARIES} RavlIO RavlCore  )
 
-add_executable(testImgIOJasper EXCLUDE_FROM_ALL tests/testImgIOJasper.cc )
+add_executable(testImgIOJasper ${EXCLUDE_UNITTESTS} tests/testImgIOJasper.cc )
 target_link_libraries(testImgIOJasper RavlImgIOJasper ${TEST_LIBS} )
 add_test(testImgIOJasper testImgIOJasper)
-install(TARGETS testImgIOJasper DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testImgIOJasper DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

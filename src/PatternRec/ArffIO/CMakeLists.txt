@@ -64,13 +64,13 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlDataSet RavlMath RavlOS  )
 
-add_executable(cutArff applications/cutArff.cc )
+add_executable(cutArff ${EXCLUDE_APPLICATIONS} applications/cutArff.cc )
 target_link_libraries(cutArff ArffIO ${MAIN_LIBS} )
-install(TARGETS cutArff DESTINATION bin)
+install(TARGETS cutArff DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(glueArff applications/glueArff.cc )
+add_executable(glueArff ${EXCLUDE_APPLICATIONS} applications/glueArff.cc )
 target_link_libraries(glueArff ArffIO ${MAIN_LIBS} )
-install(TARGETS glueArff DESTINATION bin)
+install(TARGETS glueArff DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

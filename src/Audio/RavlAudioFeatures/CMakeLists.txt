@@ -97,17 +97,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlAudioUtil RavlMath RavlOS RavlAudioIO RavlCore RavlIO RavlXMLFactory RavlThreads RavlOSIO  )
 
-add_executable(exFeatureMFCC EXCLUDE_FROM_ALL examples/exFeatureMFCC.cc )
+add_executable(exFeatureMFCC ${EXCLUDE_EXAMPLES} examples/exFeatureMFCC.cc )
 target_link_libraries(exFeatureMFCC RavlAudioFeatures ${EXAMPLE_LIBS} )
-install(TARGETS exFeatureMFCC DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exFeatureMFCC DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlAudioUtil RavlMath RavlOS RavlAudioIO RavlCore RavlIO RavlXMLFactory RavlThreads RavlOSIO  )
 
-add_executable(testAudioFeatures EXCLUDE_FROM_ALL tests/testAudioFeatures.cc )
+add_executable(testAudioFeatures ${EXCLUDE_UNITTESTS} tests/testAudioFeatures.cc )
 target_link_libraries(testAudioFeatures RavlAudioFeatures ${TEST_LIBS} )
 add_test(testAudioFeatures testAudioFeatures)
-install(TARGETS testAudioFeatures DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testAudioFeatures DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

@@ -88,9 +88,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlIO RavlGUI RavlPlot RavlGuppi RavlCore  )
 
-add_executable(exDPGraphWindow EXCLUDE_FROM_ALL examples/exDPGraphWindow.cc )
+add_executable(exDPGraphWindow ${EXCLUDE_EXAMPLES} examples/exDPGraphWindow.cc )
 target_link_libraries(exDPGraphWindow RavlDPGraph ${EXAMPLE_LIBS} )
-install(TARGETS exDPGraphWindow DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDPGraphWindow DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

@@ -71,22 +71,22 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlMath RavlImage RavlCore RavlIO  )
 
-add_executable(exBuildMesh EXCLUDE_FROM_ALL examples/exBuildMesh.cc )
+add_executable(exBuildMesh ${EXCLUDE_EXAMPLES} examples/exBuildMesh.cc )
 target_link_libraries(exBuildMesh Ravl3D ${EXAMPLE_LIBS} )
-install(TARGETS exBuildMesh DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exBuildMesh DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlMath RavlImage RavlCore RavlIO  )
 
-add_executable(testHEMesh EXCLUDE_FROM_ALL tests/testHEMesh.cc )
+add_executable(testHEMesh ${EXCLUDE_UNITTESTS} tests/testHEMesh.cc )
 target_link_libraries(testHEMesh Ravl3D ${TEST_LIBS} )
 add_test(testHEMesh testHEMesh)
-install(TARGETS testHEMesh DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testHEMesh DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testTriMesh EXCLUDE_FROM_ALL tests/testTriMesh.cc )
+add_executable(testTriMesh ${EXCLUDE_UNITTESTS} tests/testTriMesh.cc )
 target_link_libraries(testTriMesh Ravl3D ${TEST_LIBS} )
 add_test(testTriMesh testTriMesh)
-install(TARGETS testTriMesh DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testTriMesh DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

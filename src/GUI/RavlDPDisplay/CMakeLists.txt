@@ -93,9 +93,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlIO RavlGUI RavlImageIO RavlGUI2D RavlImage ${GTK2_LIBRARIES} RavlCore RavlThreads RavlMath RavlImageProc RavlOS  )
 
-add_executable(exDPWindow EXCLUDE_FROM_ALL examples/exDPWindow.cc )
+add_executable(exDPWindow ${EXCLUDE_EXAMPLES} examples/exDPWindow.cc )
 target_link_libraries(exDPWindow RavlDPDisplay ${EXAMPLE_LIBS} )
-install(TARGETS exDPWindow DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDPWindow DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

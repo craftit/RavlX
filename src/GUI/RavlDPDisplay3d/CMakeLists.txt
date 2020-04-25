@@ -95,9 +95,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlIO RavlGUI RavlImageIO RavlGUI3D Ravl3DIO Ravl3D RavlImage RavlCore RavlMath RavlThreads RavlOS  )
 
-add_executable(exDPWindow3d EXCLUDE_FROM_ALL examples/exDPWindow3d.cc )
+add_executable(exDPWindow3d ${EXCLUDE_EXAMPLES} examples/exDPWindow3d.cc )
 target_link_libraries(exDPWindow3d RavlDPDisplay3d ${EXAMPLE_LIBS} )
-install(TARGETS exDPWindow3d DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDPWindow3d DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

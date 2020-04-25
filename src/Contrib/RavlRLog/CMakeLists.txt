@@ -64,9 +64,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlOS ${librlog_LIBRARIES}  )
 
-add_executable(exRLog EXCLUDE_FROM_ALL examples/exRLog.cc )
+add_executable(exRLog ${EXCLUDE_EXAMPLES} examples/exRLog.cc )
 target_link_libraries(exRLog RavlRLog ${EXAMPLE_LIBS} )
-install(TARGETS exRLog DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exRLog DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

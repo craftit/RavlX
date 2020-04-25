@@ -34,9 +34,9 @@ include_directories(../../SourceTools/RavlSourceTools/include)
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS RavlSourceTools  )
 
-add_executable(tomake applications/tomake.cc )
+add_executable(tomake ${EXCLUDE_APPLICATIONS} applications/tomake.cc )
 target_link_libraries(tomake  ${MAIN_LIBS} )
-install(TARGETS tomake DESTINATION bin)
+install(TARGETS tomake DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

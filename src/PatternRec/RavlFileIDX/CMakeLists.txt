@@ -91,13 +91,13 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlIO RavlOSIO RavlMath RavlOS RavlXMLFactory RavlThreads RavlDataSet RavlPatternRec RavlPatternRecIO  )
 
-add_executable(doFileIDX applications/doFileIDX.cc )
+add_executable(doFileIDX ${EXCLUDE_APPLICATIONS} applications/doFileIDX.cc )
 target_link_libraries(doFileIDX RavlFileIDX ${MAIN_LIBS} )
-install(TARGETS doFileIDX DESTINATION bin)
+install(TARGETS doFileIDX DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(doPrepData applications/doPrepData.cc )
+add_executable(doPrepData ${EXCLUDE_APPLICATIONS} applications/doPrepData.cc )
 target_link_libraries(doPrepData RavlFileIDX ${MAIN_LIBS} )
-install(TARGETS doPrepData DESTINATION bin)
+install(TARGETS doPrepData DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

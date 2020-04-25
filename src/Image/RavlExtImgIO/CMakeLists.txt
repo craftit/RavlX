@@ -89,21 +89,21 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlImage RavlIO RavlImageIO ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${TIFF_LIBRARIES}  RavlCore  )
 
-add_executable(exExtImgIO EXCLUDE_FROM_ALL examples/exExtImgIO.cc )
+add_executable(exExtImgIO ${EXCLUDE_EXAMPLES} examples/exExtImgIO.cc )
 target_link_libraries(exExtImgIO RavlExtImgIO ${EXAMPLE_LIBS} )
-install(TARGETS exExtImgIO DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exExtImgIO DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exImgMemIO EXCLUDE_FROM_ALL examples/exImgMemIO.cc )
+add_executable(exImgMemIO ${EXCLUDE_EXAMPLES} examples/exImgMemIO.cc )
 target_link_libraries(exImgMemIO RavlExtImgIO ${EXAMPLE_LIBS} )
-install(TARGETS exImgMemIO DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exImgMemIO DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlImage RavlIO RavlImageIO ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${TIFF_LIBRARIES}  RavlCore  )
 
-add_executable(testExtImgIO EXCLUDE_FROM_ALL tests/testExtImgIO.cc )
+add_executable(testExtImgIO ${EXCLUDE_UNITTESTS} tests/testExtImgIO.cc )
 target_link_libraries(testExtImgIO RavlExtImgIO ${TEST_LIBS} )
 add_test(testExtImgIO testExtImgIO)
-install(TARGETS testExtImgIO DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testExtImgIO DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

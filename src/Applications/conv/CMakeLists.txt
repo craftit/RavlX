@@ -101,18 +101,18 @@ endif()
 # Mains
 set(MAIN_LIBS  RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO Ravl3DIO RavlMathIO RavlPatternRecIO RavlIO  )
 
-add_executable(conv applications/conv.cc )
+add_executable(conv ${EXCLUDE_APPLICATIONS} applications/conv.cc )
 target_link_libraries(conv  ${MAIN_LIBS} )
-install(TARGETS conv DESTINATION bin)
+install(TARGETS conv DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 # Tests
 set(TEST_LIBS  RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO Ravl3DIO RavlMathIO RavlPatternRecIO RavlIO  )
 
-add_executable(testFileConverter EXCLUDE_FROM_ALL tests/testFileConverter.cc )
+add_executable(testFileConverter ${EXCLUDE_UNITTESTS} tests/testFileConverter.cc )
 target_link_libraries(testFileConverter  ${TEST_LIBS} )
 add_test(testFileConverter testFileConverter)
-install(TARGETS testFileConverter DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testFileConverter DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/RAVL/testData ===

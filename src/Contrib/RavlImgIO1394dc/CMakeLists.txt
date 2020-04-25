@@ -89,16 +89,16 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlIO RavlImage ${libdc1394_LIBRARIES} RavlOSIO  )
 
-add_executable(twocam applications/twocam.cc )
+add_executable(twocam ${EXCLUDE_APPLICATIONS} applications/twocam.cc )
 target_link_libraries(twocam RavlImgIO1394dc ${MAIN_LIBS} )
-install(TARGETS twocam DESTINATION bin)
+install(TARGETS twocam DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlIO RavlImage ${libdc1394_LIBRARIES} RavlOSIO  )
 
-add_executable(test1394dc EXCLUDE_FROM_ALL examples/test1394dc.cc )
+add_executable(test1394dc ${EXCLUDE_EXAMPLES} examples/test1394dc.cc )
 target_link_libraries(test1394dc RavlImgIO1394dc ${EXAMPLE_LIBS} )
-install(TARGETS test1394dc DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS test1394dc DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

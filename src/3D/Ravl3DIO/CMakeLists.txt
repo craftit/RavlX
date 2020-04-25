@@ -89,10 +89,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  Ravl3D RavlIO RavlOS RavlCore RavlMath RavlImage  )
 
-add_executable(testTriFileIO EXCLUDE_FROM_ALL tests/testTriFileIO.cc )
+add_executable(testTriFileIO ${EXCLUDE_UNITTESTS} tests/testTriFileIO.cc )
 target_link_libraries(testTriFileIO Ravl3DIO ${TEST_LIBS} )
 add_test(testTriFileIO testTriFileIO)
-install(TARGETS testTriFileIO DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testTriFileIO DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/RAVL/data ===

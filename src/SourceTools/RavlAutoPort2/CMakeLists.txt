@@ -65,9 +65,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlOS RavlSourceTools RavlCore RavlIO RavlMath  )
 
-add_executable(autoport2 applications/autoport2.cc )
+add_executable(autoport2 ${EXCLUDE_APPLICATIONS} applications/autoport2.cc )
 target_link_libraries(autoport2 RavlAutoPort2 ${MAIN_LIBS} )
-install(TARGETS autoport2 DESTINATION bin)
+install(TARGETS autoport2 DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

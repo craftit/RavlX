@@ -10,7 +10,7 @@ if(uuid_FOUND)
 
 
 
-set(DEPENDS_ON uuidTheo )
+set(DEPENDS_ON uuid )
 foreach(D IN LISTS DEPENDS_ON)
   if(NOT ${D}_FOUND)
     find_package(${D} REQUIRED)

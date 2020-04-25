@@ -90,9 +90,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlOS ${iksemel_LIBRARIES} RavlXMPP RavlRLog ${librlog_LIBRARIES} RavlXMLFactory RavlCore RavlThreads RavlIO  )
 
-add_executable(testIksemel applications/testIksemel.cc )
+add_executable(testIksemel ${EXCLUDE_APPLICATIONS} applications/testIksemel.cc )
 target_link_libraries(testIksemel RavlXMPPIksemel ${MAIN_LIBS} )
-install(TARGETS testIksemel DESTINATION bin)
+install(TARGETS testIksemel DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

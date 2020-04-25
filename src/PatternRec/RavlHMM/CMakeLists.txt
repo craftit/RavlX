@@ -63,17 +63,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlMath  )
 
-add_executable(exHiddenMarkovModel EXCLUDE_FROM_ALL examples/exHiddenMarkovModel.cc )
+add_executable(exHiddenMarkovModel ${EXCLUDE_EXAMPLES} examples/exHiddenMarkovModel.cc )
 target_link_libraries(exHiddenMarkovModel RavlHMM ${EXAMPLE_LIBS} )
-install(TARGETS exHiddenMarkovModel DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exHiddenMarkovModel DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlMath  )
 
-add_executable(testHiddenMarkovModel EXCLUDE_FROM_ALL tests/testHiddenMarkovModel.cc )
+add_executable(testHiddenMarkovModel ${EXCLUDE_UNITTESTS} tests/testHiddenMarkovModel.cc )
 target_link_libraries(testHiddenMarkovModel RavlHMM ${TEST_LIBS} )
 add_test(testHiddenMarkovModel testHiddenMarkovModel)
-install(TARGETS testHiddenMarkovModel DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testHiddenMarkovModel DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

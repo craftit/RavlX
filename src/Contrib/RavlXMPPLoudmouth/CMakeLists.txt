@@ -90,9 +90,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlXMPP RavlCore ${loudmouth_LIBRARIES} RavlOS RavlThreads RavlXMLFactory ${gthread_LIBRARIES} RavlIO  )
 
-add_executable(exLoudmouth applications/exLoudmouth.cc )
+add_executable(exLoudmouth ${EXCLUDE_APPLICATIONS} applications/exLoudmouth.cc )
 target_link_libraries(exLoudmouth RavlXMPPLoudmouth ${MAIN_LIBS} )
-install(TARGETS exLoudmouth DESTINATION bin)
+install(TARGETS exLoudmouth DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

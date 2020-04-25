@@ -87,25 +87,25 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlOS RavlIO dl RavlXMLFactory RavlThreads  )
 
-add_executable(exCompositeStream EXCLUDE_FROM_ALL examples/exCompositeStream.cc )
+add_executable(exCompositeStream ${EXCLUDE_EXAMPLES} examples/exCompositeStream.cc )
 target_link_libraries(exCompositeStream RavlOSIO ${EXAMPLE_LIBS} )
-install(TARGETS exCompositeStream DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exCompositeStream DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDynamicLink EXCLUDE_FROM_ALL examples/exDynamicLink.cc )
+add_executable(exDynamicLink ${EXCLUDE_EXAMPLES} examples/exDynamicLink.cc )
 target_link_libraries(exDynamicLink RavlOSIO ${EXAMPLE_LIBS} )
-install(TARGETS exDynamicLink DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDynamicLink DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDynamicFormat EXCLUDE_FROM_ALL examples/exDynamicFormat.cc )
+add_executable(exDynamicFormat ${EXCLUDE_EXAMPLES} examples/exDynamicFormat.cc )
 target_link_libraries(exDynamicFormat RavlOSIO ${EXAMPLE_LIBS} )
-install(TARGETS exDynamicFormat DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDynamicFormat DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlOS RavlIO dl RavlXMLFactory RavlThreads  )
 
-add_executable(testSequenceIO EXCLUDE_FROM_ALL tests/testSequenceIO.cc )
+add_executable(testSequenceIO ${EXCLUDE_UNITTESTS} tests/testSequenceIO.cc )
 target_link_libraries(testSequenceIO RavlOSIO ${TEST_LIBS} )
 add_test(testSequenceIO testSequenceIO)
-install(TARGETS testSequenceIO DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testSequenceIO DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

@@ -105,37 +105,37 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlImage RavlImageProc RavlMath RavlOS RavlPatternRec RavlOptimise RavlIO Optimisation RavlDataSet RavlXMLFactory RavlThreads RavlImageIO RavlMathIO RavlOSIO  )
 
-add_executable(aamBuildShapeModel applications/aamBuildShapeModel.cc )
+add_executable(aamBuildShapeModel ${EXCLUDE_APPLICATIONS} applications/aamBuildShapeModel.cc )
 target_link_libraries(aamBuildShapeModel RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamBuildShapeModel DESTINATION bin)
+install(TARGETS aamBuildShapeModel DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamBuildAppearanceModel applications/aamBuildAppearanceModel.cc )
+add_executable(aamBuildAppearanceModel ${EXCLUDE_APPLICATIONS} applications/aamBuildAppearanceModel.cc )
 target_link_libraries(aamBuildAppearanceModel RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamBuildAppearanceModel DESTINATION bin)
+install(TARGETS aamBuildAppearanceModel DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamBuildActiveAppearanceModel applications/aamBuildActiveAppearanceModel.cc )
+add_executable(aamBuildActiveAppearanceModel ${EXCLUDE_APPLICATIONS} applications/aamBuildActiveAppearanceModel.cc )
 target_link_libraries(aamBuildActiveAppearanceModel RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamBuildActiveAppearanceModel DESTINATION bin)
+install(TARGETS aamBuildActiveAppearanceModel DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamCombineActiveAppearanceModel applications/aamCombineActiveAppearanceModel.cc )
+add_executable(aamCombineActiveAppearanceModel ${EXCLUDE_APPLICATIONS} applications/aamCombineActiveAppearanceModel.cc )
 target_link_libraries(aamCombineActiveAppearanceModel RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamCombineActiveAppearanceModel DESTINATION bin)
+install(TARGETS aamCombineActiveAppearanceModel DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamLocaliseFace applications/aamLocaliseFace.cc )
+add_executable(aamLocaliseFace ${EXCLUDE_APPLICATIONS} applications/aamLocaliseFace.cc )
 target_link_libraries(aamLocaliseFace RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamLocaliseFace DESTINATION bin)
+install(TARGETS aamLocaliseFace DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamBuildPoseEstimator applications/aamBuildPoseEstimator.cc )
+add_executable(aamBuildPoseEstimator ${EXCLUDE_APPLICATIONS} applications/aamBuildPoseEstimator.cc )
 target_link_libraries(aamBuildPoseEstimator RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamBuildPoseEstimator DESTINATION bin)
+install(TARGETS aamBuildPoseEstimator DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamSynthesizeFrontal applications/aamSynthesizeFrontal.cc )
+add_executable(aamSynthesizeFrontal ${EXCLUDE_APPLICATIONS} applications/aamSynthesizeFrontal.cc )
 target_link_libraries(aamSynthesizeFrontal RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamSynthesizeFrontal DESTINATION bin)
+install(TARGETS aamSynthesizeFrontal DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(aamTrackFace applications/aamTrackFace.cc )
+add_executable(aamTrackFace ${EXCLUDE_APPLICATIONS} applications/aamTrackFace.cc )
 target_link_libraries(aamTrackFace RavlAAM ${MAIN_LIBS} )
-install(TARGETS aamTrackFace DESTINATION bin)
+install(TARGETS aamTrackFace DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

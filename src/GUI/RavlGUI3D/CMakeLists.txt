@@ -74,17 +74,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlMath RavlGUI ${OPENGL_LIBRARIES} Ravl3D ${X11_LIBRARIES} ${GTK2_LIBRARIES} RavlImage RavlThreads RavlCameraCal RavlImageProc RavlOS RavlIO ${gtkglext_LIBRARIES}  )
 
-add_executable(exCanvas3D EXCLUDE_FROM_ALL examples/exCanvas3D.cc )
+add_executable(exCanvas3D ${EXCLUDE_EXAMPLES} examples/exCanvas3D.cc )
 target_link_libraries(exCanvas3D RavlGUI3D ${EXAMPLE_LIBS} )
-install(TARGETS exCanvas3D DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exCanvas3D DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exView3D EXCLUDE_FROM_ALL examples/exView3D.cc )
+add_executable(exView3D ${EXCLUDE_EXAMPLES} examples/exView3D.cc )
 target_link_libraries(exView3D RavlGUI3D ${EXAMPLE_LIBS} )
-install(TARGETS exView3D DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exView3D DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exDTexTriMesh3d EXCLUDE_FROM_ALL examples/exDTexTriMesh3d.cc )
+add_executable(exDTexTriMesh3d ${EXCLUDE_EXAMPLES} examples/exDTexTriMesh3d.cc )
 target_link_libraries(exDTexTriMesh3d RavlGUI3D ${EXAMPLE_LIBS} )
-install(TARGETS exDTexTriMesh3d DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDTexTriMesh3d DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

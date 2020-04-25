@@ -97,9 +97,9 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlMath RavlImage RavlGUI Ravl3D ${OPENGL_LIBRARIES} ${GTK2_LIBRARIES} ${OPENSCENEGRAPHGTK_LIBRARIES} RavlXMLFactory RavlRLog ${librlog_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES} RavlOS RavlImageIO RavlExtImgIO  )
 
-add_executable(exOpenSceneGraphWidgetXML applications/exOpenSceneGraphWidgetXML.cc )
+add_executable(exOpenSceneGraphWidgetXML ${EXCLUDE_APPLICATIONS} applications/exOpenSceneGraphWidgetXML.cc )
 target_link_libraries(exOpenSceneGraphWidgetXML RavlGUIOpenSceneGraph ${MAIN_LIBS} )
-install(TARGETS exOpenSceneGraphWidgetXML DESTINATION bin)
+install(TARGETS exOpenSceneGraphWidgetXML DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 

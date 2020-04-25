@@ -73,22 +73,22 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlDataSet RavlPlot RavlMath RavlXMLFactory RavlThreads RavlIO RavlImage RavlOS RavlPatternRec  )
 
-add_executable(exOptimise applications/exOptimise.cc )
+add_executable(exOptimise ${EXCLUDE_APPLICATIONS} applications/exOptimise.cc )
 target_link_libraries(exOptimise Optimisation ${MAIN_LIBS} )
-install(TARGETS exOptimise DESTINATION bin)
+install(TARGETS exOptimise DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(exOptimiseParticleSwarm applications/exOptimiseParticleSwarm.cc )
+add_executable(exOptimiseParticleSwarm ${EXCLUDE_APPLICATIONS} applications/exOptimiseParticleSwarm.cc )
 target_link_libraries(exOptimiseParticleSwarm Optimisation ${MAIN_LIBS} )
-install(TARGETS exOptimiseParticleSwarm DESTINATION bin)
+install(TARGETS exOptimiseParticleSwarm DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 
 # Tests
 set(TEST_LIBS  RavlCore RavlDataSet RavlPlot RavlMath RavlXMLFactory RavlThreads RavlIO RavlImage RavlOS RavlPatternRec  )
 
-add_executable(testBrent EXCLUDE_FROM_ALL tests/testBrent.cc )
+add_executable(testBrent ${EXCLUDE_UNITTESTS} tests/testBrent.cc )
 target_link_libraries(testBrent Optimisation ${TEST_LIBS} )
 add_test(testBrent testBrent)
-install(TARGETS testBrent DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testBrent DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

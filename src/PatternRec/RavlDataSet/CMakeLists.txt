@@ -97,37 +97,37 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlMath RavlOSIO RavlIO fann RavlXMLFactory RavlMathIO RavlThreads RavlOS RavlPatternRecIO RavlPatternRec RavlPlot RavlImage  )
 
-add_executable(doDataSet applications/doDataSet.cc )
+add_executable(doDataSet ${EXCLUDE_APPLICATIONS} applications/doDataSet.cc )
 target_link_libraries(doDataSet RavlDataSet ${MAIN_LIBS} )
-install(TARGETS doDataSet DESTINATION bin)
+install(TARGETS doDataSet DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
-add_executable(exPlotTestFunctions applications/exPlotTestFunctions.cc )
+add_executable(exPlotTestFunctions ${EXCLUDE_APPLICATIONS} applications/exPlotTestFunctions.cc )
 target_link_libraries(exPlotTestFunctions RavlDataSet ${MAIN_LIBS} )
-install(TARGETS exPlotTestFunctions DESTINATION bin)
+install(TARGETS exPlotTestFunctions DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlMath RavlOSIO RavlIO fann RavlXMLFactory RavlMathIO RavlThreads RavlOS RavlPatternRecIO RavlPatternRec RavlPlot RavlImage  )
 
-add_executable(exSample EXCLUDE_FROM_ALL examples/exSample.cc )
+add_executable(exSample ${EXCLUDE_EXAMPLES} examples/exSample.cc )
 target_link_libraries(exSample RavlDataSet ${EXAMPLE_LIBS} )
-install(TARGETS exSample DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exSample DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exSampleStream EXCLUDE_FROM_ALL examples/exSampleStream.cc )
+add_executable(exSampleStream ${EXCLUDE_EXAMPLES} examples/exSampleStream.cc )
 target_link_libraries(exSampleStream RavlDataSet ${EXAMPLE_LIBS} )
-install(TARGETS exSampleStream DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exSampleStream DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlMath RavlOSIO RavlIO fann RavlXMLFactory RavlMathIO RavlThreads RavlOS RavlPatternRecIO RavlPatternRec RavlPlot RavlImage  )
 
-add_executable(testDataSet EXCLUDE_FROM_ALL tests/testDataSet.cc )
+add_executable(testDataSet ${EXCLUDE_UNITTESTS} tests/testDataSet.cc )
 target_link_libraries(testDataSet RavlDataSet ${TEST_LIBS} )
 add_test(testDataSet testDataSet)
-install(TARGETS testDataSet DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDataSet DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testDataSetXMLFactory EXCLUDE_FROM_ALL tests/testDataSetXMLFactory.cc )
+add_executable(testDataSetXMLFactory ${EXCLUDE_UNITTESTS} tests/testDataSetXMLFactory.cc )
 target_link_libraries(testDataSetXMLFactory RavlDataSet ${TEST_LIBS} )
 add_test(testDataSetXMLFactory testDataSetXMLFactory)
-install(TARGETS testDataSetXMLFactory DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDataSetXMLFactory DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

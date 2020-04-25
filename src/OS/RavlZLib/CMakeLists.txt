@@ -64,10 +64,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlCore ${ZLIB_LIBRARIES}  )
 
-add_executable(testCompress EXCLUDE_FROM_ALL tests/testCompress.cc )
+add_executable(testCompress ${EXCLUDE_UNITTESTS} tests/testCompress.cc )
 target_link_libraries(testCompress RavlZLib ${TEST_LIBS} )
 add_test(testCompress testCompress)
-install(TARGETS testCompress DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testCompress DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

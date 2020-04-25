@@ -91,16 +91,16 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlOSIO RavlOS RavlThreads  RavlVideoIO RavlImageIO  )
 
-add_executable(exDMediaIO applications/exDMediaIO.cc )
+add_executable(exDMediaIO ${EXCLUDE_APPLICATIONS} applications/exDMediaIO.cc )
 target_link_libraries(exDMediaIO RavlDMedia ${MAIN_LIBS} )
-install(TARGETS exDMediaIO DESTINATION bin)
+install(TARGETS exDMediaIO DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlOSIO RavlOS RavlThreads  RavlVideoIO RavlImageIO  )
 
-add_executable(exDMedia EXCLUDE_FROM_ALL examples/exDMedia.cc )
+add_executable(exDMedia ${EXCLUDE_EXAMPLES} examples/exDMedia.cc )
 target_link_libraries(exDMedia RavlDMedia ${EXAMPLE_LIBS} )
-install(TARGETS exDMedia DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exDMedia DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

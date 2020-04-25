@@ -66,17 +66,17 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlOS RavlCore RavlThreads ${python_LIBRARIES} RavlGUI  )
 
-add_executable(exPython EXCLUDE_FROM_ALL examples/exPython.cc )
+add_executable(exPython ${EXCLUDE_EXAMPLES} examples/exPython.cc )
 target_link_libraries(exPython RavlPython ${EXAMPLE_LIBS} )
-install(TARGETS exPython DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exPython DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exPythonThreaded EXCLUDE_FROM_ALL examples/exPythonThreaded.cc )
+add_executable(exPythonThreaded ${EXCLUDE_EXAMPLES} examples/exPythonThreaded.cc )
 target_link_libraries(exPythonThreaded RavlPython ${EXAMPLE_LIBS} )
-install(TARGETS exPythonThreaded DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exPythonThreaded DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exPythonMultipleInterpreters EXCLUDE_FROM_ALL examples/exPythonMultipleInterpreters.cc )
+add_executable(exPythonMultipleInterpreters ${EXCLUDE_EXAMPLES} examples/exPythonMultipleInterpreters.cc )
 target_link_libraries(exPythonMultipleInterpreters RavlPython ${EXAMPLE_LIBS} )
-install(TARGETS exPythonMultipleInterpreters DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exPythonMultipleInterpreters DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

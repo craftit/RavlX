@@ -88,10 +88,10 @@ install(DIRECTORY include DESTINATION .)
 # Tests
 set(TEST_LIBS  RavlIO RavlOSIO RavlXMLFactory RavlCore RavlThreads  )
 
-add_executable(testAudioUtil EXCLUDE_FROM_ALL tests/testAudioUtil.cc )
+add_executable(testAudioUtil ${EXCLUDE_UNITTESTS} tests/testAudioUtil.cc )
 target_link_libraries(testAudioUtil RavlAudioUtil ${TEST_LIBS} )
 add_test(testAudioUtil testAudioUtil)
-install(TARGETS testAudioUtil DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testAudioUtil DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 

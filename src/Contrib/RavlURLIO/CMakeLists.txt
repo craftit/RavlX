@@ -87,9 +87,9 @@ install(DIRECTORY include DESTINATION .)
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlIO RavlOS RavlThreads ${CURL_LIBRARIES}  )
 
-add_executable(exURL EXCLUDE_FROM_ALL examples/exURL.cc )
+add_executable(exURL ${EXCLUDE_EXAMPLES} examples/exURL.cc )
 target_link_libraries(exURL RavlURLIO ${EXAMPLE_LIBS} )
-install(TARGETS exURL DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exURL DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 
 

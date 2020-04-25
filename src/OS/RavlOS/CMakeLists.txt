@@ -62,74 +62,74 @@ install(DIRECTORY include DESTINATION .)
 # Mains
 set(MAIN_LIBS  RavlCore RavlIO  )
 
-add_executable(exCPUInfo applications/exCPUInfo.cc )
+add_executable(exCPUInfo ${EXCLUDE_APPLICATIONS} applications/exCPUInfo.cc )
 target_link_libraries(exCPUInfo RavlOS ${MAIN_LIBS} )
-install(TARGETS exCPUInfo DESTINATION bin)
+install(TARGETS exCPUInfo DESTINATION bin ${EXCLUDE_APPLICATIONS})
 
 # Examples
 set(EXAMPLE_LIBS  RavlCore RavlIO  )
 
-add_executable(exFilename EXCLUDE_FROM_ALL examples/exFilename.cc )
+add_executable(exFilename ${EXCLUDE_EXAMPLES} examples/exFilename.cc )
 target_link_libraries(exFilename RavlOS ${EXAMPLE_LIBS} )
-install(TARGETS exFilename DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exFilename DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exReadWithoutReturn EXCLUDE_FROM_ALL examples/exReadWithoutReturn.cc )
+add_executable(exReadWithoutReturn ${EXCLUDE_EXAMPLES} examples/exReadWithoutReturn.cc )
 target_link_libraries(exReadWithoutReturn RavlOS ${EXAMPLE_LIBS} )
-install(TARGETS exReadWithoutReturn DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exReadWithoutReturn DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exChild EXCLUDE_FROM_ALL examples/exChild.cc )
+add_executable(exChild ${EXCLUDE_EXAMPLES} examples/exChild.cc )
 target_link_libraries(exChild RavlOS ${EXAMPLE_LIBS} )
-install(TARGETS exChild DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exChild DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exTemplateFile EXCLUDE_FROM_ALL examples/exTemplateFile.cc )
+add_executable(exTemplateFile ${EXCLUDE_EXAMPLES} examples/exTemplateFile.cc )
 target_link_libraries(exTemplateFile RavlOS ${EXAMPLE_LIBS} )
-install(TARGETS exTemplateFile DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exTemplateFile DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exTemplateComplex EXCLUDE_FROM_ALL examples/exTemplateComplex.cc )
+add_executable(exTemplateComplex ${EXCLUDE_EXAMPLES} examples/exTemplateComplex.cc )
 target_link_libraries(exTemplateComplex RavlOS ${EXAMPLE_LIBS} )
-install(TARGETS exTemplateComplex DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exTemplateComplex DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
-add_executable(exConfigFile EXCLUDE_FROM_ALL examples/exConfigFile.cc )
+add_executable(exConfigFile ${EXCLUDE_EXAMPLES} examples/exConfigFile.cc )
 target_link_libraries(exConfigFile RavlOS ${EXAMPLE_LIBS} )
-install(TARGETS exConfigFile DESTINATION examples COMPONENT examples EXCLUDE_FROM_ALL)
+install(TARGETS exConfigFile DESTINATION examples COMPONENT examples ${EXCLUDE_EXAMPLES})
 
 # Tests
 set(TEST_LIBS  RavlCore RavlIO  )
 
-add_executable(testDate EXCLUDE_FROM_ALL tests/testDate.cc )
+add_executable(testDate ${EXCLUDE_UNITTESTS} tests/testDate.cc )
 target_link_libraries(testDate RavlOS ${TEST_LIBS} )
 add_test(testDate testDate)
-install(TARGETS testDate DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDate DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testDeadLineTimer EXCLUDE_FROM_ALL tests/testDeadLineTimer.cc )
+add_executable(testDeadLineTimer ${EXCLUDE_UNITTESTS} tests/testDeadLineTimer.cc )
 target_link_libraries(testDeadLineTimer RavlOS ${TEST_LIBS} )
 add_test(testDeadLineTimer testDeadLineTimer)
-install(TARGETS testDeadLineTimer DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testDeadLineTimer DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testFileFormat EXCLUDE_FROM_ALL tests/testFileFormat.cc )
+add_executable(testFileFormat ${EXCLUDE_UNITTESTS} tests/testFileFormat.cc )
 target_link_libraries(testFileFormat RavlOS ${TEST_LIBS} )
 add_test(testFileFormat testFileFormat)
-install(TARGETS testFileFormat DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testFileFormat DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testOSMisc EXCLUDE_FROM_ALL tests/testOSMisc.cc )
+add_executable(testOSMisc ${EXCLUDE_UNITTESTS} tests/testOSMisc.cc )
 target_link_libraries(testOSMisc RavlOS ${TEST_LIBS} )
 add_test(testOSMisc testOSMisc)
-install(TARGETS testOSMisc DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testOSMisc DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testChildProc EXCLUDE_FROM_ALL tests/testChildProc.cc )
+add_executable(testChildProc ${EXCLUDE_UNITTESTS} tests/testChildProc.cc )
 target_link_libraries(testChildProc RavlOS ${TEST_LIBS} )
 add_test(testChildProc testChildProc)
-install(TARGETS testChildProc DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testChildProc DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testTextFile EXCLUDE_FROM_ALL tests/testTextFile.cc )
+add_executable(testTextFile ${EXCLUDE_UNITTESTS} tests/testTextFile.cc )
 target_link_libraries(testTextFile RavlOS ${TEST_LIBS} )
 add_test(testTextFile testTextFile)
-install(TARGETS testTextFile DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testTextFile DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
-add_executable(testTC EXCLUDE_FROM_ALL tests/testTC.cc )
+add_executable(testTC ${EXCLUDE_UNITTESTS} tests/testTC.cc )
 target_link_libraries(testTC RavlOS ${TEST_LIBS} )
 add_test(testTC testTC)
-install(TARGETS testTC DESTINATION tests COMPONENT unittests EXCLUDE_FROM_ALL)
+install(TARGETS testTC DESTINATION tests COMPONENT unittests ${EXCLUDE_UNITTESTS})
 
 
 # === Files for share/RAVL/testData ===
