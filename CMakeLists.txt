@@ -4,11 +4,12 @@ project(RavlX)
 
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_BUILD_TYPE release)
 
 # The folowing can be used to avoid building binaries when they are not needed.
 set(EXCLUDE_APPLICATIONS EXCLUDE_FROM_ALL)
 set(EXCLUDE_EXAMPLES EXCLUDE_FROM_ALL)
-#set(EXCLUDE_UNITTESTS EXCLUDE_FROM_ALL)
+set(EXCLUDE_UNITTESTS EXCLUDE_FROM_ALL)
 
 
 set(CMAKE_INSTALL_PREFIX "/opt/ReactAI")
