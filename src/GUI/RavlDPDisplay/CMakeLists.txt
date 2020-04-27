@@ -40,7 +40,7 @@ include_directories(../../OS/RavlOS/include)
 
 
 add_library(RavlDPDisplay_Body STATIC
- include/Ravl/GUI/DPWindow.hh include/Ravl/GUI/DPDisplayObj.hh include/Ravl/GUI/DPDisplayImage.hh include/Ravl/GUI/DPWindowOPort.hh include/Ravl/GUI/DPWindowFormat.hh include/Ravl/GUI/DPDisplayView.hh include/Ravl/GUI/DPDisplayPoints.hh include/Ravl/GUI/DPDisplayPolygon.hh
+ include/Ravl/GUI/DPWindow.hh include/Ravl/GUI/DPDisplayObj.hh include/Ravl/GUI/DPDisplayImage.hh include/Ravl/GUI/DPWindowOPort.hh include/Ravl/GUI/DPWindowFormat.hh include/Ravl/GUI/DPDisplayView.hh include/Ravl/GUI/DPDisplayPoints.hh include/Ravl/GUI/DPDisplayPolygon.hh include/Ravl/GUI/DPDisplay.hh
  src/DPWindow.cc src/DPDisplayObj.cc src/DPDisplayImage.cc src/DPWindowOPort.cc src/DPWindowFormat.cc src/DPDisplayView.cc src/DPDisplayPoints.cc src/DPDisplayPolygon.cc
 )
 target_link_libraries(RavlDPDisplay_Body PUBLIC RavlIO RavlGUI RavlImageIO RavlGUI2D RavlImage ${GTK2_LIBRARIES} RavlCore RavlThreads RavlMath RavlImageProc RavlOS )

@@ -4,9 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/RavlGUIDisplay.cc"
+
+#include "Ravl/GUI/DPDisplay.hh"
 
 namespace RavlGUIN {
   extern void InitDPWindowFormat();

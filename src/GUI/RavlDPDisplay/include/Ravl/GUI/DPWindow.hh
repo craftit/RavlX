@@ -7,7 +7,6 @@
 #ifndef RAVLGUI_DPWINDOW_HEADER
 #define RAVLGUI_DPWINDOW_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPWindow.hh"
 //! author="Charles Galambos"
