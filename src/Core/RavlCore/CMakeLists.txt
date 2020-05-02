@@ -4,11 +4,9 @@
 # Requires: 
 # Supports: linux64 linux
 
-if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") OR (${CMAKE_SYSTEM_NAME} MATCHES "Linux32") OR FALSE)
-
+if(TRUE)
 
 # MustLink: src/atexit.cc src/linkVectorUtilsI386SSE.cc
-
 
 set(DEPENDS_ON )
 foreach(D IN LISTS DEPENDS_ON)

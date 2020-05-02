@@ -6,7 +6,7 @@
 
 
 
-if(DEFINED libpulse-simple_FOUND)
+if(libpulse-simple_FOUND)
 
 # MustLink: src/RavlPulseAudio.cc
 

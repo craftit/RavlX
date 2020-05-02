@@ -80,7 +80,7 @@ configure_package_config_file(cmake/RavlLapackConfig.cmake.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RavlLapackConfig.cmake
         DESTINATION lib/cmake/RavlLapack )
 
-install(DIRECTORY include DESTINATION .)
+#install(DIRECTORY include DESTINATION .)
 
 
 

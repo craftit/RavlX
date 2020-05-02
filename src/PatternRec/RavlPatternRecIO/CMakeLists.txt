@@ -82,7 +82,7 @@ configure_package_config_file(cmake/RavlPatternRecIOConfig.cmake.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RavlPatternRecIOConfig.cmake
         DESTINATION lib/cmake/RavlPatternRecIO )
 
-install(DIRECTORY include DESTINATION .)
+#install(DIRECTORY include DESTINATION .)
 
 
 

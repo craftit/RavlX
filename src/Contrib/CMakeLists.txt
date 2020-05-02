@@ -40,7 +40,7 @@ add_subdirectory(RavlXMPPIksemel)
 add_subdirectory(RavlZmq)
 add_subdirectory(RavlTwoWayMap)
 add_subdirectory(RavlFace)
-add_subdirectory(MarkupTool)
+#add_subdirectory(MarkupTool)
 add_subdirectory(RavlMemModules)
 add_subdirectory(RavlHtml)
 

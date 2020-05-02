@@ -6,9 +6,6 @@
 
 if((NOT ${CMAKE_CXX_COMPILER_ID} MATCHES "MSVC") OR FALSE)
 
-
-
-
 set(DEPENDS_ON )
 foreach(D IN LISTS DEPENDS_ON)
   if(NOT ${D}_FOUND)
@@ -55,9 +52,6 @@ configure_package_config_file(cmake/RavlValidateConfig.cmake.in
   PATH_VARS)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RavlValidateConfig.cmake
         DESTINATION lib/cmake/RavlValidate )
-
-install(DIRECTORY include DESTINATION .)
-
 
 # Mains
 set(MAIN_LIBS  RavlCore RavlOS  )
