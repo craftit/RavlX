@@ -61,7 +61,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    AMutexC(bool recursive);
+    explicit AMutexC(bool recursive);
     //: Constructor.
     // If 'recursive' is false a 'fast' mutex is created otherwise
     // a recursive version is used.
@@ -93,20 +93,20 @@ namespace RavlN {
   
   class AMutexLockC {
   public:
-    AMutexLockC(AMutexC &theMutex)
-      : mutex(theMutex),
-        lockHeld(true)
-    { mutex.Lock(); }
+    explicit AMutexLockC(AMutexC &theMutex)
+      : m_mutex(theMutex),
+        m_lockHeld(true)
+    { m_mutex.Lock(); }
     //: Constructor
 
     AMutexLockC(AMutexC &theMutex,bool tryLock)
-      : mutex(theMutex),
-        lockHeld(true)
+      : m_mutex(theMutex),
+        m_lockHeld(true)
     { 
-      if(tryLock) 
-        lockHeld = mutex.TryLock(); 
+      if(tryLock)
+        m_lockHeld = m_mutex.TryLock();
       else
-        mutex.Lock(); 
+        m_mutex.Lock();
     }
     //: Constructor
     // If tryLock is true, only try and obtain the 
@@ -116,36 +116,36 @@ namespace RavlN {
     // until the lock is obtained.
     
     ~AMutexLockC()
-    { if(lockHeld) mutex.Unlock(); }
+    { if(m_lockHeld) m_mutex.Unlock(); }
     //: Destructor.
     
     bool Unlock() {
-      RavlAssert(lockHeld);
-      mutex.Unlock();
-      lockHeld = false;
+      RavlAssert(m_lockHeld);
+      m_mutex.Unlock();
+      m_lockHeld = false;
       return true;
     }
     //: Unlock the mutex early.
     
     bool Lock() {
-      RavlAssert(!lockHeld);
-      mutex.Lock();
-      lockHeld = true;
+      RavlAssert(!m_lockHeld);
+      m_mutex.Lock();
+      m_lockHeld = true;
       return true;
     }
     //: Relock the mutex 
     
     bool IsLocked() const
-    { return lockHeld; }
+    { return m_lockHeld; }
     //: Is the lock currently held ?
     
   protected:
-    AMutexC mutex;
-    bool lockHeld;
+    AMutexC m_mutex;
+    bool m_lockHeld = false;
 
   private:
     AMutexLockC(const AMutexLockC &x)
-      : mutex(x.mutex)
+      : m_mutex(x.m_mutex)
     { RavlAssert(0); }
     //: Disable copy constructor.
     

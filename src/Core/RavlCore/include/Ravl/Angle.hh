@@ -47,7 +47,7 @@ namespace RavlN {
     { angle -= Floor(angle/m_max) * m_max; }
     //: Normalise the angle to values between 0 and max.
 
-    inline RealT Normalise(RealT value) const
+    [[nodiscard]] inline RealT Normalise(RealT value) const
     { return value - Floor(value/m_max) * m_max; }
     //: Normalise the angle to values between 0 and max.
     // Returns the normalised angle.
@@ -74,31 +74,31 @@ namespace RavlN {
     }
     //: Add angles.
 
-    inline bool IsBetween(RealT angle1,RealT angle2) const {
+    [[nodiscard]] inline bool IsBetween(RealT angle1,RealT angle2) const {
       RealT diff1 = Normalise(angle2  - angle1);
       RealT diff2 = Normalise(Value() - angle1);
       return (diff1 < diff2);
     }
     //: Test if this angle lies between angle1 and angle2.
     
-    inline bool IsBetween(const AngleC &angle1,const AngleC &angle2) const 
+    [[nodiscard]] inline bool IsBetween(const AngleC &angle1,const AngleC &angle2) const
     { return IsBetween(angle1.Value(),angle2.Value()); }
     //: Test if this angle lies between angle1 and angle2.
     
-    inline RealT Diff(const AngleC &val) const;
+    [[nodiscard]] inline RealT Diff(const AngleC &val) const;
     //: Find the difference between two angles.
     // it returns values in the rangle +/- max/2.
     
-    inline RealT MaxAngle() const { return m_max; };
+    [[nodiscard]] inline RealT MaxAngle() const { return m_max; };
     //: Get maximum angle.
     
-    inline RealT Value() const { return angle; }
+    [[nodiscard]] inline RealT Value() const { return angle; }
     //: Get value of angle.
     
-    inline RealT Sin() const { return RavlN::Sin(angle); }
+    [[nodiscard]] inline RealT Sin() const { return RavlN::Sin(angle); }
     //: Get sin of angle.
     
-    inline RealT Cos() const { return RavlN::Cos(angle); }
+    [[nodiscard]] inline RealT Cos() const { return RavlN::Cos(angle); }
     //: Get cos of angle.
     
     void Dump(std::ostream &out);
@@ -117,7 +117,7 @@ namespace RavlN {
       ret -= m_max;
     else {
       if(ret < -maxb2)
-	ret += m_max;
+	      ret += m_max;
     }
     return ret;
   }
