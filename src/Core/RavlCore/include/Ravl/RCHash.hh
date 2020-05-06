@@ -47,17 +47,17 @@ namespace RavlN {
     {}
     //: Base constructor.*/
     
-    RCHashBodyC(std::istream &in)
+    explicit RCHashBodyC(std::istream &in)
       : m_data(in)
     {}
     //: Stream constructor.
     
-    RCHashBodyC(BinIStreamC &in)
+    explicit RCHashBodyC(BinIStreamC &in)
       : m_data(in)
     {}
     //: Stream constructor.
 
-    RCHashBodyC(SizeT nBins)
+    explicit RCHashBodyC(SizeT nBins)
       : m_data(nBins)
     {}
 
@@ -108,12 +108,12 @@ namespace RavlN {
     {}
     //: Copy constructor.
 
-    RCHashC(const HashC<Key,Dat> &oth)
+    explicit RCHashC(const HashC<Key,Dat> &oth)
       : RCHandleC<RCHashBodyC<Key,Dat> >(new RCHashBodyC<Key,Dat>(oth))
     {}
     //: Copy constructor.
 
-    RCHashC(bool makeBod = true)
+    explicit RCHashC(bool makeBod = true)
       : RCHandleC<RCHashBodyC<Key,Dat> > (makeBod ? new RCHashBodyC<Key,Dat>() : NULL)
     {}
     //: Default constructor.
@@ -124,17 +124,17 @@ namespace RavlN {
     {}
     //: Base constructor.
 
-    RCHashC(std::istream &in)
+    explicit RCHashC(std::istream &in)
       : RCHandleC<RCHashBodyC<Key,Dat> > (new RCHashBodyC<Key,Dat>(in))
     {}
     //: Stream constructor.
 
-    RCHashC(BinIStreamC &in)
+    explicit RCHashC(BinIStreamC &in)
       : RCHandleC<RCHashBodyC<Key,Dat> > (new RCHashBodyC<Key,Dat>(in))
     {}
     //: Stream constructor.
 
-    RCHashC(SizeT nBins)
+    explicit RCHashC(SizeT nBins)
       : RCHandleC<RCHashBodyC<Key,Dat> > (new RCHashBodyC<Key,Dat>(nBins))
     {}
 
@@ -173,11 +173,11 @@ namespace RavlN {
     // The previous contents of this table are removed.
     //!param: oth - Table to move elements from
     
-    inline bool IsEmpty(void) const
+    [[nodiscard]] inline bool IsEmpty(void) const
     { return this->Data().IsEmpty(); }
     //: Is table empty ?
     
-    inline void Empty(void)
+    inline void Empty()
     { this->Data().Empty(); }
     //: Empty table
     
@@ -186,7 +186,7 @@ namespace RavlN {
     //: Insert Data with Key.
     // Returns: True=Member existed already. False=New one was added.
     
-    inline SizeT Size() const
+    [[nodiscard]] inline SizeT Size() const
     { return this->Data().Size(); }
     //: Get number of elements in table.
     

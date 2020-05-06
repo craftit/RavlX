@@ -32,7 +32,7 @@ namespace RavlN {
     : public RCHandleVC<RCBodyVC>
   {
   public:  
-    RCAbstractC() {}
+    RCAbstractC() = default;
     //: Default constructor.
     
     RCAbstractC(const RCAbstractC &oth)
@@ -50,17 +50,17 @@ namespace RavlN {
     {}
     //: Constructor.
 
-    RCAbstractC(std::istream &in);
+    explicit RCAbstractC(std::istream &in);
     //: Constructor.
 
-    RCAbstractC(BinIStreamC &in);
+    explicit RCAbstractC(BinIStreamC &in);
     //: Constructor.
 
-    inline RCAbstractC Copy() const;
+    [[nodiscard]] inline RCAbstractC Copy() const;
     //: Copy object contents.
     // FIXME :- Use RTTI to check copy is full.
 
-    const std::type_info &BodyType() const
+    [[nodiscard]] const std::type_info &BodyType() const
     {
       const RCBodyVC &body = Body();
       return typeid(body); // Use via reference to avoid warnings from clang.

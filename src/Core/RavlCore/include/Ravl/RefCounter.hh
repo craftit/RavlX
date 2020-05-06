@@ -152,7 +152,7 @@ namespace RavlN {
     //: Constructor.
     // creates a body class with its default constructor.
     
-    RCHandleC(std::istream &is)
+    explicit RCHandleC(std::istream &is)
       : body(new BodyT())
     { 
 #if QMAKE_PARANOID
@@ -230,12 +230,12 @@ namespace RavlN {
     { return body != oth.body; }
     //: Are handles to different objects ?
     
-    size_t Hash() const
+    [[nodiscard]] size_t Hash() const
     { return StdHash(reinterpret_cast<const void *>(body)); }
     //: Default hash function.
     // This hashes on the address of the body.
     
-    bool IsValid() const
+    [[nodiscard]] bool IsValid() const
     { return body != 0; }
     //: Test if this is a valid handle. 
 
@@ -266,25 +266,25 @@ namespace RavlN {
     }
     //: Check handle type. Throw an exception if not.
     
-    const void *VoidPtr() const
+    [[nodiscard]] const void *VoidPtr() const
     { return body; }
     //: Access unique address for this object.
     // Used in PointerManagerC.  Not for general use
     // this interface may changed in future releases.
 
-    BodyT *BodyPtr()
+    [[nodiscard]] BodyT *BodyPtr()
     { return body; }
     //! userlevel=Advanced
     //: Access body pointer.
     // Used for working with SmartPtrC's.
-    
-    const BodyT *BodyPtr() const
+
+    [[nodiscard]] const BodyT *BodyPtr() const
     { return body; }
     //! userlevel=Advanced
     //: Access body pointer.
     // Use for working with SmartPtrC's.
 
-    const std::type_info &BodyTypeInfo() const
+    [[nodiscard]] const std::type_info &BodyTypeInfo() const
     { return typeid(*(this->body)); }
     //: Get the type info of the value pointed to.
     // This  can be used to avoid clang warnings when using methods to provide data to typeid()
@@ -346,7 +346,7 @@ namespace RavlN {
     //: Access body point from a derived class.
     
   public:
-    UIntT References() const
+    [[nodiscard]] UIntT References() const
     { return Body().References(); }
     //! userlevel=Normal
     //: Find the number of references to the body of this object.

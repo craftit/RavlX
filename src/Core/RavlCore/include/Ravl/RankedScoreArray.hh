@@ -33,7 +33,7 @@ namespace RavlN {
   class RankedScoreArrayC
   {
   public:
-    RankedScoreArrayC(SizeT n = 1, const KeyT &Threshold = KeyT(-INFINITY))
+    explicit RankedScoreArrayC(SizeT n = 1, const KeyT &Threshold = KeyT(-INFINITY))
       : N(n),
         m_results(n >= 1 ? n : SizeT(1)),
         m_worseAcceptableScore(Threshold)

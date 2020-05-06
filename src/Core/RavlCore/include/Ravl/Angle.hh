@@ -30,7 +30,7 @@ namespace RavlN {
   public:
     inline AngleC(RealT anglerad = 0,RealT maxval = RavlConstN::pi * 2)
       : angle(anglerad),
-	m_max(maxval)
+	      m_max(maxval)
     { Normalise(); }
     //: Construct from value in radians.
     // maxval is angle to wrap around at. 

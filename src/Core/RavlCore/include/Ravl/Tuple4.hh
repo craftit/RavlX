@@ -30,38 +30,38 @@ namespace RavlN {
   template<class T1,class T2,class T3,class T4>
   class Tuple4C {
   public:
-    Tuple4C() {}
+    Tuple4C() = default;
     //: Default constructor.
     
-    Tuple4C(std::istream &in) 
+    explicit Tuple4C(std::istream &in)
     { in >> d1 >> d2 >> d3 >> d4; }
     //: Stream constructor.
     
-    Tuple4C(BinIStreamC &in) 
+    explicit Tuple4C(BinIStreamC &in)
     { in >> d1 >> d2 >> d3 >> d4; }
     //: Binary Stream constructor.
     
     Tuple4C(const T1 &nd1,const T2 &nd2,const T3 &nd3,const T4 &nd4) 
       : d1(nd1),
-	d2(nd2),
-	d3(nd3),
-	d4(nd4)
+	      d2(nd2),
+	      d3(nd3),
+	      d4(nd4)
     {}
     //: Constructor.
     
     Tuple4C(const Tuple4C<T1,T2,T3,T4> &oth) 
       : d1(oth.d1),
-	d2(oth.d2),
-	d3(oth.d3),
-	d4(oth.d4)
+	      d2(oth.d2),
+	      d3(oth.d3),
+	      d4(oth.d4)
     {}
     //: Copy constructor.
 
-    Tuple4C<T1,T2,T3,T4> Copy() const
+    [[nodiscard]] Tuple4C<T1,T2,T3,T4> Copy() const
     { return Tuple4C<T1,T2,T3,T4>(d1,d2,d3,d4); }
     //: Make a copy of this object.
-    
-    Tuple4C<T1,T2,T3,T4> DeepCopy(UIntT levels = ((UIntT) -1)) const { 
+
+    [[nodiscard]] Tuple4C<T1,T2,T3,T4> DeepCopy(UIntT levels = ((UIntT) -1)) const {
       if(levels <= 1) return Copy();
       return Tuple4C<T1,T2,T3,T4>(StdDeepCopy(d1,levels-1),
 				  StdDeepCopy(d2,levels-1),
@@ -69,32 +69,32 @@ namespace RavlN {
 				  StdDeepCopy(d4,levels-1)); 
     }
     //: Make a deep copy of the container.
-    
-    T1 &Data1() { return d1; }
-    //: Data access.
-    
-    const T1 &Data1() const { return d1; }
-    //: Data access.
-    
-    T2 &Data2() { return d2; }
-    //: Data access.
-    
-    const T2 &Data2() const { return d2; }
-    //: Data access.
-    
-    T3 &Data3() { return d3; }
-    //: Data access.
-    
-    const T3 &Data3() const { return d3; }
-    //: Data access.
-    
-    T4 &Data4() { return d4; }
-    //: Data access.
-    
-    const T4 &Data4() const { return d4; }
+
+    [[nodiscard]] T1 &Data1() { return d1; }
     //: Data access.
 
-    SizeT Hash() const {
+    [[nodiscard]] const T1 &Data1() const { return d1; }
+    //: Data access.
+
+    [[nodiscard]] T2 &Data2() { return d2; }
+    //: Data access.
+
+    [[nodiscard]] const T2 &Data2() const { return d2; }
+    //: Data access.
+
+    [[nodiscard]] T3 &Data3() { return d3; }
+    //: Data access.
+
+    [[nodiscard]] const T3 &Data3() const { return d3; }
+    //: Data access.
+
+    [[nodiscard]] T4 &Data4() { return d4; }
+    //: Data access.
+
+    [[nodiscard]] const T4 &Data4() const { return d4; }
+    //: Data access.
+
+    [[nodiscard]] SizeT Hash() const {
       SizeT h2 = StdHash(d2);
       SizeT h3 = StdHash(d3);
       SizeT h4 = StdHash(d4);

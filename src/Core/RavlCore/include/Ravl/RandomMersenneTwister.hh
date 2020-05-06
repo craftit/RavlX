@@ -42,7 +42,7 @@ namespace RavlN {
     RandomMersenneTwisterC();
     //: Constructor
 
-    RandomMersenneTwisterC(UInt32T seed);
+    explicit RandomMersenneTwisterC(UInt32T seed);
     //: Constructor with seed
 
     void Seed(UInt32T seed);

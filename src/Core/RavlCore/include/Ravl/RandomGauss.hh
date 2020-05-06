@@ -28,7 +28,7 @@ namespace RavlN {
     RandomGaussC();
     //: Default.
 
-    RandomGaussC(UIntT seed);
+    explicit RandomGaussC(UIntT seed);
     //: Construct with seed.
 
     float Generate(RandomMersenneTwisterC& generator);

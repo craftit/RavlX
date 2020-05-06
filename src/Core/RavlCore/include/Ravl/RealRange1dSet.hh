@@ -27,7 +27,7 @@ namespace RavlN {
   {
   public:
     RealRange1dSetC()
-    {}
+    = default;
     //: Default constructor.
   
     RealRange1dSetC(const RealRangeC &range)
@@ -40,28 +40,28 @@ namespace RavlN {
     static RealRange1dSetC Add(const RealRangeC &range1,const RealRangeC &range2);
     //: Add range2 and range1.
   
-    RealRangeC Enclosing() const;
+    [[nodiscard]] RealRangeC Enclosing() const;
     //: Get minimum enclosing range for set.
     
-    RealRange1dSetC Subtract(const RealRangeC &range) const;
+    [[nodiscard]] RealRange1dSetC Subtract(const RealRangeC &range) const;
     //: Remove 'range' range from the region given by the set.
 
-    RealRange1dSetC Subtract(const RealRange1dSetC &rangeSet) const;
+    [[nodiscard]] RealRange1dSetC Subtract(const RealRange1dSetC &rangeSet) const;
     //: Remove 'rangeSet' from the region given by the set.
 
-    RealRange1dSetC SubtractFrom(const RealRangeC &range) const;
+    [[nodiscard]] RealRange1dSetC SubtractFrom(const RealRangeC &range) const;
     //: Remove set from range.
   
-    RealRange1dSetC Add(const RealRangeC &range) const;
+    [[nodiscard]] RealRange1dSetC Add(const RealRangeC &range) const;
     //: Add this range to the set.
 
-    RealRange1dSetC Add(const RealRange1dSetC &range) const;
+    [[nodiscard]] RealRange1dSetC Add(const RealRange1dSetC &range) const;
     //: Add range set to this set.
   
     bool Contains(const RealRangeC &range) const;
     //: Does this set wholly contain 'range' ?
     
-    RealT Length() const;
+    [[nodiscard]] RealT Length() const;
     //: Total length of set.
   };
 

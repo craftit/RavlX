@@ -35,7 +35,7 @@ namespace RavlN {
     : public GraphBaseC 
   {
   public:  
-    GraphC(GraphTypeT type = GRAPH_DIRECTED)
+    explicit GraphC(GraphTypeT type = GRAPH_DIRECTED)
       : GraphBaseC(type) 
     {}
     //: Creates an empty graph, directed or undirected.

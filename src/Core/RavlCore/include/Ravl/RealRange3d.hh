@@ -32,13 +32,13 @@ namespace RavlN {
   class RealRange3dC {
   public:
     RealRange3dC()
-    {}
+    = default;
     //: Default constructor.
     
     RealRange3dC(RealT iNumber, RealT jNumber, RealT kNumber)
       : is(0, iNumber), 
-	js(0, jNumber),
-	ks(0, kNumber)
+	      js(0, jNumber),
+	      ks(0, kNumber)
     {}
     //: Constructor.
     
@@ -49,8 +49,8 @@ namespace RavlN {
 
     explicit RealRange3dC(const IndexRange3dC &rng)
       : is(rng.Range1()), 
-	js(rng.Range2()), 
-	ks(rng.Range3())
+	      js(rng.Range2()),
+	      ks(rng.Range3())
     {}
     //: Construct from an IndexRange3dC.
     // Note that the upper limit of the RealRangeC object is incremented by 1
@@ -58,8 +58,8 @@ namespace RavlN {
     
     RealRange3dC(const TFVectorC<RealT,3> &org,const TFVectorC<RealT,3> &end)
       : is(org[0], end[0]), 
-	js(org[1], end[1]), 
-	ks(org[2], end[2])
+	      js(org[1], end[1]),
+	      ks(org[2], end[2])
     {}
     //: Create an 3d range from corner points.
     
@@ -67,110 +67,110 @@ namespace RavlN {
 		 RealT minJ, RealT maxJ,
 		 RealT minK, RealT maxK)
       : is(minI,maxI), 
-	js(minJ,maxJ),
-	ks(minK,maxK)
+	      js(minJ,maxJ),
+	      ks(minK,maxK)
     {}
     //: Create rectangle from individual values.
     
     RealRange3dC(const TFVectorC<RealT,3> &center,RealT size)
       : is(center[0]-size,center[0]+size), 
-	js(center[1]-size,center[1]+size),
-	ks(center[2]-size,center[2]+size)
+	      js(center[1]-size,center[1]+size),
+	      ks(center[2]-size,center[2]+size)
     {}
     //: Create an 3d range from a center point and a size.
     // Size is the distance from the center to the edge, so
     // a size of 0 gives a single voxel, and a size of 1 generates
     // a 3x3x3 cube
     
-    inline TFVectorC<RealT,3> Origin() const
+    [[nodiscard]] inline TFVectorC<RealT,3> Origin() const
     { return TFVector3(is.Min(),js.Min(),ks.Min()); }
     //: Returns the origin index of the rectangle.
-    
-    inline TFVectorC<RealT,3>  End() const
+
+    [[nodiscard]] inline TFVectorC<RealT,3>  End() const
     { return TFVector3(is.Max(),js.Max(),ks.Min()); }
     //: Returns the end index of the rectangle.
-    
-    inline TFVectorC<RealT,3> Center() const
+
+    [[nodiscard]] inline TFVectorC<RealT,3> Center() const
     { return TFVector3(is.Center(),js.Center(),ks.Center()); }
     //: Returns the index which is in the middle of the rectangle
-    
-    inline RealT MinI() const
+
+    [[nodiscard]] inline RealT MinI() const
     { return is.Min(); }
     //: Returns the min value of I.
-    
-    inline RealT MinJ() const
+
+    [[nodiscard]] inline RealT MinJ() const
     { return js.Min(); }
     //: Returns the min value of J.
 
-    inline RealT MinK() const
+    [[nodiscard]] inline RealT MinK() const
     { return ks.Min(); }
     //: Returns the min value of K.
-    
-    inline RealT MaxI() const
+
+    [[nodiscard]] inline RealT MaxI() const
     { return is.Max(); }
     //: Returns the max value of I.
-    
-    inline RealT MaxJ() const
+
+    [[nodiscard]] inline RealT MaxJ() const
     { return js.Max(); }
     //: Returns the max value of J.
 
-    inline RealT MaxK() const
+    [[nodiscard]] inline RealT MaxK() const
     { return ks.Max(); }
     //: Returns the max value of K.
-    
-    inline RealT &MinI()
+
+    [[nodiscard]] inline RealT &MinI()
     { return is.Min(); }
     //: Returns the min value of I.
-    
-    inline RealT &MinJ()
+
+    [[nodiscard]] inline RealT &MinJ()
     { return js.Min(); }
     //: Returns the min value of J.
-    
-    inline RealT &MinK()
+
+    [[nodiscard]] inline RealT &MinK()
     { return ks.Min(); }
     //: Returns the min value of K.
-    
-    inline RealT &MaxI()
+
+    [[nodiscard]] inline RealT &MaxI()
     { return is.Max(); }
     //: Returns the max value of I.
-    
-    inline RealT &MaxJ()
+
+    [[nodiscard]] inline RealT &MaxJ()
     { return js.Max(); }
     //: Returns the max value of J.
 
-    inline RealT &MaxK()
+    [[nodiscard]] inline RealT &MaxK()
     { return ks.Max(); }
     //: Returns the max value of K.
-    
-    inline RealT Is() const
+
+    [[nodiscard]] inline RealT Is() const
     { return is.Size(); }
     //: The number of i's in the rectangle.
 
-    inline RealT Js() const
+    [[nodiscard]] inline RealT Js() const
     { return js.Size(); }
     //: The number of j's in the rectangle.
 
-    inline RealT Ks() const
+    [[nodiscard]] inline RealT Ks() const
     { return ks.Size(); }
     //: The number of k's in the rectangle.
-    
-    inline RealT Volume() const
+
+    [[nodiscard]] inline RealT Volume() const
     { return (size_t) Is() * Js() * Ks(); }
     //: Returns the volume of the prism expressed in number of indexs.
-    
-    inline RealRange3dC Dilate() const 
+
+    [[nodiscard]] inline RealRange3dC Dilate() const
     { return RealRange3dC(is.Expand(1),js.Expand(1),ks.Expand(1)); }
     //: Returns a new rectangle one index larger on each side.
-    
-    inline RealRange3dC Erode() const
+
+    [[nodiscard]] inline RealRange3dC Erode() const
     { return RealRange3dC(is.Shrink(1),js.Shrink(1),ks.Shrink(1)); }
     //: Removes one index layer on each side.
-    
-    inline RealRange3dC Expand(RealT n) const
+
+    [[nodiscard]] inline RealRange3dC Expand(RealT n) const
     { return RealRange3dC(is.Expand(n),js.Expand(n),ks.Expand(n)); }
     // Expands the rectangle by adding 'n' indexs on each side.
-    
-    inline RealRange3dC Shrink(RealT n) const
+
+    [[nodiscard]] inline RealRange3dC Shrink(RealT n) const
     { return RealRange3dC(is.Shrink(n),js.Shrink(n),ks.Shrink(n)); }
     // Returns a new rectangle which has layer of the width of 'n' indexs
     // removed.
@@ -183,7 +183,7 @@ namespace RavlN {
     }
     //: This index range is clipped to contain at most the index range 'r'.
 
-    inline TFVectorC<RealT,3> Clip(const TFVectorC<RealT,3> & r) {
+    [[nodiscard]] inline TFVectorC<RealT,3> Clip(const TFVectorC<RealT,3> & r) const {
       TFVectorC<RealT,3> result;
       result[0] = Range1().Clip(r[0]);
       result[1] = Range2().Clip(r[1]);
@@ -191,12 +191,12 @@ namespace RavlN {
       return result;
     }
     //: The value 'r' is clipped to be within this range.
-    
-    inline bool Contains(const TFVectorC<RealT,3> & oth) const
+
+    [[nodiscard]] inline bool Contains(const TFVectorC<RealT,3> & oth) const
     { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]) && Range3().Contains(oth[2]); }
     //: Returns true if this range contains the subrange 'oth'.
-    
-    inline bool Contains(const RealRange3dC & oth) const
+
+    [[nodiscard]] inline bool Contains(const RealRange3dC & oth) const
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()) && Range3().Contains(oth.Range3()); }
     //: Returns true if this range contains the subrange 'oth'.
     
@@ -213,55 +213,55 @@ namespace RavlN {
     inline RealRange3dC operator-(const TFVectorC<RealT,3> & offset) const
     { return RealRange3dC(is - offset[0],js - offset[1],ks - offset[2]); }
     //: Shifts the rectangle to the new position.
-    
-    inline const RealRangeC & IRange() const
+
+    [[nodiscard]] inline const RealRangeC & IRange() const
     { return is; }
     //: Access i range.
-    
-    inline const RealRangeC & JRange() const
+
+    [[nodiscard]] inline const RealRangeC & JRange() const
     { return js; }
     //: Access j range.
 
-    inline const RealRangeC & KRange() const
+    [[nodiscard]] inline const RealRangeC & KRange() const
     { return ks; }
     //: Access k range.
-    
-    inline RealRangeC & IRange()
+
+    [[nodiscard]] inline RealRangeC & IRange()
     { return is; }
     //: Access i range.
-    
-    inline RealRangeC & JRange()
-    { return js; }
-    //: Access j range.
-    
-    inline RealRangeC & KRange()
-    { return ks; }
-    //: Access k range.
-    
-    inline const RealRangeC & Range1() const
-    { return is; }
-    //: Access i range.
-    
-    inline const RealRangeC & Range2() const
+
+    [[nodiscard]] inline RealRangeC & JRange()
     { return js; }
     //: Access j range.
 
-    inline const RealRangeC & Range3() const
+    [[nodiscard]] inline RealRangeC & KRange()
     { return ks; }
     //: Access k range.
-    
-    inline RealRangeC & Range1()
+
+    [[nodiscard]] inline const RealRangeC & Range1() const
     { return is; }
     //: Access i range.
-    
-    inline RealRangeC & Range2()
+
+    [[nodiscard]] inline const RealRangeC & Range2() const
     { return js; }
     //: Access j range.
-    
-    inline RealRangeC & Range3()
+
+    [[nodiscard]] inline const RealRangeC & Range3() const
     { return ks; }
     //: Access k range.
-    
+
+    [[nodiscard]] inline RealRangeC & Range1()
+    { return is; }
+    //: Access i range.
+
+    [[nodiscard]] inline RealRangeC & Range2()
+    { return js; }
+    //: Access j range.
+
+    [[nodiscard]] inline RealRangeC & Range3()
+    { return ks; }
+    //: Access k range.
+
     inline const RealRange3dC &Involve(const TFVectorC<RealT,3> & index);
     //: Checks and changes, if necessary, the 2 dimensional range
     //: to contain the 'index'.
@@ -269,9 +269,8 @@ namespace RavlN {
     inline const RealRange3dC &Involve(const RealRange3dC & subRange);
     //: Checks and changes, if necessary, the 2 dimensional range
     //: to contain the 'subRange'.
-    
-    inline 
-    bool IsValid() const 
+
+    [[nodiscard]] inline bool IsValid() const
     { return is.IsValid() && js.IsValid() && ks.IsValid(); }
     // Returns true if this rectangle contains at least one index.
 
@@ -282,17 +281,17 @@ namespace RavlN {
     bool operator!=(const RealRange3dC &oth) const
     { return oth.Range1() != Range1() || oth.Range2() != Range2() || oth.Range3() != Range3(); }
     //: Are two ranges unequal ?
-    
-    inline bool IsOverlapping(const RealRange3dC & r) const
+
+    [[nodiscard]] inline bool IsOverlapping(const RealRange3dC & r) const
     { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()) && Range3().IsOverlapping(r.Range3()); }
     //: Returns true if this range contains a common volume with 
     //: the range 'r'.
-    
-    IndexRange3dC IndexRange() const
+
+    [[nodiscard]] IndexRange3dC IndexRange() const
     { return IndexRange3dC(is.IndexRange(),js.IndexRange(),ks.IndexRange());  }
     //: Get the smallest integer range containing the real range.
-    
-    UIntT Hash() const {
+
+    [[nodiscard]] UIntT Hash() const {
       UIntT ret = StdHash(is);
       ret += ret << 11;
       ret += StdHash(js);
@@ -336,7 +335,7 @@ namespace RavlN {
     //: Access item.
 
   protected:
-    inline const RealRange3dC & Range() const
+    [[nodiscard]] inline const RealRange3dC & Range() const
     { return(*this); }
     
   private:

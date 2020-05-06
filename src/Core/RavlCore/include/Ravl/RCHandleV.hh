@@ -54,7 +54,7 @@ namespace RavlN {
   {
   public:
     RCHandleVC()
-    {}
+    = default;
     //: Default constructor.
     // Creates an invalid handle.
     
@@ -62,12 +62,12 @@ namespace RavlN {
     //: Copy Constructor.
     // Creates a new reference to 'oth'
 
-    RCHandleVC(std::istream &strm)
+    explicit RCHandleVC(std::istream &strm)
       : RCHandleC<BodyT>(dynamic_cast<BodyT *>(VCLoad(strm)))
     {}
     //: Stream constructor.
     
-    RCHandleVC(BinIStreamC &strm)
+    explicit RCHandleVC(BinIStreamC &strm)
       : RCHandleC<BodyT>(dynamic_cast<BodyT *>(VCLoad(strm)))
     {}
     //: Binary stream constructor.
@@ -130,7 +130,7 @@ namespace RavlN {
   template<class BodyT>
   BodyT *VCLoad(std::istream &s,BodyT *) { 
     RCBodyVC *bp = VCLoad(s);
-    BodyT *ret = dynamic_cast<BodyT *>(bp);
+    auto *ret = dynamic_cast<BodyT *>(bp);
     if(ret == 0) {
       delete bp;
       throw ExceptionErrorCastC("Virtual constructor failed.",typeid(RCBodyVC),typeid(BodyT));
@@ -141,7 +141,7 @@ namespace RavlN {
   template<class BodyT>
   BodyT *VCLoad(BinIStreamC &s,BodyT *) { 
     RCBodyVC *bp = VCLoad(s);
-    BodyT *ret = dynamic_cast<BodyT *>(bp);
+    auto *ret = dynamic_cast<BodyT *>(bp);
     if(ret == 0) {
       delete bp; 
       throw ExceptionErrorCastC("Virtual construction failed.",typeid(RCBodyVC),typeid(BodyT));

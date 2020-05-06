@@ -53,12 +53,12 @@ namespace RavlN {
     //: Construct from a valid string representation
     // expects format hh:mm:ss:ff 
 
-    TimeCodeC(const StringC & string, RealT frameRate = 25.00) ; 
+    TimeCodeC(const StringC & string, RealT frameRate = 25.00) ;
     //: Construct from a Ravl string representation 
     
     inline TimeCodeC()
       : m_liFrame(0),
-	frameRate(25.0)
+	      frameRate(25.0)
     {}
     //: Construct empty timecode
 
@@ -132,27 +132,27 @@ namespace RavlN {
     //:----------------------
     //: Member Functions
     
-    inline UIntT Hash() const
+    [[nodiscard]] inline UIntT Hash() const
       { return (UIntT) m_liFrame; }
     //:: the hash key
-    
-    inline IntT bcd(ByteT in)
+
+    [[nodiscard]] static inline IntT bcd(ByteT in)
       { return (in >> 4) * 10  + (in & 0xf);}
     //: Routine to convert binary coded decimal to int
     
-    StringC ToText() const;
+    [[nodiscard]] StringC ToText() const;
     //: Return a string  representation of timecode
-    
-    inline IntT NumberOfFramesTo(const TimeCodeC &in) const 
+
+    [[nodiscard]] inline IntT NumberOfFramesTo(const TimeCodeC &in) const
       { return Abs(m_liFrame - in.m_liFrame); }    
     //: Count the number of frames to a timecode
-    
-    inline bool IsValid() const
-      { return ((m_liFrame>=0) && !IsNan(frameRate) && (frameRate>0.0)); }
+
+    [[nodiscard]] inline bool IsValid() const
+    { return ((m_liFrame>=0) && !IsNan(frameRate) && (frameRate>0.0)); }
     //: Checks whether the timecode holds valid data
-        
-    inline IntT FrameCount() const
-      {return m_liFrame;}
+
+    [[nodiscard]] inline IntT FrameCount() const
+    { return m_liFrame; }
     //: Access frame count.
 
     bool ConvertTo(IntT &hr, IntT &min, IntT &sec, IntT &fr) const;
@@ -169,11 +169,11 @@ namespace RavlN {
     //: Convert from a string
     // expects format hh:mm:ss:ff 
 
-    inline RealT FrameRate() const
+    [[nodiscard]] inline RealT FrameRate() const
       { return frameRate; }
     //: Access the frame rate
 
-    inline int getFrameCount() const
+    [[nodiscard]] inline int getFrameCount() const
       {return m_liFrame;}
     //: Access frame count.
     //!deprecated: Use <code>FrameCount()</code>

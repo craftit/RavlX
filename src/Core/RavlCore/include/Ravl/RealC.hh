@@ -41,7 +41,7 @@ namespace RavlN {
       : v(nv) {}
     //: Construct an int.
     
-    RealC Copy() const { return RealC(v); }
+    [[nodiscard]] RealC Copy() const { return RealC(v); }
     //: Make a copy.
     
     operator RealT() const { return v; }

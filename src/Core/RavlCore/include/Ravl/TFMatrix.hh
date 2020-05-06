@@ -39,27 +39,27 @@ namespace RavlN {
     //: Constructor.
     // Initalise matrix with values from 'init'.
     
-    SizeT Size1() const
+    [[nodiscard]] SizeT Size1() const
     { return N; }
     //: Get size of matrix in the first dimension
 
-    SizeT Size2() const
+    [[nodiscard]] SizeT Size2() const
     { return M; }
     //: Get size of matrix in the second dimension
 
-    SizeT Rows() const
+    [[nodiscard]] SizeT Rows() const
     { return N; }
     //: Get the number of rows in the matrix
 
-    SizeT Cols() const
+    [[nodiscard]] SizeT Cols() const
     { return M; }
     //: Get the number of columns in the matrix
-    
-    bool Contains(const Index2dC &i) const
+
+    [[nodiscard]] bool Contains(const Index2dC &i) const
     { return ((UIntT) i.Row().V()) < Size1() && ((UIntT) i.Col().V()) < Size2(); }
     //: Test if array contains index i�
-    
-    DataT &operator[](const Index2dC &ind) { 
+
+    [[nodiscard]] DataT &operator[](const Index2dC &ind) {
 #if RAVL_CHECK
       if(!Contains(ind)) 
 	IssueError(__FILE__,__LINE__,"Index %d,%d out of range, 0 - %u,0 - %u",ind[0].V(),ind[1].V(),N,M);
@@ -67,8 +67,8 @@ namespace RavlN {
       return data[ind.Row().V()][ind.Col().V()]; 
     }
     //: Access item.
-    
-    const DataT &operator[](const Index2dC &ind) const { 
+
+    [[nodiscard]] const DataT &operator[](const Index2dC &ind) const {
 #if RAVL_CHECK
       if(!Contains(ind))
 	IssueError(__FILE__,__LINE__,"Index %d,%d out of range, 0 - %u , 0 - %u",ind[0].V(),ind[1].V(),N,M);
@@ -138,12 +138,12 @@ namespace RavlN {
     {
       TFMatrixC<DataT,N,MT> ret;
       for(UIntT i = 0;i < N;i++)
-	for(UIntT j = 0;j < MT;j++) {
-	  DataT &val = ret[i][j];
-	  val = data[i][0] * mat[0][j];
-	  for(UIntT k = 1;k < M;k++)
-	    val += data[i][k] * mat[k][j];
-	}
+        for(UIntT j = 0;j < MT;j++) {
+          DataT &val = ret[i][j];
+          val = data[i][0] * mat[0][j];
+          for(UIntT k = 1;k < M;k++)
+            val += data[i][k] * mat[k][j];
+        }
       return ret;
     }
     //: Mutiply two matrixes.
@@ -151,7 +151,7 @@ namespace RavlN {
     TFVectorC<DataT,M> SliceRow(IndexC r) const {
       TFVectorC<DataT,M> ret;
       for(UIntT c = 0; c < M; c++)
-	ret[c] = data[r.V()][c];
+	      ret[c] = data[r.V()][c];
       return ret;
     }
     //: Access to row as a vector
@@ -159,7 +159,7 @@ namespace RavlN {
     TFVectorC<DataT,N> SliceCol(IndexC c) const {
       TFVectorC<DataT,N> ret;
       for(UIntT r = 0; r < N; r++)
-	ret[r] = data[r][c.V()];
+      	ret[r] = data[r][c.V()];
       return ret;
     }
     // Access to column as a vector
@@ -169,12 +169,12 @@ namespace RavlN {
     {
       TFMatrixC<DataT,M,MT> ret;
       for(UIntT i = 0;i < M;i++)
-	for(UIntT j = 0;j < MT;j++) {
-	  DataT &val = ret[i][j];
-	  val = data[0][i] * mat[0][j];
-	  for(UIntT k = 1;k < N;k++)
-	    val += data[k][i] * mat[k][j];
-	}
+        for(UIntT j = 0;j < MT;j++) {
+          DataT &val = ret[i][j];
+          val = data[0][i] * mat[0][j];
+          for(UIntT k = 1;k < N;k++)
+            val += data[k][i] * mat[k][j];
+        }
       return ret;
     }
     //: Transpose this matrix and Multiply by 'mat'
@@ -183,12 +183,12 @@ namespace RavlN {
     TFMatrixC<DataT,N,NT> MulT(const TFMatrixC<DataT,NT, M> & mat) const {
       TFMatrixC<DataT,N,NT> ret;
       for(UIntT i = 0;i < N;i++)
-	for(UIntT j = 0;j < NT;j++) {
-	  DataT &val = ret[i][j];
-	  val = data[i][0] * mat[j][0];
-	  for(UIntT k = 1; k < M;k++)
-	    val += data[i][k] * mat[j][k];
-	}
+        for(UIntT j = 0;j < NT;j++) {
+          DataT &val = ret[i][j];
+          val = data[i][0] * mat[j][0];
+          for(UIntT k = 1; k < M;k++)
+            val += data[i][k] * mat[j][k];
+        }
       return ret;
     }
     //: Mutiply this matrix by transpose of 'mat'
@@ -196,11 +196,11 @@ namespace RavlN {
     TFVectorC<DataT,M> TMul(const TFVectorC<DataT,N>& vec) const  {
       TFVectorC<DataT,M> ret;
       for(UIntT i = 0; i < M; i++)
-	{
-	  ret[i] = data[0][i] * vec[0];
-	  for(UIntT j = 1; j < N;j++)
-	    ret[i] += data[j][i] * vec[j];
-	}
+      {
+        ret[i] = data[0][i] * vec[0];
+        for(UIntT j = 1; j < N;j++)
+          ret[i] += data[j][i] * vec[j];
+      }
       return ret;
     }
     //: Transpose this matrix and multiply by 'vec'
@@ -208,10 +208,10 @@ namespace RavlN {
     TFMatrixC<DataT,M,N> T() const;
     //: Matrix transpose.
     
-    DataT SumOfAbs() const;
+    [[nodiscard]] DataT SumOfAbs() const;
     //: Return the sum of the absolute values of the matrix.
-    
-    DataT SumOfSqr() const;
+
+    [[nodiscard]] DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all the elements in the matrix
     
     inline bool Limit(const DataT &min,const DataT &max);
@@ -226,8 +226,8 @@ namespace RavlN {
     
     const TFMatrixC<DataT,N,M> &AddDiagonal(const TFVectorC<DataT,N> &d);
     //: Add a vector to the diagonal of this matrix.
-    
-    SizeT Hash() const {
+
+    [[nodiscard]] SizeT Hash() const {
       SizeT val = 0;
       for(unsigned i = 0;i < N;i++) {
         for(unsigned j = 0;j < M;j++) {
@@ -272,7 +272,7 @@ namespace RavlN {
     for(unsigned int i = 0;i < N;i++) {
       result[i] = mat[i][0]*vec[0];
       for(unsigned int j = 1;j < M;j++) 
-	result[i] += mat[i][j]*vec[j];
+	      result[i] += mat[i][j]*vec[j];
     }
   }
   //: Compute result = vec * mat;
@@ -283,10 +283,10 @@ namespace RavlN {
   void MulM(const TFMatrixC<DataT,N,M> &fmat,const TFMatrixC<DataT,M,MT> &mat,TFMatrixC<DataT,N,MT> &result) {
     for(UIntT i = 0;i < N;i++)
       for(UIntT j = 0;j < MT;j++) {
-	DataT &val = result[i][j];
-	val = fmat[i][0] * mat[0][j];
-	for(UIntT k = 1;k < M;k++)
-	  val += fmat[i][k] * mat[k][j];
+        DataT &val = result[i][j];
+        val = fmat[i][0] * mat[0][j];
+        for(UIntT k = 1;k < M;k++)
+          val += fmat[i][k] * mat[k][j];
       }
   }
   //: Compute result = fmat * mat;
@@ -299,7 +299,7 @@ namespace RavlN {
       DataT &val = result[i];
       val = mat[0][i] * vec[0];
       for(UIntT j = 1; j < N;j++)
-	val += mat[j][i] * vec[j];
+	      val += mat[j][i] * vec[j];
     }
   }
   //: Compute result = mat.T() * vec;

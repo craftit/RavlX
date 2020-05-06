@@ -61,16 +61,16 @@ namespace RavlN {
     XMLTreeBodyC(const StringC &nname);
     //: Construct from a name.
     
-    XMLTreeBodyC(BinIStreamC &strm);
+    explicit XMLTreeBodyC(BinIStreamC &strm);
     //: Binary stream constructor.
     
-    XMLTreeBodyC(std::istream &strm);
+    explicit XMLTreeBodyC(std::istream &strm);
     //: Text stream constructor.
     
-    virtual bool Save(BinOStreamC &strm) const;
+    bool Save(BinOStreamC &strm) const override;
     //: Save to binary stream.
     
-    virtual bool Save(std::ostream &strm) const;
+    bool Save(std::ostream &strm) const override;
     //: Save to text stream.
 
     explicit XMLTreeBodyC(XMLIStreamC &in,XMLTreeLoadC *loader = 0);
@@ -101,7 +101,7 @@ namespace RavlN {
     { return name; }
     //: Access name.
 
-    std::ostream &Dump(std::ostream &out,int level= 0) const;
+    std::ostream &Dump(std::ostream &out,int level= 0) const override;
     //: Dump tree in a human readable format.
     
     bool IsPI() const
@@ -235,7 +235,7 @@ namespace RavlN {
   {
   public:
     XMLTreeC()
-    {}
+    = default;
     //: Default constructor.
     // Creates an invalid handle.
     
@@ -320,11 +320,11 @@ namespace RavlN {
     { return Body().Write(out, level); }
     //: Write to a stream using this node as the root.
     
-    const StringC &Name() const
+    [[nodiscard]] const StringC &Name() const
     { return Body().Name(); }
     //: Access name.
     
-    bool IsPI() const
+    [[nodiscard]] bool IsPI() const
     { return Body().IsPI(); }
     //: Is this a processing instruction.
 

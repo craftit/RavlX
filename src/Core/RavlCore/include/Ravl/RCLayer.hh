@@ -34,12 +34,12 @@ namespace RavlN {
     { ravl_atomic_set(&owners,0); }
     //: Default constructor.
     
-    RCLayerBodyC(std::istream &strm)
+    explicit RCLayerBodyC(std::istream &strm)
       : RCBodyVC(strm)
     { ravl_atomic_set(&owners,0); }
     //: Text stream constructor
     
-    RCLayerBodyC(BinIStreamC &strm)
+    explicit RCLayerBodyC(BinIStreamC &strm)
       : RCBodyVC(strm)
     { ravl_atomic_set(&owners,0); }
     //: Binary stream constructor
@@ -49,15 +49,15 @@ namespace RavlN {
     { ravl_atomic_set(&owners,0); }
     //: Copy constructor
 
-    virtual ~RCLayerBodyC()
+    ~RCLayerBodyC() override
     { RavlAssert(ravl_atomic_read(&owners) == 0); }
     //: Destructor
     
-    bool Save(std::ostream &strm) const
+    bool Save(std::ostream &strm) const override
     { return RCBodyVC::Save(strm); }
     //: Save text stream
     
-    bool Save(BinOStreamC &strm) const
+    bool Save(BinOStreamC &strm) const override
     { return RCBodyVC::Save(strm); }
     //: Save binary stream
     
@@ -148,7 +148,7 @@ namespace RavlN {
     }
     //: Constructor from a pointer
     
-    RCLayerC(std::istream &strm,RCLayerHandleT handleType = RCLH_OWNER)
+    explicit RCLayerC(std::istream &strm,RCLayerHandleT handleType = RCLH_OWNER)
       : RCHandleVC<BodyT>(strm),
         ownerHandle(handleType == RCLH_OWNER)
     {
@@ -157,7 +157,7 @@ namespace RavlN {
     }
     //: Stream constructor.
     
-    RCLayerC(BinIStreamC &strm,RCLayerHandleT handleType = RCLH_OWNER)
+    explicit RCLayerC(BinIStreamC &strm,RCLayerHandleT handleType = RCLH_OWNER)
       : RCHandleVC<BodyT>(strm),
         ownerHandle(handleType == RCLH_OWNER)
     {
@@ -197,11 +197,11 @@ namespace RavlN {
     }
     //: Assign handle.
     
-    bool IsHandleOwner() const
+    [[nodiscard]] bool IsHandleOwner() const
     { return ownerHandle; }
     //: Is this a owner handle ?
     
-    bool IsHandleCallback() const
+    [[nodiscard]] bool IsHandleCallback() const
     { return !ownerHandle; }
     //: Is this a callback handle ?
     
@@ -216,7 +216,7 @@ namespace RavlN {
     }
     //: Invalidate this handle.
     
-    IntT OwnerHandles() const
+    [[nodiscard]] IntT OwnerHandles() const
     { return this->Body().OwnerHandles(); }
     //: Count the number of owner handles that currently exist.
     

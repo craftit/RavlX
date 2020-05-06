@@ -35,11 +35,11 @@ namespace RavlN {
     VirtualConstructorBodyC(const std::type_info &,const char *typesname);
     //: Default constructor.
     
-    VirtualConstructorBodyC(std::istream &in);
+    explicit VirtualConstructorBodyC(std::istream &in);
     //: Construct from an std::istream.
     // Dummy method.
 
-    VirtualConstructorBodyC(BinIStreamC &in);
+    explicit VirtualConstructorBodyC(BinIStreamC &in);
     //: Construct from an std::istream.
     // Dummy method
     
@@ -58,7 +58,7 @@ namespace RavlN {
   {
   public:
     VirtualConstructorC()
-    {}
+    = default;
     //: Default constructor.
     // Creates an invalid handle.
     
@@ -92,11 +92,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    virtual RCBodyVC *Load(std::istream &in) const
+    RCBodyVC *Load(std::istream &in) const override
     { return new DataT(in); }
     //: Load an object of this type from an std::istream.
     
-    virtual RCBodyVC *Load(BinIStreamC &in) const
+    RCBodyVC *Load(BinIStreamC &in) const override
     { return new DataT(in); }
     //: Load an object of this type from a BinIStreamC using a virtual constructor.
     

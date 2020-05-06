@@ -30,59 +30,59 @@ namespace RavlN {
     Tuple3C() {}
     //: Default constructor.
     
-    Tuple3C(std::istream &in) 
+    explicit Tuple3C(std::istream &in)
     { in >> d1 >> d2 >> d3; }
     //: Stream constructor.
     
-    Tuple3C(BinIStreamC &in) 
+    explicit Tuple3C(BinIStreamC &in)
     { in >> d1 >> d2 >> d3; }
     //: Binary Stream constructor.
     
     Tuple3C(const T1 &nd1,const T2 &nd2,const T3 &nd3) 
       : d1(nd1),
-	d2(nd2),
-	d3(nd3)
+	      d2(nd2),
+	      d3(nd3)
     {}
     //: Constructor.
     
     Tuple3C(const Tuple3C<T1,T2,T3> &oth) 
       : d1(oth.d1),
-	d2(oth.d2),
-	d3(oth.d3)
+	      d2(oth.d2),
+	      d3(oth.d3)
     {}
     //: Copy constructor.
 
-    Tuple3C<T1,T2,T3> Copy() const
+    [[nodiscard]] Tuple3C<T1,T2,T3> Copy() const
     { return Tuple3C<T1,T2,T3>(d1,d2,d3); }
     //: Make a copy of this object.
-    
-    Tuple3C<T1,T2,T3> DeepCopy(UIntT levels = ((UIntT) -1)) const { 
+
+    [[nodiscard]] Tuple3C<T1,T2,T3> DeepCopy(UIntT levels = ((UIntT) -1)) const {
       if(levels <= 1) return Copy();
       return Tuple3C<T1,T2,T3>(StdDeepCopy(d1,levels-1),
 			       StdDeepCopy(d2,levels-1),
 			       StdDeepCopy(d3,levels-1)); 
     }
     //: Make a deep copy of the container.
-    
-    T1 &Data1() { return d1; }
-    //: Data access.
-    
-    const T1 &Data1() const { return d1; }
-    //: Data access.
-    
-    T2 &Data2() { return d2; }
-    //: Data access.
-    
-    const T2 &Data2() const { return d2; }
-    //: Data access.
-    
-    T3 &Data3() { return d3; }
-    //: Data access.
-    
-    const T3 &Data3() const { return d3; }
+
+    [[nodiscard]] T1 &Data1() { return d1; }
     //: Data access.
 
-    SizeT Hash() const {
+    [[nodiscard]] const T1 &Data1() const { return d1; }
+    //: Data access.
+
+    [[nodiscard]] T2 &Data2() { return d2; }
+    //: Data access.
+
+    [[nodiscard]] const T2 &Data2() const { return d2; }
+    //: Data access.
+
+    [[nodiscard]] T3 &Data3() { return d3; }
+    //: Data access.
+
+    [[nodiscard]] const T3 &Data3() const { return d3; }
+    //: Data access.
+
+    [[nodiscard]] SizeT Hash() const {
       SizeT h2 = StdHash(d2);
       SizeT h3 = StdHash(d3);
       return (StdHash(d1) + h2 + h3) ^ (h2 << 7)  ^ (h3 << 11);

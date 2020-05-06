@@ -40,7 +40,7 @@ namespace RavlN {
   class VariableLengthCodeC
   {
   public:
-    VariableLengthCodeC(UIntT maxCodes);
+    explicit VariableLengthCodeC(UIntT maxCodes);
     //: Constructor.
     
     VariableLengthCodeC(const VariableLengthCodeInitC *data);
@@ -75,23 +75,21 @@ namespace RavlN {
   
     VariableLengthCodeIterC(const VariableLengthCodeC &tab)
       : at(0),
-	lastBit((UIntT) -1),
-	data(tab.data)
+	      lastBit((UIntT) -1),
+	      data(tab.data)
     {}
     //: Construct from code table.
     
-    bool IsValid() const
+    [[nodiscard]] bool IsValid() const
     { return at < data.Size(); }
     //: Valid iterator.
     
     bool Next(bool bit) {
       UIntT nextVal = data[at][((int) bit)];
       if(nextVal & VariableLengthCodeC::Marker()) {
-	nextVal = nextVal & ~VariableLengthCodeC::Marker();
-	at = nextVal;
-	if(nextVal == 0)
-	  return true; // End of the line, but no data.
-	return false;
+      	nextVal = nextVal & ~VariableLengthCodeC::Marker();
+	      at = nextVal;
+        return nextVal == 0; // End of the line, but no data.
       }
       lastBit = bit;
       return true;
@@ -107,7 +105,7 @@ namespace RavlN {
     }
     //: Get the next token from the bitstream
     
-    bool IsElm() const 
+    [[nodiscard]] bool IsElm() const
     { return lastBit < 2; }
     //: At a token ?
     

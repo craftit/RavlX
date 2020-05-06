@@ -69,7 +69,7 @@ namespace RavlN {
   //: Input virtual body.
   // No-op.
 
-  std::ostream &operator<<(std::ostream &,const RCBodyC &obj);
+  std::ostream &operator<<(std::ostream &,const RCBodyVC &obj);
   //: Output virtual body.
   // No-op.
   

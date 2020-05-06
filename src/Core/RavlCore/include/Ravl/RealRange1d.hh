@@ -56,25 +56,25 @@ namespace RavlN {
     {}
     //: Creates the index range <minReal, maxReal>.
     
-    inline RealRangeC(std::istream & s);
+    inline explicit RealRangeC(std::istream & s);
     //: Creates the index range from the input stream.
     
     //:---------------------------------
     //: Access to the object information.
     
-    inline RealT Size() const
+    [[nodiscard]] inline RealT Size() const
     { return (maxV-minV); }
     //: Returns the number of elements in the range.
     
-    inline const RealRangeC & Range() const
+    [[nodiscard]] inline const RealRangeC & Range() const
     { return *this; }
     //: Returns this object.
     
-    inline const RealT & Min()  const
+    [[nodiscard]] inline const RealT & Min()  const
     { return minV; }
     //: Returns the minimum index of the range.
     
-    inline const RealT & Max()  const
+    [[nodiscard]] inline const RealT & Max()  const
     { return maxV; }
     //: Returns the maximum index of the range.
     
@@ -86,34 +86,34 @@ namespace RavlN {
     { return maxV; }
     //: Returns the maximum index of the range.
     
-    inline RealT Center() const
+    [[nodiscard]] inline RealT Center() const
     { return (Min() + Max())/2; }
     //: Returns the index in the middle of the range, eg. (Max()+Min())/2.
     
-    inline RealT CenterD() const
+    [[nodiscard]] inline RealT CenterD() const
     { return (Min() + Max())/2; }
     //: Returns the index previous the middle of the range, eg. (Max()+Min())/2.
 
-    inline RealT Percentage(RealT p) const
+    [[nodiscard]] inline RealT Percentage(RealT p) const
     { return (Max() - Min()) * p/100.0 + Min(); }
     //: Returns the index which is in the 'p' % of the whole range.
     
     //:-------------------
     //: Logical operations.
     
-    inline bool IsEmpty() const
+    [[nodiscard]] inline bool IsEmpty() const
     { return Min() > Max(); }
     //: Returns true if the minimum limit is bigger than the maximum limit. 
     
-    inline bool IsValid() const
+    [[nodiscard]] inline bool IsValid() const
     { return Min() <= Max(); }
     //: Returns true if the minimum limit is smaller than or equal to the maximum value
     
-    inline bool Contains(RealT i) const
+    [[nodiscard]] inline bool Contains(RealT i) const
     { return (Min() <= i) && (i <= Max()); }
     //: Returns true if this range contains the index 'i'.
     
-    inline bool Contains(const RealRangeC & range) const
+    [[nodiscard]] inline bool Contains(const RealRangeC & range) const
     { return Contains(range.Min()) && Contains(range.Max()); }
     //: Returns true if this range contains the subrange 'range'.
     
@@ -125,10 +125,10 @@ namespace RavlN {
     { return (Min() != range.Min()) || (Max() != range.Max()); }
     //: Returns true if both the ranges have different limits.
     
-    bool In(const RealRangeC & range) const;
+    [[nodiscard]] bool In(const RealRangeC & range) const;
     //: Returns true if this range is inside of the 'range'.
     
-    inline bool IsOverlapping(const RealRangeC & r) const;
+    [[nodiscard]] inline bool IsOverlapping(const RealRangeC & r) const;
     //: Returns true if this range contains at least one common index with 
     //: the range 'r'.
     
@@ -172,31 +172,31 @@ namespace RavlN {
     inline RealRangeC & ClipBy(const RealRangeC & r);
     //: This index range is clipped to contain at most the index range 'r'.
 
-    inline RealT Clip(const RealT & r) const {
+    [[nodiscard]] inline RealT Clip(const RealT & r) const {
       RealT lower = Min() > r? Min(): r;
       return lower < Max()? lower: Max();
     }
     //: The value 'r' is clipped to be within this range.
     
-    inline RealRangeC FirstHalf() const
+    [[nodiscard]] inline RealRangeC FirstHalf() const
     { return RealRangeC(Min(),Center()); }
     //: Returns the index range < Min(), (Max()+Min())/2 >.
     
-    inline RealRangeC FirstHalfD() const
+    [[nodiscard]] inline RealRangeC FirstHalfD() const
     { return RealRangeC(Min(),CenterD()); }
     //: Returns the index range < Min(), (Max()+Min())/2 >.
     
-    inline RealRangeC Enlarge(RealT f) const
+    [[nodiscard]] inline RealRangeC Enlarge(RealT f) const
     { return RealRangeC(Min(), Min() + Size()*f - 1); }
     //: Returns the index range whose number of elements is enlarged by
     //: the factor 'f'. The upper limits is changed.
     
-    inline RealRangeC Expand(RealT n) const
+    [[nodiscard]] inline RealRangeC Expand(RealT n) const
     { return RealRangeC(minV - n,maxV + n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     
-    inline RealRangeC Shrink(RealT n) const
+    [[nodiscard]] inline RealRangeC Shrink(RealT n) const
     { return RealRangeC(minV + n,maxV - n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
@@ -228,11 +228,11 @@ namespace RavlN {
     }
     //: Modify this range to ensure subRange is contained within it.
     
-    IndexRangeC IndexRange() const
+    [[nodiscard]] IndexRangeC IndexRange() const
     { return IndexRangeC(Floor(minV),Ceil(maxV));  }
     //: Get the smallest integer range containing the real range.
     
-    UIntT Hash() const {
+    [[nodiscard]] UIntT Hash() const {
       UIntT ret = StdHash(minV);
       ret += ret << 11;
       ret += StdHash(maxV);

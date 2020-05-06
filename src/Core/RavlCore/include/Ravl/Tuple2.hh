@@ -27,44 +27,44 @@ namespace RavlN {
   template<class T1,class T2>
   class Tuple2C {
   public:
-    Tuple2C() {}
+    Tuple2C() = default;
     //: Default constructor.
     
     Tuple2C(const T1 &nd1,const T2 &nd2) 
       : d1(nd1),
-	d2(nd2)
+      	d2(nd2)
     {}
     //: Constructor.
     
     Tuple2C(const Tuple2C<T1,T2> &oth) 
       : d1(oth.d1),
-	d2(oth.d2)
+	      d2(oth.d2)
     {}
     //: Copy constructor.
-    
-    Tuple2C<T1,T2> Copy() const
+
+    [[nodiscard]] Tuple2C<T1,T2> Copy() const
     { return Tuple2C<T1,T2>(d1,d2); }
     //: Make a copy of this object.
-    
-    Tuple2C<T1,T2> DeepCopy(UIntT levels = ((UIntT) -1)) const { 
+
+    [[nodiscard]] Tuple2C<T1,T2> DeepCopy(UIntT levels = ((UIntT) -1)) const {
       if(levels <= 1) return Copy();
       return Tuple2C<T1,T2>(StdDeepCopy(d1,levels-1),StdDeepCopy(d2,levels-1));
     }
     //: Make a deep copy of the tuple.
-    
-    T1 &Data1() { return d1; }
+
+    [[nodiscard]] T1 &Data1() { return d1; }
+    //: Data access.
+
+    [[nodiscard]] const T1 &Data1() const { return d1; }
+    //: Data access.
+
+    [[nodiscard]] T2 &Data2() { return d2; }
+    //: Data access.
+
+    [[nodiscard]] const T2 &Data2() const { return d2; }
     //: Data access.
     
-    const T1 &Data1() const { return d1; }
-    //: Data access.
-    
-    T2 &Data2() { return d2; }
-    //: Data access.
-    
-    const T2 &Data2() const { return d2; }
-    //: Data access.
-    
-    SizeT Hash() const {
+    [[nodiscard]] SizeT Hash() const {
       SizeT h2 = StdHash(d2);
       return (StdHash(d1) + h2) ^ (h2 << 7); 
     }

@@ -32,7 +32,7 @@ namespace RavlN {
   class RealRange2dC {
   public:
     RealRange2dC()
-    {}
+    = default;
     //: Default constructor.
     
     RealRange2dC(RealT rowNumber, RealT colNumber)
@@ -91,47 +91,47 @@ namespace RavlN {
     //: Set the origin of the range to 'newOrigin'
     // Returns a reference to this rectangle.
     
-    inline TFVectorC<RealT,2> Origin() const
+    [[nodiscard]] inline TFVectorC<RealT,2> Origin() const
     { return TFVector2(rows.Min(),cols.Min()); }
     //: Returns the top-left index of the rectangle.
     
-    inline TFVectorC<RealT,2>  End() const
+    [[nodiscard]] inline TFVectorC<RealT,2>  End() const
     { return TFVector2(rows.Max(),cols.Max()); }
     //: Returns the bottom-right index of the rectangle.
     
-    inline TFVectorC<RealT,2> TopRight() const
+    [[nodiscard]] inline TFVectorC<RealT,2> TopRight() const
     { return TFVector2(rows.Min(),cols.Max()); }
     //: Returns the top-right index of the rectangle.
     
-    inline TFVectorC<RealT,2> TopLeft() const
+    [[nodiscard]] inline TFVectorC<RealT,2> TopLeft() const
     { return TFVector2(rows.Min(),cols.Min()); }
     //: Returns the top-left index of the rectangle.
     
-    inline TFVectorC<RealT,2>  BottomLeft() const
+    [[nodiscard]] inline TFVectorC<RealT,2>  BottomLeft() const
     { return TFVector2(rows.Max(),cols.Min()); }
     //: Returns the bottom-left index of the rectangle.
     
-    inline TFVectorC<RealT,2>  BottomRight() const
+    [[nodiscard]] inline TFVectorC<RealT,2>  BottomRight() const
     { return TFVector2(rows.Max(),cols.Max()); }
     //: Returns the bottom-right index of the rectangle.
     
-    inline TFVectorC<RealT,2> Center() const
+    [[nodiscard]] inline TFVectorC<RealT,2> Center() const
     { return TFVector2(rows.Center(),cols.Center()); }
     //: Returns the index which is in the middle of the rectangle
     
-    inline RealT TRow() const
+    [[nodiscard]] inline RealT TRow() const
     { return rows.Min(); }
     //: Returns the top row index.
     
-    inline RealT LCol() const
+    [[nodiscard]] inline RealT LCol() const
     { return cols.Min(); }
     //: Returns the left side column index.
     
-    inline RealT BRow() const
+    [[nodiscard]] inline RealT BRow() const
     { return rows.Max(); }
     //: Returns the bottom row index.
     
-    inline RealT RCol() const
+    [[nodiscard]] inline RealT RCol() const
     { return cols.Max(); }
     //: Returns the right side column index.
     
@@ -151,31 +151,31 @@ namespace RavlN {
     { return cols.Max(); }
     //: Returns the right side column index.
     
-    inline RealT Rows() const
+    [[nodiscard]] inline RealT Rows() const
     { return rows.Size(); }
     //: The number of rows in the rectangle.
     
-    inline RealT Cols() const
+    [[nodiscard]] inline RealT Cols() const
     { return cols.Size(); }
     //: The number of rows in the rectangle.
     
-    inline RealT Area() const
+    [[nodiscard]] inline RealT Area() const
     { return (RealT) Rows() * Cols(); }
     //: Returns the area of the image rectangle expressed in number of indexs.
     
-    inline RealRange2dC Dilate() const 
+    [[nodiscard]] inline RealRange2dC Dilate() const
     { return RealRange2dC(rows.Expand(1),cols.Expand(1)); }
     //: Returns a new rectangle one index larger on each side.
     
-    inline RealRange2dC Erode() const
+    [[nodiscard]] inline RealRange2dC Erode() const
     { return RealRange2dC(rows.Shrink(1),cols.Shrink(1)); }
     //: Returns an rectangle with each side 1 index closer to the center.
     
-    inline RealRange2dC Expand(RealT n) const
+    [[nodiscard]] inline RealRange2dC Expand(RealT n) const
     { return RealRange2dC(rows.Expand(n),cols.Expand(n)); }
     //: Returns an rectangle expanded by 'n' indexs on each side.
     
-    inline RealRange2dC Shrink(RealT n) const
+    [[nodiscard]] inline RealRange2dC Shrink(RealT n) const
     { return RealRange2dC(rows.Shrink(n),cols.Shrink(n)); }
     //: Returns a new rectangle which has layer of the width of 'n' indexs
     //: removed.
@@ -195,11 +195,11 @@ namespace RavlN {
     }
     //: The value 'r' is clipped to be within this range.
     
-    inline bool Contains(const RealRange2dC & oth) const
+    [[nodiscard]] inline bool Contains(const RealRange2dC & oth) const
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()); }
     //: Returns true if this range contains the subrange 'oth'.
     
-    inline bool Contains(const TFVectorC<RealT,2> & oth) const
+    [[nodiscard]] inline bool Contains(const TFVectorC<RealT,2> & oth) const
     { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]); }
     //: Returns true if this range contains the subrange 'oth'.
     
@@ -217,35 +217,35 @@ namespace RavlN {
     { return RealRange2dC(rows - offset[0],cols - offset[1]); }
     //: Shifts the rectangle to the new position.
     
-    inline const RealRangeC & RowRange() const
+    [[nodiscard]] inline const RealRangeC & RowRange() const
     { return rows; }
     //: Access row range.
     
-    inline const RealRangeC & ColRange() const
+    [[nodiscard]] inline const RealRangeC & ColRange() const
+    { return cols; }
+    //: Access col range.
+
+    [[nodiscard]] inline RealRangeC & RowRange()
+    { return rows; }
+    //: Access row range.
+
+    [[nodiscard]] inline RealRangeC & ColRange()
     { return cols; }
     //: Access col range.
     
-    inline RealRangeC & RowRange()
+    [[nodiscard]] inline const RealRangeC & Range1() const
     { return rows; }
     //: Access row range.
     
-    inline RealRangeC & ColRange()
+    [[nodiscard]] inline const RealRangeC & Range2() const
     { return cols; }
     //: Access col range.
-    
-    inline const RealRangeC & Range1() const
+
+    [[nodiscard]] inline RealRangeC & Range1()
     { return rows; }
     //: Access row range.
-    
-    inline const RealRangeC & Range2() const
-    { return cols; }
-    //: Access col range.
-    
-    inline RealRangeC & Range1()
-    { return rows; }
-    //: Access row range.
-    
-    inline RealRangeC & Range2()
+
+    [[nodiscard]] inline RealRangeC & Range2()
     { return cols; }
     //: Access col range.
     
@@ -262,7 +262,7 @@ namespace RavlN {
     // This method checks and changes, if necessary, the 2 dimensional range
     // to contain the 'subrectangle'.
     
-    inline bool IsValid() const 
+    [[nodiscard]] inline bool IsValid() const
     { return rows.IsValid() && cols.IsValid(); }
     //: Returns true if this rectangle contains at least one index.
 
@@ -277,24 +277,24 @@ namespace RavlN {
     RealRange2dC Rotate180(TFVectorC<RealT,2> centre);
     //: Rotate rectangle 180 degree's around the given center.
     
-    inline bool IsOverlapping(const RealRange2dC & r) const
+    [[nodiscard]] inline bool IsOverlapping(const RealRange2dC & r) const
     { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()); }
     //: Returns true if this range contains a common area with 
     //: the range 'r'.
-    
-    IndexRange2dC IndexRange() const
+
+    [[nodiscard]] IndexRange2dC IndexRange() const
     { return IndexRange2dC(rows.IndexRange(),cols.IndexRange());  }
     //: Get the smallest integer range containing the real range.
 
-    RealRange2dC operator*(const TFVectorC<RealT,2> &scale) const
+    [[nodiscard]] RealRange2dC operator*(const TFVectorC<RealT,2> &scale) const
     { return RealRange2dC(Range1() * scale[0],Range2() * scale[1]); }
     //: Scale range
 
-    RealRange2dC operator*(RealT scale) const
+    [[nodiscard]] RealRange2dC operator*(RealT scale) const
     { return RealRange2dC(Range1() * scale,Range2() * scale); }
     //: Scale range
 
-    UIntT Hash() const {
+    [[nodiscard]] UIntT Hash() const {
       UIntT ret = StdHash(rows);
       ret += ret << 11;
       ret += StdHash(cols);
@@ -326,7 +326,7 @@ namespace RavlN {
     //: Access item.
 
   protected:
-    inline const RealRange2dC & Range() const
+    [[nodiscard]] inline const RealRange2dC & Range() const
     { return(*this); }
     
   private:

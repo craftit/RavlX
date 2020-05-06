@@ -52,7 +52,7 @@ namespace RavlN {
 #endif
 
     TFVectorC()
-    {}
+    = default;
     //: Default constructor.
     // Note: The default constructor of 'DataT' is used to construct
     // the elements of the vector, for builtin types this means
@@ -68,20 +68,20 @@ namespace RavlN {
     //: This constructor is for compatibility with arbitrarily sized vectors.
     // Used by some templates.
 
-    TFVectorC<DataT,N> Copy(void) const
+    [[nodiscard]] TFVectorC<DataT,N> Copy(void) const
     { return *this ; }
     //: return a copy of this vector
 
-    UIntT Size() const
+    [[nodiscard]] UIntT Size() const
     { return N; }
     //: Get size of array
     // Used by some templates.
 
-    bool Contains(UIntT i) const
+    [[nodiscard]] bool Contains(UIntT i) const
     { return i < N; }
     //: Test if array contains index i
 
-    DataT &operator[](UIntT ind) {
+    [[nodiscard]] DataT &operator[](UIntT ind) {
 #if RAVL_CHECK
       if(!Contains(ind))
 	IssueError(__FILE__,__LINE__,"Index %u out of range, 0 - %u",ind,N);
@@ -90,7 +90,7 @@ namespace RavlN {
     }
     //: Access item.
 
-    const DataT &operator[](UIntT ind) const {
+    [[nodiscard]] const DataT &operator[](UIntT ind) const {
 #if RAVL_CHECK
       if(!Contains(ind))
 	IssueError(__FILE__,__LINE__,"Index %u out of range, 0 - %u",ind,N);
@@ -108,7 +108,7 @@ namespace RavlN {
     inline void Fill(const DataT &dat);
     //: Fill array with value 'dat'.
 
-    inline TFVectorC<DataT,N> Abs() const;
+    [[nodiscard]] inline TFVectorC<DataT,N> Abs() const;
     //: Get an vector with Abs(x) run on all it values.
 
     inline const TFVectorC<DataT,N> & operator+=(const TFVectorC<DataT,N> & ind);
@@ -150,7 +150,7 @@ namespace RavlN {
     inline TFVectorC<DataT,N> operator/(const DataT &alpha) const;
     //: Returns this object divided by alpha.
 
-    inline DataT Dot(const TFVectorC<DataT,N> &oth) const {
+    [[nodiscard]] inline DataT Dot(const TFVectorC<DataT,N> &oth) const {
       DataT ret = data[0] * oth.data[0];
       for(UIntT i = 1;i <N;i++)
         ret += data[i] * oth.data[i];
@@ -188,49 +188,49 @@ namespace RavlN {
     inline DataT SqrEuclidDistance(const TFVectorC<DataT,N> & i) const;
     //: Returns the distance of two indexes in square Euclid metric.
 
-    DataT Sum() const;
+    [[nodiscard]] DataT Sum() const;
     //: Calculate the sum of all the vector elements.
 
-    DataT SumOfSqr() const;
+    [[nodiscard]] DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
 
-    DataT SumOfAbs() const;
+    [[nodiscard]] DataT SumOfAbs() const;
     //: Calculate the sum of the absolute values of all the vector elements.
 
-    DataT MaxValue() const;
+    [[nodiscard]] DataT MaxValue() const;
     //: Largest value in the array.
 
-    DataT MaxMagnitude() const;
+    [[nodiscard]] DataT MaxMagnitude() const;
     //: Value of the largest magnitude in the vector.
 
-    DataT MaxAbsValue() const
+    [[nodiscard]] DataT MaxAbsValue() const
     { return MaxMagnitude(); }
     //: Value of the largest absolute value in the vector.
     //: This is an alias for MaxMagnitude() for constancy with MaxAbsIndex()
 
-    DataT MinValue() const;
+    [[nodiscard]] DataT MinValue() const;
     //: Smallest value in the array.
 
-    DataT MinAbsValue() const;
+    [[nodiscard]] DataT MinAbsValue() const;
     //: Smallest absolute value in the array.
 
-    IndexC MaxIndex() const;
+    [[nodiscard]] IndexC MaxIndex() const;
     //: Find the index with the most positive valued index.
 
-    IndexC MaxAbsIndex() const;
+    [[nodiscard]] IndexC MaxAbsIndex() const;
     //: Find the index with the absolute maximum valued index.
 
-    IndexC MinIndex() const;
+    [[nodiscard]] IndexC MinIndex() const;
     //: Find the index with the most negative valued index.
 
-    IndexC MinAbsIndex() const;
+    [[nodiscard]] IndexC MinAbsIndex() const;
     //: Find the index with the absolute minimum valued index.
 
-    inline const TFMatrixC<DataT,1,N> &T() const;
+    [[nodiscard]] inline const TFMatrixC<DataT,1,N> &T() const;
     //: Transpose vector.
     // The implementation for this can be found in "Ravl/TFMatrix.hh"
 
-    UIntT Hash() const {
+    [[nodiscard]] UIntT Hash() const {
       UIntT val = 0;
       for(unsigned i = 0;i < N;i++) {
         val += StdHash(data[i]);

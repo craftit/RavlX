@@ -221,50 +221,50 @@ namespace RavlN {
     const SArray1dC<DataT> & operator/=(const DataT &number);
     //: Divides the array elements by the 'number'.
 
-    DataT Sum() const;
+    [[nodiscard]] DataT Sum() const;
     //: Calculate the sum of all elements in the array
 
-    DataT SumOfSqr() const;
+    [[nodiscard]] DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all elements in the array
 
-    IndexC IndexOfMax() const;
+    [[nodiscard]] IndexC IndexOfMax() const;
     //: Find the index of the maximum element in the array
 
-    IndexC IndexOfMin() const;
+    [[nodiscard]] IndexC IndexOfMin() const;
     //: Find the index of the minimum element in the array
 
     //:-----------------------------------
     // Access to the object and its parts.
 
-    inline const SArray1dC<DataT> & SArray1d() const
+    [[nodiscard]] inline const SArray1dC<DataT> & SArray1d() const
     { return *this; }
     //: Access to the whole constant array.
 
-    inline SArray1dC<DataT> & SArray1d()
+    [[nodiscard]] inline SArray1dC<DataT> & SArray1d()
     { return *this; }
     //: Access to the whole array.
 
-    SizeT Size() const
+    [[nodiscard]] SizeT Size() const
     { return SizeBufferAccessC<DataT>::Size(); }
     //: Access size of array
 
-    IndexRangeC Range() const
+    [[nodiscard]] IndexRangeC Range() const
     { return SizeBufferAccessC<DataT>::Range(); }
     //: Returns the usable range of indeces expressed by this object.
 
-    Slice1dC<DataT> Slice1d()
+    [[nodiscard]] Slice1dC<DataT> Slice1d()
     { return Slice1dC<DataT>(buff,DataStart(),Size(),1); }
     //: Access array as a slice.
 
     //:-----------------------------------
     // Modifications of the representation
 
-    SArray1dC<DataT> Join(const SArray1dC<DataT> &Oth) const;
+    [[nodiscard]] SArray1dC<DataT> Join(const SArray1dC<DataT> &Oth) const;
     // Join this Array and another into a new Array which
     // is returned. This does not change either of its arguments.
     // This is placed in the array first, followed by 'Oth'.
 
-    SArray1dC<DataT> Join(const DataT &Oth) const;
+    [[nodiscard]] SArray1dC<DataT> Join(const DataT &Oth) const;
     // Join this Array and an element into a new Array which
     // is returned. This does not change either of its arguments.
     // This is placed in the array first, followed by 'Oth'.
@@ -280,9 +280,9 @@ namespace RavlN {
     // copied to this array followed by the new element.
     // Empty arrays are handled correctly.
 
-    SArray1dC<DataT> From(UIntT offset) {
+    [[nodiscard]] SArray1dC<DataT> From(UIntT offset) {
       if(offset >= Size())
-	return SArray1dC<DataT>(); // Empty array.
+	      return SArray1dC<DataT>(); // Empty array.
       SizeT nsize = Size() - offset;
       return SArray1dC<DataT>(*this,nsize,offset);
     }
@@ -290,7 +290,7 @@ namespace RavlN {
     // If offset is larger than the array an empty array
     // is returned,
 
-    SArray1dC<DataT> From(UIntT offset,UIntT size) {
+    [[nodiscard]] SArray1dC<DataT> From(UIntT offset,UIntT size) {
       if((offset + size) > Size())
 	return SArray1dC<DataT>(); // Empty array.
       return SArray1dC<DataT>(*this,size,offset);
@@ -299,13 +299,13 @@ namespace RavlN {
     // If offset is larger than the array an empty array
     // is returned,
 
-    SArray1dC<DataT> After(UIntT offset)
+    [[nodiscard]] SArray1dC<DataT> After(UIntT offset)
     { return From(offset+1); }
     //: Return array after offset to the end of the array.
     // If offset is larger than the array an empty array
     // is returned,
 
-    SArray1dC<DataT> Before(UIntT offset)
+    [[nodiscard]] SArray1dC<DataT> Before(UIntT offset)
     { return From(0,offset); }
     //: Return array from the start to the element before offset
     // If offset is larger then the whole array will be returned.
@@ -313,12 +313,12 @@ namespace RavlN {
     //:------------------
     // Special operations
 
-    BufferC<DataT> &Buffer()
+    [[nodiscard]] BufferC<DataT> &Buffer()
     { return buff; }
     //: Access base data buffer.
     // Experts only.
 
-    const BufferC<DataT> &Buffer() const
+    [[nodiscard]] const BufferC<DataT> &Buffer() const
     { return buff; }
     //: Constant access base data buffer.
     // Experts only.
@@ -359,10 +359,10 @@ namespace RavlN {
     // Returns true if the two arrays have different lengths or
     // contents..
 
-    SizeT Hash() const;
+    [[nodiscard]] SizeT Hash() const;
     //: Compute a hash value for the array.
 
-    inline DataT * DataStart() const
+    [[nodiscard]] inline DataT * DataStart() const
     { return SizeBufferAccessC<DataT>::ReferenceElm(); }
     //: Returns the address of element 0.
     // If the array has zero length a null pointer may

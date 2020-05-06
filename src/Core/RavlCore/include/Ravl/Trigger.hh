@@ -35,7 +35,7 @@ namespace RavlN {
   {
   public:
     TriggerBodyC()
-    {}
+    = default;
     //: Default constructor.
     
     virtual void Invoke();
@@ -51,7 +51,7 @@ namespace RavlN {
   {
   public:
     TriggerC()
-    {}
+    = default;
     //: Default constructor.
     // Creates an invalid handle.
 

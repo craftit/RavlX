@@ -51,7 +51,7 @@ namespace RavlN {
     //!param: 'copy' == false - options and pars. are removed from argv, argc
     //!param: 'copy' == true  - leave argv, argc untouched, work on a copy
 
-    OptionC(DListC<StringC> opts,OStreamC msgout = OStreamC(std::cerr));
+    explicit OptionC(DListC<StringC> opts,OStreamC msgout = OStreamC(std::cerr));
     //: Creates the option processing system from a list of strings.
     // Note that the list has to mimic the "argv" list; hence it requires a dummy "main program" name as the first item
     //!param: msgout - Where to send messages about option processing.

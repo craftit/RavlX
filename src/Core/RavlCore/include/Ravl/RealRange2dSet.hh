@@ -7,7 +7,6 @@
 #ifndef RAVL_REALRANGE2DSET_HEADER
 #define RAVL_REALRANGE2DSET_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/System/RealRange2dSet.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Indexing"
@@ -29,7 +28,7 @@ namespace RavlN {
   {
   public:
     RealRange2dSetC()
-    {}
+    = default;
     //: Default constructor.
   
     RealRange2dSetC(const RealRange2dC &rect)
@@ -42,28 +41,28 @@ namespace RavlN {
     static RealRange2dSetC Add(const RealRange2dC &rect1,const RealRange2dC &rect2);
     //: Add rect2 and rect1.
   
-    RealRange2dC Enclosing() const;
+    [[nodiscard]] RealRange2dC Enclosing() const;
     //: Get minimum enclosing rectangle for set.
     
-    RealRange2dSetC Subtract(const RealRange2dC &rect) const;
+    [[nodiscard]] RealRange2dSetC Subtract(const RealRange2dC &rect) const;
     //: Remove 'rect' rectangle from the region given by the set.
 
-    RealRange2dSetC Subtract(const RealRange2dSetC &rectset) const;
+    [[nodiscard]] RealRange2dSetC Subtract(const RealRange2dSetC &rectset) const;
     //: Remove 'rectset' from the region given by the set.
 
-    RealRange2dSetC SubtractFrom(const RealRange2dC &rect) const;
+    [[nodiscard]] RealRange2dSetC SubtractFrom(const RealRange2dC &rect) const;
     //: Remove set from rect.
   
-    RealRange2dSetC Add(const RealRange2dC &rect) const;
+    [[nodiscard]] RealRange2dSetC Add(const RealRange2dC &rect) const;
     //: Add this rectangle to the set.
 
-    RealRange2dSetC Add(const RealRange2dSetC &rect) const;
+    [[nodiscard]] RealRange2dSetC Add(const RealRange2dSetC &rect) const;
     //: Add  rectangle set to this set.
-  
-    bool Contains(const RealRange2dC &rect) const;
+
+    [[nodiscard]] bool Contains(const RealRange2dC &rect) const;
     //: Does this set wholly contain 'rect' ?
-    
-    RealT Area() const;
+
+    [[nodiscard]] RealT Area() const;
     //: Total area of set.
   };
 

@@ -21,7 +21,7 @@ namespace RavlN {
   {
   public:
     RCWrapIOBodyC()
-    {}
+    = default;
     //: Default constructor.
     
     explicit RCWrapIOBodyC(const DataT &val)
@@ -96,12 +96,12 @@ namespace RavlN {
     {}
     //: Construct from an abstract handle.
     
-    RCWrapIOC(std::istream &in)
+    explicit RCWrapIOC(std::istream &in)
       : RCWrapC<DataT>(*new RCWrapIOBodyC<DataT>(in))
     {}
     //: Construct from a stream.
 
-    RCWrapIOC(BinIStreamC &in)
+    explicit RCWrapIOC(BinIStreamC &in)
       : RCWrapC<DataT>(*new RCWrapIOBodyC<DataT>(in))
     {}
     //: Construct from a stream.

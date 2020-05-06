@@ -100,31 +100,31 @@ namespace RavlN {
     // align must be a power of 2.
     // Currently the align must be an integer muliple of the element size.
 
-    SArray2dC<DataT> Copy() const;
+    [[nodiscard]] SArray2dC<DataT> Copy() const;
     //: Copy array.
 
-    inline SizeT Size1() const
+    [[nodiscard]] inline SizeT Size1() const
     { return SizeBufferAccess2dC<DataT>::Size1(); }
     //: Range of 1st index is [0..Size1()-1]
 
-    inline SizeT Size2() const
+    [[nodiscard]] inline SizeT Size2() const
     { return SizeBufferAccess2dC<DataT>::Size2(); }
     //: Range of 2nd index is [0..Size2()-1]
 
     //:------------------
     // Special operations
 
-    Buffer2dC<DataT> &Buffer()
+    [[nodiscard]] Buffer2dC<DataT> &Buffer()
     { return data; }
     //: Access base data buffer.
     // Experts only!
 
-    const Buffer2dC<DataT> &Buffer() const
+    [[nodiscard]] const Buffer2dC<DataT> &Buffer() const
     { return data; }
     //: Constant access base data buffer.
     // Experts only!
 
-    SArray1dC<DataT> AsVector(bool alwaysCopy = false);
+    [[nodiscard]] SArray1dC<DataT> AsVector(bool alwaysCopy = false);
     //: Access 2d array as 1d vector.
     // This will only copy the data if the data isn't continuous or
     // alwaysCopy is true, this can make it much more effecient than
@@ -191,13 +191,13 @@ namespace RavlN {
     { return !operator==(op); }
     //: Do arrays have different ranges and contents ?
 
-    DataT SumOfSqr() const;
+    [[nodiscard]] DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all the elements in the array
 
-    DataT Sum() const;
+    [[nodiscard]] DataT Sum() const;
     //: Returns the sum all elements of the array.
 
-    Slice1dC<DataT> Diagonal() {
+    [[nodiscard]] Slice1dC<DataT> Diagonal() {
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[0][0]),
 			     Min(Size1(),Size2()),
@@ -205,12 +205,12 @@ namespace RavlN {
     }
     //: Take a slice along the diagonal of the array.
 
-    SArray1dC<DataT> SliceRow(IndexC i)
+    [[nodiscard]] SArray1dC<DataT> SliceRow(IndexC i)
     { return SArray1dC<DataT>(data.Data(),(*this)[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
 
-    Slice1dC<DataT> SliceColumn(IndexC i) {
+    [[nodiscard]] Slice1dC<DataT> SliceColumn(IndexC i) {
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[0][i]),
 			     Size1(),
@@ -260,7 +260,7 @@ namespace RavlN {
     // The origin of 'vals' will be places at 'origin' of this array.
     // NOTE: all of vals must fit within this array.
 
-    SizeT Hash() const {
+    [[nodiscard]] SizeT Hash() const {
       SizeT ret = this->Size1() + (this->Size2() << 5);
       for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++) {
         ret += StdHash(*it);
